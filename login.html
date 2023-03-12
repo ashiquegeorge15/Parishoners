@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="Login.css">
+</head>
+
+<body>
+    
+    
+    
+    <form>
+        <div class="loginPage">
+            <div class="loginImg">
+                <img src="img/256472.jpg" alt="img">
+            </div>
+            <div class="loginSide">
+            <!-- <div class="bg"> -->
+                <div class="loginSection">
+                    <h1 class="txtbig center">Login</h1>
+                    <br>
+                    <label for="email">
+                        <p class="txtsm">Username</p>
+                    </label>
+                    <input type="email" name="email" id="email" required placeholder="Email">
+
+                    <label for="pass">
+                        <p class="txtsm">Password</p>
+                    </label>
+                    <input type="password" name="pass" id="pass" required placeholder="Password">
+                    <br>
+                    <br>
+                    <input  type="checkbox" name="RemMe" id="RemMe">Remember me
+                    <br>
+                    <br>
+                    <input type="submit" value="Login" id="submitBtn">
+                    <br>
+                    <br>
+                    <hr id="divider">
+
+
+
+                    <div class="SignUpArea">
+                        <p>Not a member yet?</p>
+                        <a href="signup.html">Sign up</a>
+                        <br>
+                        <br>
+                        <a href="forgotpassword.html">Forgot Password?</a>
+                    </div>
+
+                </div>
+            <!-- </div> -->
+            </div>
+        </div>
+    </form>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-analytics.js";
+    import { getAuth, signInWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyDyqAiultYZzwcoRfQhNKRiCG3DuEBEsd8",
+      authDomain: "backendlogsign.firebaseapp.com",
+      projectId: "backendlogsign",
+      storageBucket: "backendlogsign.appspot.com",
+      messagingSenderId: "1039275246750",
+      appId: "1:1039275246750:web:ee61d0b254a2697a3e278f",
+      measurementId: "G-C9R69XEVH7"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth();
+
+
+    //----- Login code start	  
+	  document.getElementById("submitBtn").addEventListener("click", function() {
+		  var email =  document.getElementById("email").value;
+		  var password = document.getElementById("pass").value;
+
+		  signInWithEmailAndPassword(auth, email, password)
+		  .then((userCredential) => {
+		    // Signed in 
+		    const user = userCredential.user;
+		    console.log(user);
+		    alert(user.email+" Login successful!");
+		    //document.getElementById('logout').style.display = 'block';
+            window.location="index.html";
+            //alert(user.email+" Login successful!hjvjhvh");
+		    // ...
+		  })
+		  .catch((error) => {
+		    const errorCode = error.code;
+		    const errorMessage = error.message;
+		    console.log(errorMessage);
+		    alert(errorMessage);
+		  });		  		  
+	  });
+	  //----- End
+
+      </script>
+
+
+    
+
+</body>
+
+</html>
