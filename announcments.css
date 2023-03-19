@@ -133,6 +133,10 @@ body {
     width: 66%;
 } */
 
+.announcementslist{
+    list-style-type: none;
+}
+
 
 .title {
     padding: 7px;

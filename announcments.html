@@ -63,12 +63,12 @@
                     <div class="mb-3">
                         <!-- announcements title -->
                         <label for="exampleFormControlInput1" class="form-label">Title</label>
-                        <input type="email" class="form-control" id="annTitle">
+                        <input type="email" class="form-control" id="annTitle" required>
                     </div>
                     <div class="mb-3">
                         <!-- announcements Body -->
                         <label for="exampleFormControlTextarea1" class="form-label">Message</label>
-                        <textarea class="form-control" id="annBody" rows="3"></textarea>
+                        <textarea class="form-control" id="annBody" rows="3" required ></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -85,117 +85,46 @@
     <!-- announcments... -->
 
 
-    <div class="mainContainer">
+    <div class="mainContainer" >
 
-        <div class="AnnouncmentContainer">
-            <div class="container">
-                <div class="title">
-                    <p>Announcment</p>
-                </div>
-                <!-- <hr class="seperator"> -->
-                <div class="content">
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Soluta, saepe libero provident omnis ab
-                        praesentium, enim quos reiciendis, nemo veniam aliquid nihil. Itaque blanditiis minima expedita
-                        impedit,
-                        iure et eos.</p>
-                </div>
-                <!-- <hr class="seperator"> -->
-                <div class="comment">
-                    <button type="submit" class="likebtn"><span class="material-symbols-outlined">
-                            thumb_up
-                        </span>Like</button>
-                    <button type="submit" class="commentbtn"><span class="material-symbols-outlined">
-                            comment
-                        </span>Comment</button>
-                    <button type="submit" class="sharebtn"><span class="material-symbols-outlined">
-                            share
-                        </span>Share</button>
-                </div>
-            </div>
+        <div class="AnnouncmentContainer"  >
+            <ul class="announcementslist" id="myList">
+                <!-- <li class="announcementslist" > 
+                    <div class="container">
+                        <div class="title">
+                            <p>Announcment</p>
+                        </div> -->
+                        <!-- <hr class="seperator"> -->
+                        <!-- <div class="content">
+                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Soluta, saepe libero provident
+                                omnis ab
+                                praesentium, enim quos reiciendis, nemo veniam aliquid nihil. Itaque blanditiis minima
+                                expedita
+                                impedit,
+                                iure et eos.</p>
+                        </div> -->
+                        <!-- <hr class="seperator"> -->
+                        <!-- <div class="comment">
+                            <button type="submit" class="likebtn"><span class="material-symbols-outlined">
+                                    thumb_up
+                                </span>Like</button>
+                            <button type="submit" class="commentbtn"><span class="material-symbols-outlined">
+                                    comment
+                                </span>Comment</button>
+                            <button type="submit" class="sharebtn"><span class="material-symbols-outlined">
+                                    share
+                                </span>Share</button>
 
-            <div class="container">
-                <div class="title">
-                    <p>Announcment</p>
-                </div>
-                <!-- <hr class="seperator"> -->
-                <div class="content">
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Soluta, saepe libero provident omnis ab
-                        praesentium, enim quos reiciendis, nemo veniam aliquid nihil. Itaque blanditiis minima expedita
-                        impedit,
-                        iure et eos.</p>
-                </div>
-                <!-- <hr class="seperator"> -->
-                <div class="comment">
-                    <button type="submit" class="likebtn"><span class="material-symbols-outlined">
-                            thumb_up
-                        </span>Like</button>
-                    <button type="submit" class="commentbtn"><span class="material-symbols-outlined">
-                            comment
-                        </span>Comment</button>
-                    <button type="submit" class="sharebtn"><span class="material-symbols-outlined">
-                            share
-                        </span>Share</button>
-                </div>
-            </div>
-
-
-
-            <div class="container">
-                <div class="title">
-                    <p>Announcment</p>
-                </div>
-                <!-- <hr class="seperator"> -->
-                <div class="content">
-                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Soluta, saepe libero provident omnis ab
-                        praesentium, enim quos reiciendis, nemo veniam aliquid nihil. Itaque blanditiis minima expedita
-                        impedit,
-                        iure et eos.</p>
-                </div>
-                <!-- <hr class="seperator"> -->
-                <div class="comment">
-                    <button type="submit" class="likebtn"><span class="material-symbols-outlined">
-                            thumb_up
-                        </span>Like</button>
-                    <button type="submit" class="commentbtn"><span class="material-symbols-outlined">
-                            comment
-                        </span>Comment</button>
-                    <button type="submit" class="sharebtn"><span class="material-symbols-outlined">
-                            share
-                        </span>Share</button>
-                </div>
-            </div>
+                                <p></p>
+                        </div>
+                    </div>
+                </li> -->
+            </ul>
         </div>
-
-
-        <!-- news and links... -->
-
-
-        <!-- <div class="news">
-            <div>
-                <div class="newsheading">
-                    <h3>News and Quick links</h3>
-                    <hr id="divider">
-                </div>
-                <div class="quickLinks">
-                    <ul>
-                        <li><a href="#">kalamela whatever 2022</a></li>
-                        <hr>
-                        <li><a href="#">kalamela</a></li>
-                        <hr>
-                        <li><a href="#">kalamela results</a></li>
-                        <hr>
-                        <li><a href="#">Youth sunday</a></li>
-                        <hr>
-                        <li><a href="#">Youth sunday</a></li>
-                    </ul>
-                </div>
-                <input type="button" value="Read more" id="readMore">
-            </div>
-        </div> -->
-
     </div>
 
-    
+
+
     <script type="module" src="announcement.js"></script>
 
 
