@@ -7,7 +7,7 @@ const form=document.querySelector('.form')
 
 
 burger.addEventListener('click',show);
-off.addEventListener('click',close);
+//off.addEventListener('click',close);
 
 function show(){
     burger.addEventListener('click',()=>{

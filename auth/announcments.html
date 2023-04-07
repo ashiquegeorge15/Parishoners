@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <title>Announcments</title>
+    <link rel="stylesheet" href="Announcments.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+
+<body>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+
+
+    <!-- donate about... -->
+
+    <div class="TopOptions">
+        <div class="name"> <img src="img/logo/marthoma-seeklogo.svg" alt="" id="churchLogo"> St Thomas Church</div>
+        <div class="TopBar">
+            <ul>
+                <li><a href="#">Donate</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </div>
+    </div>
+
+
+    <!-- <div class="addbtndiv">
+        <button type="submit" class="button-86"><span class="material-symbols-outlined">
+                add
+            </span>Add Announcment</button>
+    </div> -->
+
+    <!-- Button trigger modal -->
+    <div class="addbtndiv">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addannouncements">
+            Add announcment
+        </button>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="addannouncements" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add announcment</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <!-- announcements title -->
+                        <label for="exampleFormControlInput1" class="form-label">Title</label>
+                        <input type="email" class="form-control" id="annTitle" required>
+                    </div>
+                    <div class="mb-3">
+                        <!-- announcements Body -->
+                        <label for="exampleFormControlTextarea1" class="form-label">Message</label>
+                        <textarea class="form-control" id="annBody" rows="3" required ></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <!-- post btn -->
+                    <button type="button" class="btn btn-primary" id="postBtn">Post announcements</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- announcments... -->
+
+
+    <div class="mainContainer" >
+
+        <div class="AnnouncmentContainer"  >
+            <ul class="announcementslist" id="myList">
+                <!-- <li class="announcementslist" > 
+                    <div class="container">
+                        <div class="title">
+                            <p>Announcment</p>
+                        </div> -->
+                        <!-- <hr class="seperator"> -->
+                        <!-- <div class="content">
+                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Soluta, saepe libero provident
+                                omnis ab
+                                praesentium, enim quos reiciendis, nemo veniam aliquid nihil. Itaque blanditiis minima
+                                expedita
+                                impedit,
+                                iure et eos.</p>
+                        </div> -->
+                        <!-- <hr class="seperator"> -->
+                        <!-- <div class="comment">
+                            <button type="submit" class="likebtn"><span class="material-symbols-outlined">
+                                    thumb_up
+                                </span>Like</button>
+                            <button type="submit" class="commentbtn"><span class="material-symbols-outlined">
+                                    comment
+                                </span>Comment</button>
+                            <button type="submit" class="sharebtn"><span class="material-symbols-outlined">
+                                    share
+                                </span>Share</button>
+
+                                <p></p>
+                        </div>
+                    </div>
+                </li> -->
+            </ul>
+        </div>
+    </div>
+
+
+
+    <script type="module" src="announcement.js"></script>
+
+
+</body>
+
+</html>

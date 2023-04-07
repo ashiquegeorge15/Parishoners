@@ -19,20 +19,8 @@
 body {
     margin: 0;
     padding: 0;
-    /* width: 100%; */
-    background-color: #e7e7e561;
-    /* background-image: url(img/crousel/wallpaperflare.com_wallpaper.jpg); */
-    background-repeat: no-repeat;
-    scroll-behavior: smooth;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-
 }
 
-a {
-    text-decoration: none;
-    color: black;
-}
 
 
 
@@ -50,85 +38,11 @@ a {
 
 
 
-.mainsec {
-    background-image: url(img/crousel/wallpaperflare.com_wallpaper.jpg);
-    height: 100vh;
-
-}
-
-
-
-
-
-/* .name {
-    position: absolute;
-    font-size: 30px;
-    font-weight: bold;
-    height: 100%;
-    width: 300px;
-    background: rgba(0, 0, 0, 0.6);
-    left:-300px;
-
-}
-
-.name ul li{
-    list-style: none;
-    color: #ddd;
-    padding-top: 22px;
-    font-size: 22px;
-}
-
-.name ul li a{
-    text-decoration: none;
-} */
-
-
 #ClogoImg {
     width: 140px;
 }
 
-.sidebarBtn {
-    position: relative;
-    top: 24px;
-    left: 40px;
-}
 
-
-#sidebar {
-    position: absolute;
-    width: 300px;
-    height: 100%;
-    background: #000;
-    left: -300px;
-
-}
-
-#sidebar.active {
-    left: 0;
-}
-
-#sidebar ul li {
-    list-style: none;
-    color: #fff;
-    font-size: 20px;
-    padding: 20px 24px;
-
-}
-
-#sidebar .toggle-btn {
-    position: absolute;
-    top: 30px;
-    left: 330px;
-    cursor: pointer;
-}
-
-.toggle-btn span {
-    width: 35px;
-    height: 4px;
-    background: black;
-    display: block;
-    margin-top: 4px;
-}
 
 
 .start {
@@ -167,130 +81,40 @@ a {
 
 /* See more  */
 
-.see-more {
-    position: absolute;
-    /* bottom: 30px; */
-    /* top: 50%; */
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
-    color: rgb(0, 0, 0);
-    display: inline-flex;
-    padding: 10px;
-    font-size: 20px;
-    background: rgba(255, 255, 255, 0.25);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border-radius: 10px;
-}
+
 
 /* top options */
 
-/* .Sub-menu {
+.Sub-menu {
+    display: flex;
+    width: 100%;
+    justify-content: right;
     position: absolute;
     top: 8px;
-    right: 16px;
     color: black;
-    font-weight: bold; */
-/* background: rgba(255, 255, 255, 0.25);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    backdrop-filter: blur(3.5px);
-    -webkit-backdrop-filter: blur(3.5px);
-    border-radius: 10px; */
-/* } */
-
-/* .navbar{
-    width: 150px;
-    height: 0px;
-    padding: 0px 0px 0px;
-} */
-
-.name {
-    display: flex;
-    position: absolute;
-    top: 17px;
-    left: 40px;
-    font-size: 30px;
     font-weight: bold;
-    align-items: normal;
-
 }
-
-.TopOptions {
-    display: flex;
-    position: sticky;
-    top: 0;
-    height: 70px;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.25);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-}
-
-
-
-.TopBar {
-    position: absolute;
-    /* top: 8px; */
-    right: 16px;
-
-
-
-
-}
-
-.TopBar ul {
-    display: flex;
-    justify-content: space-between;
-    width: 350px;
-    align-items: center;
-    margin-right: 40px;
-    /* margin-top: 30px; */
-}
-
-.TopBar ul li {
-    list-style: none;
-}
-
-
-.TopBar a {
-    text-decoration: none;
-    color: black;
-    /* font-weight: bold; */
-    font-weight: 500;
-
-}
-
-.TopBar a:hover {
-    /* font-weight: bolder; */
-    /* font-size: 30px; */
-    animation: ease-in-out;
-    /* color: #3498DB; */
-}
-
 
 
 .Sub-menu ul {
+    padding: 0;
     display: flex;
-    justify-content: space-between;
-    width: 350px;
     align-items: center;
-    margin-right: 40px;
     margin-top: 20px;
-
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .Sub-menu ul li {
     list-style: none;
-    font-size: 17px;
-
+    font-size: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .Sub-menu a {
     text-decoration: none;
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
 }
 
 .Sub-menu a:hover {
@@ -298,25 +122,6 @@ a {
     animation: ease-in-out;
     color: #3498DB;
 
-}
-
-.menubtn{
-    display: none;
-    width: 75px;
-    height: 30px;
-    border: 1px solid gainsboro;
-    border-radius: 5px;
-    background-color: blanchedalmond;
-}
-
-.btncenter{
-    align-items: center;
-    justify-content: center;
-    /* display: flex; */
-    /* width: auto; */
-    margin: auto;
-    top: 25px;
-    position: relative;
 }
 
 /* popup css */
@@ -330,10 +135,7 @@ a {
     width: 40px;
 }
 
-#churchLogo {
-    width: 25px;
-    margin-right: 10px;
-}
+
 
 /* container 1 css starts */
 
@@ -344,11 +146,7 @@ a {
     display: flex;
     justify-content: space-evenly;
     padding: 20px 250px;
-    height: 12vh;
-    align-items: center;
 }
-
-
 
 .container1 ul li {
     list-style: none;
@@ -363,50 +161,43 @@ a {
     text-decoration: none;
     font-size: 15px;
     font-weight: bold;
-    border-radius: 10px;
-    transition: 0.5s;
-    color: slateblue;
+    transition: 0.3s;
+    color: black;
 }
 
 .container1 a:hover {
+    font-weight: bolder;
+    font-size: 20px;
+    animation: ease-in-out;
     background-color: #ddd;
-    color: #3498DB;
+    /* color: #3498DB; */
 }
+
+/*container 2*/
 
 .container2 {
     display: flex;
     justify-items: center;
-    max-width: 75%;
-    align-items: center;
-    justify-content: center;
-    margin: auto;
-    /* background-color: #e7e7e561; */
 }
+
+/*container 2*/
 
 
 #Families {
     font-size: 15px;
-    color: slateblue;
+    color: rgb(0, 0, 0);
     text-transform: uppercase;
     font-weight: bold;
-    bottom: auto;
-    left: auto;
-    position: relative;
-    background-color: #e7e7e561;
     border: none;
 }
 
-#families:hover {
-    color: #3498DB;
-    ;
-}
-
-/* #Families:hover {
+#Families:hover {
+    font-size: 20px;
     font-weight: bolder;
     animation: ease-in-out;
     background-color: #ddd;
-    color: #3498DB;
-} */
+    /* color: #3498DB; */
+}
 
 
 /* Timings css */
@@ -428,12 +219,6 @@ a {
     padding-top: 30px;
     padding-bottom: 30px;
     text-align: center;
-}
-
-.hr {
-    width: 250px;
-    height: 5px;
-    background-color: #3498DB;
 }
 
 
@@ -494,34 +279,41 @@ a {
 
 /* Heading elemts css */
 
-
+/* changes */
 
 .hist-heading {
+    margin: 5rem;
     text-align: center;
-    font-size: 27px;
+    font-size: 25px;
 }
 
-/* .hist-heading:hover {
-    animation: ease-in-out;
-    font-size: 27px;
-} */
-
-.history {
-    top: 50px;
-    /* margin-left: 200px;
-    margin-right: 100px; */
-    padding: 50px;
-    margin: auto;
-    text-align: center;
-    width: 50%;
+.hist-heading h1 {
     font-weight: bold;
 }
 
-.container2 img {
-    height: 321px;
-    position: relative;
-    right: 70px;
-    top: 0;
+.hist-heading:hover {
+    animation: ease-in-out;
+    font-size: 27px;
+}
+
+/* .history{
+    overflow: scroll;
+} */
+
+/* .history {
+    top: 50px;
+    margin-left: 200px;
+    margin-right: 100px;
+    padding: 50px;
+    width: 50%;
+    font-weight: bold;
+} */
+
+.picture {
+    top: 50px;
+    width: 50%;
+    justify-content: center;
+    margin-right: 200px;
 
 }
 
@@ -533,7 +325,7 @@ a {
 
 /* Load button css */
 
-.load {
+/* .load {
     color: #3498DB;
     border-color: #3498DB;
     background-color: rgb(255, 255, 255);
@@ -545,14 +337,29 @@ a {
     width: 150px;
     height: 50px;
     transition: 0.3s;
-}
+} */
 
-.load:hover {
+/* .load:hover {
     color: white;
     background-color: #3498DB;
     width: 170px;
     height: 50px;
     font-size: 18px;
+} */
+
+
+/*read more*/
+.readmore {
+    margin-top: 5rem;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.readmore a{
+    font-weight: bold;
+    font-size: 20px;
+    text-decoration: none;
 }
 
 
@@ -566,6 +373,22 @@ a {
     padding-left: 200px;
     padding-right: 200px;
     margin-bottom: 100px;
+}
+
+.pastorimages {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+
+.pastorimages img {
+    width: 300px;
+    padding-right: 2rem;
+    padding-left: 2rem;
+
 }
 
 .pastorimages p {
@@ -638,222 +461,241 @@ a {
     flex-direction: column;
 } */
 
-.fa-solid {
-    display: none;
-}
-
-.close {
-    /* top: 10px;
-    left: 405px;
-    position: relative;
-    display: flex; */
-    display: none;
-}
-
-.fam {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0px 15px;
-    border-radius: 10px;
-}
-
-.fam:hover {
-    background-color: #ddd;
-}
-
-.txt-center {
-    text-align: center;
-}
-
-.ft {
-    background-color: rgb(48, 47, 47);
-    color: white;
-}
-
-
-
-.off {
-    display: none;
-}
-
-.burger {
-    display: none;
-}
-
-.line {
-    width: 30px;
-    background-color: #ffffffec;
-    height: 4px;
-    border-radius: 10px;
-    margin: 1.5px 3px;
-}
 
 
 
 
-/* screen overflow fix */
-@media screen and (max-width:1140px) {
 
-    html,
+
+
+
+
+
+@media screen and (max-width:500px) {
+
+    * {
+        font-family: 'DM Sans', sans-serif;
+    }
+
     body {
+        margin: 0;
+        padding: 0;
+    }
+
+    .start {
         width: 100%;
-        overflow-x: hidden;
+        height: auto;
     }
-}
 
-@media screen and (max-width:1060px) {
+    .start img {
+        width: 100%;
+    }
+
+    /* center text */
+
     .center {
-        padding: 2rem;
-        top: 59%;
-        /* display: none; */
-    }
-
-    .centertext {
-        font-size: 2.5rem;
-        text-align: center;
-    }
-
-    .container2 {
-        max-width: 100%;
-    }
-
-    .container2 img {
-        right: 55px;
-    }
-
-    .TopOptions {
-        height: 70vh;
-        transition: all 0.5s ease-out;
-    }
-
-    .headcenter {
-        text-align: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        right: 0;
-    }
-
-    .TopBar {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: auto;
-        position: sticky;
-        margin-top: 76px;
-    }
-
-    .TopBar ul a {
-        display: flex;
-        padding: 14px;
-    }
-
-    .TopBar ul {
-        flex-direction: column;
-        right: 12px;
-        position: relative;
-    }
-
-    .TopBar ul a:hover {
-        background-color: #e5e5e5;
-        color: black;
-    }
-
-    .burger {
-        display: flex;
-        /* position: static; */
-        flex-direction: column;
         position: absolute;
-        top: 22px;
-        left: 8px;
-        cursor: pointer;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 50px;
+        font-weight: bold;
+        color: white;
+        font-family: sans-serif;
     }
 
-    .h-nav {
-        height: 75px;
-    }
-    
-    .vclass {
-        opacity: 0;
-    }
-}
 
+    /* See more  */
 
-@media screen and (max-width:808px){
-    .container2 {
-        max-width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: auto;
-        flex-direction: column-reverse;
+    .see-more {
+        position: absolute;
+        left: 47%;
+        bottom: 30px;
+        color: white;
+        font-size: 20px;
+        background-color: transparent;
+
     }
 
-    .container2 img {
-        right: 10px;
-        top: 20px;
-        width: 30%;
-        height: 30%;
-    }
 
-    
-}
-
-
-
-@media screen and (min-width:375px) and (max-width:550px){
-    .container2 {
-        max-width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: auto;
-        flex-direction: column-reverse;
-    }
-
-    .container2 img {
-        right: 10px;
-        top: 20px;
-        width: 30%;
-        height: 30%;
-    }
-
-    .mainsec{
-        height: 75vh;
-    }
-
-    .center{
-        top: 45%;
-        width: 50%;
-    }
-
-    #ClogoImg{
-        width: 85px;
-    }
-
-    .centertext{
+    .name {
+        position: absolute;
+        top: 25px;
+        left: 40px;
         font-size: 30px;
+        font-weight: bold;
+
+    }
+
+    /* top options */
+
+    .Sub-menu {
+        position: absolute;
+        top: 8px;
+        right: 16px;
+    }
+
+    .Sub-menu ul {
+        display: flex;
+        justify-content: space-between;
+        width: 350px;
+        margin-right: 40px;
+        margin-top: 30px;
+    }
+
+    .Sub-menu ul li {
+        list-style: none;
+    }
+
+    .Sub-menu a {
+        text-decoration: none;
+        color: black;
+        font-weight: bold;
+    }
+
+
+    /* container 1 css starts */
+
+
+
+    .container1 ul {
+        list-style: none;
+        justify-content: space-evenly;
+        text-align: center;
+        align-items: center;
+    }
+
+    .container1 ul li {
+        list-style: none;
+        text-transform: uppercase;
+    }
+
+    .container1 a {
+        text-align: center;
+        margin: 0;
+        padding: 30px 20px;
+        text-decoration: none;
+        font-size: 17px;
+    }
+
+
+
+    /* Timings css */
+
+    .timings {
+        display: flex;
+        justify-content: center;
+        background-color: #e5e5e5;
+        margin-left: 5%;
+        margin-right: 5%;
+    }
+
+    .time-details {
+        padding-top: 30px;
+        padding-bottom: 30px;
         text-align: center;
     }
 
-    .container1 ul li a{
-        display: none;
+
+    /* notify button css */
+
+    .notify {
+        text-align: center;
+        border-color: #3498DB;
+        color: #3498DB;
+        height: 50px;
+        width: 100%;
+        font-size: 15px;
     }
 
-    .container1 ul{
-        height: 0;
+
+
+    /* Heading elemts css */
+
+
+
+    .hist-heading {
+        text-align: center;
+        font-size: 25px;
     }
 
-    #Families{
-        display: none;
+
+    .history {
+        top: 50px;
+        padding: 10px;
+        width: 100%;
+        font-weight: bold;
     }
 
-    .menubtn{
+    .picture {
+        top: 50px;
+        width: 50%;
+        justify-content: center;
+        margin-right: 200px;
+
+    }
+
+    .container3 {
         display: flex;
+        justify-content: center;
+        text-align: center;
     }
-}
 
-/* .res-h{
-        height: 90vh;
-    } */
+    /* Load button css */
+
+    .load {
+        color: #3498DB;
+        border-color: #3498DB;
+        background-color: rgb(255, 255, 255);
+        margin-top: 50px;
+        margin-bottom: 50px;
+        font-size: 15px;
+        font-weight: bolder;
+        text-align: center;
+        width: 100%;
+        height: 50px;
+        transition: 0.3s;
+    }
+
+
+    /* Image css */
+
+
+    .pastorimages ul {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 100px;
+        margin-bottom: 100px;
+    }
+
+    .pastorimages p {
+        text-align: center;
+        font-weight: bolder;
+        font-size: 20px;
+    }
+
+    .pastorimages ul li {
+        list-style: none;
+    }
+
+    .pastorimages ul li img {
+        width: 80%;
+    }
+
+
+    .con-icon {
+        margin-top: 50px;
+        margin-bottom: 50px;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .contact {
+        display: flex;
+        justify-content: space-between;
+        text-transform: uppercase;
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+}
