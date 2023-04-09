@@ -30,7 +30,8 @@
           <li><a href="#">Donate</a></li>
           <li><a href="#">About</a></li>
           <li><a href="#">Contact</a></li>
-          <li><a href="#">Login</a></li>
+          <!-- <li><a href="../login.html">logout</a></li> -->
+          <li><button type="submit" class="btn btn-outline-light" id="logout" >Logout</button></li>
         </ul>
       </div>
     </div>
@@ -56,21 +57,33 @@
 
     <div class="center-container">
       <div class="container">
+
+        <div style="display: flex;align-self: flex-end;">
+          <button class="btn btn-dark " id="deldropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            &#9776;
+          </button>
+          <ul class="dropdown-menu dropdown-menu-dark">
+            <li><a class="dropdown-item" href="#">Delete account</a></li>
+          </ul>
+        </div>
+
+
         <div class="profile_pic">
           <img src="img/crousel/edited img 3.jpeg" alt="">
         </div>
-        <a href="" data-bs-toggle="modal" data-bs-target="#editprofile" style="text-decoration: none;">Edit Profile</a>
+        <!-- <a href="" data-bs-toggle="modal" data-bs-target="#editprofile" style="text-decoration: none;">Edit Profile</a> -->
+        <button class="button" id="ep2">Edit profile</button>
         <div class="details">
-          <h4>George And family</h4>
-          <p id="name">Name</p>
+          <h4 id="name" style="font-weight: bold;">Name</h4>
+          <p id="email">email</p>
           <p id="number">Number</p>
-          <p id="odb">Date Of Birth</p>
+          <p id="dob">Date Of Birth</p>
           <p id="gender">Gender</p>
           <p id="address">Address</p>
         </div>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#completeprofile">
+        <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#completeprofile">
           Complete Your Profile
-        </button>
+        </button> -->
       </div>
 
 
@@ -86,6 +99,11 @@
           </div>
           <div class="modal-body">
             <div class="input-group input-group-sm mb-3">
+              <span class="input-group-image" id="inputGroup-sizing-sm">Profile picture</span>
+              <input type="image" class="form-control" aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm">
+            </div>
+            <div class="input-group input-group-sm mb-3">
               <span class="input-group-text" id="inputGroup-sizing-sm">Name</span>
               <input type="text" class="form-control" aria-label="Sizing example input"
                 aria-describedby="inputGroup-sizing-sm">
@@ -111,7 +129,7 @@
             </div>
             <div class="input-group input-group-sm mb-3">
               <span class="input-group-text" id="inputGroup-sizing-sm">Date of Birth</span>
-              <input type="text" class="form-control" aria-label="Sizing example input"
+              <input type="date" class="form-control" aria-label="Sizing example input"
                 aria-describedby="inputGroup-sizing-sm">
             </div>
           </div>
@@ -124,7 +142,7 @@
     </div>
 
 
-
+<!-- EDIT PROFILE -->
 
     <div class="modal fade" id="editprofile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -135,45 +153,54 @@
           </div>
           <div class="modal-body">
             <div class="input-group input-group-sm mb-3">
+              <span class="input-group-image" id="inputGroup-sizing-sm">Profile picture</span>
+              <input type="ima" class="form-control" aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm">
+            </div>
+            <div class="input-group input-group-sm mb-3">
+              <!-- Name -->
               <span class="input-group-text" id="inputGroup-sizing-sm">Name</span>
-              <input type="text" class="form-control" aria-label="Sizing example input"
+              <input type="text" class="form-control" id="uname" aria-label="Sizing example input"
                 aria-describedby="inputGroup-sizing-sm">
             </div>
             <div class="input-group mb-3">
+              <!-- Gender -->
               <label class="input-group-text" for="inputGroupSelect01">Gender</label>
-              <select class="form-select" id="inputGroupSelect01">
+              <select class="form-select" name="ugender" id="ugender">
                 <option selected>Choose...</option>
-                <option value="1">Male</option>
-                <option value="2">Female</option>
-                <option value="3">Prefer not to say</option>
+                <option value="1">Prefer not to say</option>
+                <option value="2">Male</option>
+                <option value="3">Female</option>
               </select>
             </div>
             <div class="input-group input-group-sm mb-3">
+              <!-- Phno -->
               <span class="input-group-text" id="inputGroup-sizing-sm">Phone Number</span>
-              <input type="text" class="form-control" aria-label="Sizing example input"
+              <input type="text" class="form-control" id="uphno" aria-label="Sizing example input"
                 aria-describedby="inputGroup-sizing-sm">
             </div>
             <div class="input-group input-group-sm mb-3">
+              <!-- Address -->
               <span class="input-group-text" id="inputGroup-sizing-sm">Address</span>
-              <input type="text" class="form-control" aria-label="Sizing example input"
+              <input type="text" class="form-control" id="uaddress" aria-label="Sizing example input"
                 aria-describedby="inputGroup-sizing-sm">
             </div>
             <div class="input-group input-group-sm mb-3">
               <span class="input-group-text" id="inputGroup-sizing-sm">Date of Birth</span>
-              <input type="text" class="form-control" aria-label="Sizing example input"
+              <input type="date" class="form-control" id="udob" aria-label="Sizing example input"
                 aria-describedby="inputGroup-sizing-sm">
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save Changes</button>
+            <button type="button" class="btn btn-primary" id="Save">Save Changes</button>
           </div>
         </div>
       </div>
     </div>
 
   </form>
-
+  <script type="module" src="profile.js"></script>
 </body>
 
 </html>

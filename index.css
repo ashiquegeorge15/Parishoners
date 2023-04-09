@@ -22,7 +22,10 @@ body {
 }
 
 
-
+.profilepicclass a img{
+    width:35px;
+    border-radius: 5px;
+}
 
 /* profile pic css */
 #ProfilePic {

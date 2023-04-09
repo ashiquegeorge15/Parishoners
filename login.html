@@ -1,68 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
-    <link rel="stylesheet" href="Login.css">
-</head>
+    <link rel="stylesheet" href="Login.css" />
+  </head>
 
-<body onload="getcookiedata()">
-    
-    
-    
+  <body>
     <form>
-        <div class="loginPage">
-            <div class="loginImg">
-                <img src="img/256472.jpg" alt="img">
-            </div>
-            <div class="loginSide">
-            <!-- <div class="bg"> -->
-                <div class="loginSection">
-                    <h1 class="txtbig center">Login</h1>
-                    <br>
-                    <label for="email">
-                        <p class="txtsm">Username</p>
-                    </label>
-                    <input type="email" name="email" id="email" required placeholder="Email">
-
-                    <label for="pass">
-                        <p class="txtsm">Password</p>
-                    </label>
-                    <input type="password" name="pass" id="pass" required placeholder="Password">
-                    <br>
-                    <br>
-                    <input type="checkbox" name="RemMe" id="RemMe" >Remember me
-                    <br>
-                    <br>
-                    <input type="submit" value="Login" id="submitBtn">
-                    <br>
-                    <br>
-                    <hr id="divider">
-
-
-
-                    <div class="SignUpArea">
-                        <p>Not a member yet?</p>
-                        <a href="signup.html">Sign up</a>
-                        <br>
-                        <br>
-                        <a href="forgotpassword.html">Forgot Password?</a>
-                    </div>
-
-                </div>
-            <!-- </div> -->
-            </div>
+      <div class="loginPage">
+        <div class="loginImg">
+          <img src="img/256472.jpg" alt="img" />
         </div>
+        <div class="loginSide">
+          <!-- <div class="bg"> -->
+          <div class="loginSection">
+            <h1 class="txtbig center">Login</h1>
+            <br />
+            <label for="email">
+              <p class="txtsm">Username</p>
+            </label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              required
+              placeholder="Email"
+            />
+
+            <label for="pass">
+              <p class="txtsm">Password</p>
+            </label>
+            <input
+              type="password"
+              name="pass"
+              id="pass"
+              required
+              placeholder="Password"
+            />
+            <br />
+            <br />
+            <a href="forgotpassword.html">Forgot Password</a>
+            <br />
+            <br />
+            <input type="submit" value="Login" id="submitBtn" />
+            <br />
+            <br />
+            <hr />
+            <div class="SignUpArea">
+              <span>Not a member yet? <span><a href="signup.html">Sign up</a></span></span>
+              <!-- <button class="subtn">Sign up</button> -->
+              <br />
+              <br />
+            </div>
+          </div>
+          <!-- </div> -->
+        </div>
+      </div>
     </form>
     <script type="module" src="login.js"></script>
-
-
-    
-
-</body>
-
-
+  </body>
 </html>

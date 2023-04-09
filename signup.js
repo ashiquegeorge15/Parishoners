@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-analytics.js";
-import { getAuth, createUserWithEmailAndPassword,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword,onAuthStateChanged,sendEmailVerification} from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
 import { getFirestore,collection, addDoc,doc,setDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -26,6 +26,7 @@ const fs = getFirestore(app);
 
 console.log("script loaded");
 
+
 //----- New Registration code start
 function create(event) {
     event.preventDefault()
@@ -44,11 +45,9 @@ function create(event) {
 
             onAuthStateChanged(auth, (user) => {
               if (user) {
-   
-               userId= user.uid;
-               console.log("-----------------------userId set to "+userId);
-               // Pushing data in firestore---------------------------------------
 
+
+               // Pushing data in firestore--------------------------------------          
 try {
   console.log("entered firestore code");
   const docRef =setDoc(doc(fs, "users", user.uid), {

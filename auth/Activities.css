@@ -96,12 +96,6 @@ body {
     font-weight: bold;
 }
 
-.TopBar a:hover {
-    font-weight: bolder;
-    font-size: 30px;
-    animation: ease-in-out;
-    /* color: #3498DB; */
-}
 
 .addbtndiv{
     display: flex;

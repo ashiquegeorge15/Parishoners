@@ -1,117 +1,129 @@
 * {
-    font-family: sans-serif;
-    transition: 0.4s;
+  font-family: sans-serif;
+  transition: 0.4s;
 }
 
-
 body {
-    margin: 0;
-    padding: 0;
-    position: fixed;
+  margin: 0;
+  padding: 0;
+  position: fixed;
 }
 
 .loginPage {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100%;
 }
 
-
 .loginSide {
-    margin: 0px;
-    padding: 0;
-    width: 100%;
-    height: 100%;
+  margin: 0px;
+  padding: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .loginImg {
-    margin: 0;
-    padding: 0;
-    width: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 
 .loginImg p {
-    margin-left: 50px;
-    margin-top: 20px;
+  margin-left: 50px;
+  margin-top: 20px;
 }
 
-
 .loginImg img {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .loginSection {
-    padding: 5px;
-    margin-left: 15%;
-    margin-right: 15%;
+  margin-top: 15%;
+  padding: 5px;
+  margin-left: 15%;
+  margin-right: 15%;
 }
-
 
 .loginSide p {
-    font-weight: bolder;
-    /* font-size: 20px; */
+  font-weight: bolder;
+  /* font-size: 20px; */
 }
 
-
-#email {
-    width: 100%;
-    height: 40px;
-    border: 1px solid gray;
-    border-radius: 20px;
-    font-weight: bold;
+.loginSection a{
+    text-decoration: none;
+    font-size: 13px;
+    float: right;
+    font-weight: 700;
+    color:#3498db;
 }
 
+#email,
 #pass {
-    width: 100%;
-    height: 40px;
-    border: 1px solid gray;
-    border-radius: 20px;
-    font-weight: bold;
+  width: 100%;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  background-color:rgb(238, 238, 238);
+  color:gray;
+  font-size: 13px;
+  padding-left: 10px;
 }
 
 #submitBtn {
-    width: 100%;
-    height: 50px;
-    border-radius: 25px;
-    background-color: coral;
-    border-color: coral;
-    border-style: none;
-    font-weight: bold;
-    transition: all 0.4s;
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
+  background-color: coral;
+  border-color: coral;
+  border-style: none;
+  font-weight: bold;
+  transition: all 0.4s;
+  font-size: 15px;
 }
 
+/* subtn */
+.subtn {
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
+  background: transparent;
+  font-weight: 700;
+  border: 2px solid gray(238, 238, 238);
+  color: gray(238, 238, 238);
+}
 
 #submitBtn:hover {
-    background-color: black;
-    color: white;
+  background-color: black;
+  color: white;
 }
 
 #divider {
-    height: 4px;
-    width: 60px;
-    border-radius: 5px;
-    background-color: rgb(163, 163, 163);
+  height: 4px;
+  width: 60px;
+  border-radius: 5px;
+  background-color: rgb(163, 163, 163);
 }
 
 .SignUp {
-    width: 100%;
-    height: 50px;
-    border-radius: 25px;
-    background-color: coral;
-    border-color: coral;
-    border-style: none;
-    font-weight: bold;
-    transition: all 0.4s;
+  width: 100%;
+  height: 50px;
+  border-radius: 25px;
+  background-color: coral;
+  border-color: coral;
+  border-style: none;
+  font-weight: bold;
+  transition: all 0.4s;
 }
 
 #SignUp:hover {
-    background-color: black;
-    color: white;
+  background-color: black;
+  color: white;
 }
 
 .SignUpArea {
-    text-align: center;
+  text-align: center;
 }
 
 /* .SignUpArea p {
@@ -120,152 +132,138 @@ body {
 } */
 
 .SignUpArea a {
-    text-decoration: none;
-    font-size: 15px;
+  text-decoration: none;
+  font-size: 15px;
 }
 
-.txtsm{
-    font-size: 15px;
+.txtsm {
+  font-size: 15px;
 }
 
-.txtbig{
-    font-size: 35px;
+.txtbig {
+  font-size: 35px;
 }
 
-.center{
-    text-align: center;
+.center {
+  text-align: center;
 }
 
+@media screen and (max-width: 400px) {
+  .loginSection {
+    padding: 0px;
+    margin-left: 0%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    left: -95px;
+    top: 12px;
+    margin-right: 0%;
+    bottom: 33px;
+    right: 131px;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+  }
 
+  .loginImg img {
+    width: 205%;
+    height: 100%;
+    opacity: 0.8;
+  }
 
-@media screen and (max-width:400px) {
-    .loginSection {
-        padding: 0px;
-        margin-left: 0%;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        left: -95px;
-        top: 12px;
-        margin-right: 0%;
-        bottom: 33px;
-        right: 131px;
-        border-radius: 10px;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: nowrap;
-    }
+  #submitBtn {
+    background-color: coral;
+    transition: all 0.5s;
+  }
 
-    .loginImg img {
-        width: 205%;
-        height: 100%;
-        opacity: 0.8;
-    }
-
-
-
-
-
-    #submitBtn {
-        background-color: coral;
-        transition: all 0.5s;
-    }
-
-    #submitBtn:hover {
-        background-color: black;
-        color: white;
-    }
-
-
-
+  #submitBtn:hover {
+    background-color: black;
+    color: white;
+  }
 }
 
-@media screen and (min-width:401px) and (max-width:545px) {
-    .loginSection {
-        padding: 0px;
-        margin-left: 0%;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        left: auto;
-        top: 12px;
-        margin-right: 0%;
-        bottom: 33px;
-        right: 120px;
-        border-radius: 10px;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: nowrap;
-    }
+@media screen and (min-width: 401px) and (max-width: 545px) {
+  .loginSection {
+    padding: 0px;
+    margin-left: 0%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    left: auto;
+    top: 12px;
+    margin-right: 0%;
+    bottom: 33px;
+    right: 120px;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+  }
 
-    .loginImg img {
-        width: 205%;
-        height: 100%;
-        opacity: 0.8;
-    }
+  .loginImg img {
+    width: 205%;
+    height: 100%;
+    opacity: 0.8;
+  }
 }
 
+@media screen and (min-width: 546px) and (max-width: 615px) {
+  .loginSection {
+    padding: 0px;
+    margin-left: 0%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    left: auto;
+    top: 12px;
+    margin-right: 0%;
+    bottom: 33px;
+    right: 135px;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+  }
 
-@media screen and (min-width:546px) and (max-width:615px) {
-    .loginSection {
-        padding: 0px;
-        margin-left: 0%;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        left: auto;
-        top: 12px;
-        margin-right: 0%;
-        bottom: 33px;
-        right: 135px;
-        border-radius: 10px;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: nowrap;
-    }
-
-    .loginImg img {
-        width: 205%;
-        height: 100%;
-        opacity: 0.8;
-    }
+  .loginImg img {
+    width: 205%;
+    height: 100%;
+    opacity: 0.8;
+  }
 }
 
-@media screen and (min-width:616px) and (max-width:750px) {
-    .loginSection {
-        padding: 0px;
-        margin-left: 0%;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        left: auto;
-        top: 12px;
-        margin-right: 0%;
-        bottom: 33px;
-        right: 158px;
-        border-radius: 10px;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: nowrap;
-    }
+@media screen and (min-width: 616px) and (max-width: 750px) {
+  .loginSection {
+    padding: 0px;
+    margin-left: 0%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    left: auto;
+    top: 12px;
+    margin-right: 0%;
+    bottom: 33px;
+    right: 158px;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+  }
 
-    .loginImg img {
-        width: 205%;
-        height: 100%;
-        opacity: 0.8;
-    }
+  .loginImg img {
+    width: 205%;
+    height: 100%;
+    opacity: 0.8;
+  }
 }
 
-
-@media screen and (min-width:751px) {
-
-    /* body {
+@media screen and (min-width: 751px) {
+  /* body {
         margin: 0;
         padding: 0;
         position: fixed;
         background: url(img/256472.jpg);
         
     } */
-
-
 }

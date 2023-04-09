@@ -34,51 +34,11 @@ const db=getDatabase();
 const postListRef = ref(db, 'Announcements/');
 const newPostRef = push(postListRef);
 
-const btn=document.querySelector("#postBtn");
-
-const annTitle=document.querySelector('#annTitle');
-const annBody=document.querySelector('#annBody');
-
-                      //Date and Time
-
-let today=new Date();
-const dd=String( today.getDate()).padStart(2,'0');
-const mm=String( today.getMonth()+1).padStart(2,'0');
-const yy= today.getFullYear();
-const hh= String(today.getHours()).padStart(2,'0');
-const mi= String(today.getMinutes()).padStart(2,'0');
-const date=`${dd}/${mm}/${yy}`;
-const time=`${hh}:${mi}`;
-
-//console.log(date+" "+time);
-
-function insert(){
-  if(annTitle.value==""&&annBody.value==""){
-    document.querySelector('#annTitle').placeholder="Insert Title Please!";
-    document.querySelector('#annBody').placeholder="Insert contentDiv Please!";
-  }
-
-  else{
-set(newPostRef, {
-  Title: annTitle.value,
-  Body: annBody.value,
-  Date: date,
-  Time: time
-  }).then(()=>{
-  alert("Announcement posted!");
-  window.location.reload();
-  }).catch((error)=>{
-  alert(error);
-  });}
-}
-
-btn.addEventListener('click',insert);
-
-
-
-//DISPLAY Anouncements
+var listItem
 
 const dbref=ref(db);
+
+
 function test()
 {
   const db = getDatabase();
@@ -122,7 +82,7 @@ onValue(dbRef, (snapshot) => {
     const Title = childSnapshot.val().Title;
     const Body = childSnapshot.val().Body;
     const Date = childSnapshot.val().Date;
-    const Time = childSnapshot.val().Time;
+    let Time = childSnapshot.val().Time;
 
     let dd=Date.slice(0, 2);
     let mm=Date.slice(3,5);
@@ -130,13 +90,24 @@ onValue(dbRef, (snapshot) => {
     let hh=Time.slice(0,2);
     let mi=Time.slice(3,5);
 
+    // if(hh>12){
+    //   if(mi>0){
+    //     hh=hh-12;
+    //     mi=mi+" PM";
+    //     Time=hh+":"+mi;
+    //   }
+    //  }else{
+    //   mi= mi+" AM";
+    //   Time=hh+":"+mi;
+    //  }
+
     // console.log("day "+dd);
     // console.log("month "+mm);
     // console.log("year "+yy);
     // console.log("hour "+hh);
     // console.log("min "+mi);
 
-    //...
+  
     // console.log(Title);
     // console.log(Body);
     // console.log();
@@ -149,7 +120,7 @@ var myList = document.getElementById("myList");
 // i=i+1;
 
 // Create a new <li> element
-var listItem = document.createElement("li");
+listItem = document.createElement("li");
 listItem.classList.add("announcementslist");
 listItem.id=childKey;
 // Create a new <div> element
