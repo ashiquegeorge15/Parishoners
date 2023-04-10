@@ -208,11 +208,12 @@ var titleP=document.createElement("p");
 //Create delete button
 var delBtn=document.createElement("input");
   // Set class of button to "dropdown-item"
-  //delBtn.classList.add("dropdown-item");
+  delBtn.classList.add("deletebtn");
   // delBtn.innerHTML="Delete";
   delBtn.type="button";
-  delBtn.value="delete";
+  delBtn.value="Delete";
   delBtn.id=childKey;
+
   // delBtn.classList.add("btn btn-primary btn-sm");
   //delBtn.onclick="delAnn(childKey)";
   

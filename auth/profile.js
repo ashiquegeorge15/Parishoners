@@ -1,8 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-analytics.js";
-import { getAuth,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
-import { getFirestore,doc,setDoc,getDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+import { getAuth,onAuthStateChanged,deleteUser} from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
+import { getFirestore,doc,setDoc,getDoc,deleteDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -129,6 +129,46 @@ function logout(event){
   auth.signOut();
   window.location.href = "../login.html";
 }
+
+//deleting profile data
+delAccBtn.addEventListener('click',async (d)=>{
+  // getting user Id from authentication
+  const user = auth.currentUser;
+
+
+  var con=confirm("are you sure to delete "+user.email);
+  if(con==true){
+
+
+
+ // Getting user details ---------------------
+ const name=document.getElementById("uname").value;
+ console.log(name);
+ var x = document.getElementById("ugender");
+ var i = x.selectedIndex;
+ var gender = x.options[i].text;
+ console.log(gender);
+ const phno=document.getElementById("uphno").value;
+ console.log(phno);
+ const address=document.getElementById("uaddress").value;
+ console.log(address);
+ const dob=document.getElementById("udob").value;
+ console.log(dob);
+
+ await deleteDoc(doc(fs,"users",user.uid));
+
+     //Delete account from Firebase authentication
+     deleteUser(user).then(() => {
+      // User deleted.
+      alert("user deleted");
+    }).catch((error) => {
+      // An error ocurred
+      // ...
+      alert("user not deleted");
+    });
+
+  }
+});
 
 document.getElementById("Save").addEventListener("click", create);
 document.getElementById("logout").addEventListener("click", logout);

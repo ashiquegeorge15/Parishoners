@@ -22,6 +22,18 @@
     margin-top: 45px;
 }
 
+.deletebtn{
+    color: red;
+    border: 1px solid red;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    font-family: emoji;
+}
+
+.deletebtn:hover{
+    color: white;
+    background-color: red;
+}
 
 body {
     margin: 0;
@@ -64,8 +76,6 @@ body {
     position: absolute;
     /* top: 8px; */
     right: 16px;
-    
-
 }
 
 .TopBar ul {
@@ -275,3 +285,4 @@ body {
     background-color: #3498DB;
     color: white;
 }
+

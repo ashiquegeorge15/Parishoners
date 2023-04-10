@@ -467,235 +467,39 @@ body {
 
 
 
+/* screen overflow fix */
+@media screen and (max-width:1140px) {
 
-
-
-
-@media screen and (max-width:500px) {
-
-    * {
-        font-family: 'DM Sans', sans-serif;
-    }
-
+    html,
     body {
-        margin: 0;
-        padding: 0;
-    }
-
-    .start {
         width: 100%;
-        height: auto;
+        overflow-x: hidden;
     }
+}
 
-    .start img {
-        width: 100%;
-    }
-
-    /* center text */
-
+@media screen and (max-width:1040px) {
     .center {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 50px;
-        font-weight: bold;
-        color: white;
-        font-family: sans-serif;
-    }
+        padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    align-items: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 40px;
+    /* font-weight: bold; */
+    color: white;
+    font-family: sans-serif;
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 10px;
 
-
-    /* See more  */
-
-    .see-more {
-        position: absolute;
-        left: 47%;
-        bottom: 30px;
-        color: white;
-        font-size: 20px;
-        background-color: transparent;
-
-    }
-
-
-    .name {
-        position: absolute;
-        top: 25px;
-        left: 40px;
-        font-size: 30px;
-        font-weight: bold;
-
-    }
-
-    /* top options */
-
-    .Sub-menu {
-        position: absolute;
-        top: 8px;
-        right: 16px;
-    }
-
-    .Sub-menu ul {
-        display: flex;
-        justify-content: space-between;
-        width: 350px;
-        margin-right: 40px;
-        margin-top: 30px;
-    }
-
-    .Sub-menu ul li {
-        list-style: none;
-    }
-
-    .Sub-menu a {
-        text-decoration: none;
-        color: black;
-        font-weight: bold;
-    }
-
-
-    /* container 1 css starts */
-
-
-
-    .container1 ul {
-        list-style: none;
-        justify-content: space-evenly;
-        text-align: center;
-        align-items: center;
-    }
-
-    .container1 ul li {
-        list-style: none;
-        text-transform: uppercase;
-    }
-
-    .container1 a {
-        text-align: center;
-        margin: 0;
-        padding: 30px 20px;
-        text-decoration: none;
-        font-size: 17px;
-    }
-
-
-
-    /* Timings css */
-
-    .timings {
-        display: flex;
-        justify-content: center;
-        background-color: #e5e5e5;
-        margin-left: 5%;
-        margin-right: 5%;
-    }
-
-    .time-details {
-        padding-top: 30px;
-        padding-bottom: 30px;
-        text-align: center;
-    }
-
-
-    /* notify button css */
-
-    .notify {
-        text-align: center;
-        border-color: #3498DB;
-        color: #3498DB;
-        height: 50px;
-        width: 100%;
-        font-size: 15px;
-    }
-
-
-
-    /* Heading elemts css */
-
-
-
-    .hist-heading {
-        text-align: center;
-        font-size: 25px;
-    }
-
-
-    .history {
-        top: 50px;
-        padding: 10px;
-        width: 100%;
-        font-weight: bold;
-    }
-
-    .picture {
-        top: 50px;
-        width: 50%;
-        justify-content: center;
-        margin-right: 200px;
-
-    }
-
-    .container3 {
-        display: flex;
-        justify-content: center;
-        text-align: center;
-    }
-
-    /* Load button css */
-
-    .load {
-        color: #3498DB;
-        border-color: #3498DB;
-        background-color: rgb(255, 255, 255);
-        margin-top: 50px;
-        margin-bottom: 50px;
-        font-size: 15px;
-        font-weight: bolder;
-        text-align: center;
-        width: 100%;
-        height: 50px;
-        transition: 0.3s;
-    }
-
-
-    /* Image css */
-
-
-    .pastorimages ul {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 100px;
-        margin-bottom: 100px;
-    }
-
-    .pastorimages p {
-        text-align: center;
-        font-weight: bolder;
-        font-size: 20px;
-    }
-
-    .pastorimages ul li {
-        list-style: none;
-    }
-
-    .pastorimages ul li img {
-        width: 80%;
-    }
-
-
-    .con-icon {
-        margin-top: 50px;
-        margin-bottom: 50px;
-        display: flex;
-        justify-content: space-around;
-    }
-
-    .contact {
-        display: flex;
-        justify-content: space-between;
-        text-transform: uppercase;
-        text-align: center;
-        margin-bottom: 50px;
-    }
+        }
 
 }
+
+
+

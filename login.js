@@ -52,8 +52,7 @@ const auth = getAuth();
         window.location.href = "signup.html";
         }
         // errorMessage
-
-        alert(errorMessage);
+        console.log(errorMessage);
       });		  		  
   });
   //----- End

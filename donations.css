@@ -1,0 +1,351 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+
+* {
+  font-family: 'Raleway', sans-serif;
+  transition: 0.3s;
+  scroll-behavior: smooth;
+}
+
+
+.material-symbols-rounded {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 20
+}
+
+
+body {
+  margin: 0;
+  background-image: url(img/crousel/wallpaperflare.com_wallpaper.jpg);
+  scroll-behavior: smooth;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+/* name css */
+#churchLogo {
+    width: 25px;
+    margin-right: 10px;
+}
+
+/* name css */
+.name {
+    display: flex;
+    position: absolute;
+    left: 40px;
+    font-size: 30px;
+    font-weight: bold;
+    align-items: normal;
+
+}
+
+
+.TopOptions {
+    display: flex;
+    position: sticky;
+    top: 0;
+    height: 70px;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+
+.TopBar {
+    position: absolute;
+    /* top: 8px; */
+    right: 16px;
+    
+
+}
+
+.TopBar ul {
+    display: flex;
+    justify-content: space-between;
+    width: 350px;
+    align-items: center;
+    margin-right: 40px;
+    /* margin-top: 30px; */
+}
+
+.TopBar ul li {
+    list-style: none;
+}
+
+.TopBar a {
+    text-decoration: none;
+    color: black;
+    /* font-weight: bold; */
+    font-weight: 500;
+}
+
+.TopBar a:hover {
+    /* font-weight: bolder; */
+    /* font-size: 30px; */
+    animation: ease-in-out;
+    /* color: #3498DB; */
+}
+
+/* profile piuc css */
+.profilepicclass a img{
+    width: 30px;
+    border-radius: 50%;
+  }
+
+
+
+/* divider css */
+
+
+/* donation section css */
+
+
+.donationSection{
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 50px;
+    /* background-color: red; */
+    border-radius: 10px;
+    /* border: 2px solid gray; */
+    overflow: hidden;
+    height: fit-content;
+    /* box-shadow: 5px 10px 18px #888888; */
+}
+
+
+.donationArea{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.DonVector{
+    width: 50%;
+}
+
+.DonVector img{
+    width: 100%;
+}
+
+
+.donationform{
+    border-radius: 10px;
+    width: fit-content;
+    padding-left: 30px;
+    padding-right: 30px;
+    display: flex;
+    width: 50%;
+    flex-direction: column;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+
+#DonName{
+    width: 90%;
+    height: 40px;
+    border: 1px solid gray;
+    border-radius: 20px;
+    font-weight: bold;
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
+#amount{
+    width: 45%;
+    height: 40px;
+    border: 1px solid gray;
+    border-radius: 20px;
+    font-weight: bold;
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
+
+#WingSelect{
+    width: 45%;
+    height: 40px;
+    border: 1px solid gray;
+    border-radius: 20px;
+    font-weight: bold;
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
+
+
+#message{
+    width: 90%;
+    height: 40px;
+    border: 1px solid gray;
+    border-radius: 20px;
+    font-weight: bold;
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
+#expdate{
+    width: 90%;
+    height: 40px;
+    border: 1px solid gray;
+    border-radius: 20px;
+    font-weight: bold;
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
+
+#PayBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    height: 50px;
+    border-radius: 25px;
+    background-color: coral;
+    border-color: coral;
+    border-style: none;
+    font-weight: bold;
+}
+
+
+
+
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdown-content a:hover {background-color: #ddd;}
+  
+  .dropdown:hover .dropdown-content {display: block;}
+
+  .burger {
+    display: none;
+}
+
+.line {
+    width: 30px;
+    background-color: #ffffffec;
+    height: 4px;
+    border-radius: 10px;
+    margin: 1.5px 3px;
+}
+
+  /* screen overflow fix */
+@media screen and (max-width:1140px) {
+
+    html,
+    body {
+        width: 100%;
+        overflow-x: hidden;
+    }
+}
+
+@media screen and (max-width:1060px) {
+    .center {
+        padding: 2rem;
+        top: 59%;
+        /* display: none; */
+    }
+
+    .centertext {
+        font-size: 2.5rem;
+    }
+
+    .container2 {
+        max-width: 100%;
+    }
+
+    .container2 img {
+        right: 60px;
+    }
+
+    .TopOptions {
+        height: 70vh;
+        transition: all 0.5s ease-out;
+    }
+
+    .headcenter {
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        right: 0;
+    }
+
+    .TopBar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: auto;
+        position: sticky;
+        margin-top: 76px;
+    }
+
+    .TopBar ul a {
+        display: flex;
+        padding: 14px;
+    }
+
+    .TopBar ul {
+        flex-direction: column;
+        right: 12px;
+        position: relative;
+    }
+
+    .TopBar ul a:hover {
+        background-color: #e5e5e5;
+        color: black;
+    }
+
+    .burger {
+        display: flex;
+        /* position: static; */
+        flex-direction: column;
+        position: absolute;
+        top: 22px;
+        left: 8px;
+        cursor: pointer;
+    }
+
+    .h-nav-d{
+        height: 75px;
+    }
+    
+    .vclass {
+        opacity: 0;
+    }
+
+    
+}

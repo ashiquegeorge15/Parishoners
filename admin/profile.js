@@ -118,7 +118,7 @@ async function disp(){
         // User is signed out
         // ...
         console.log("User not logged in---------------------")
-        window.location.href = "../login.html";
+        window.location.href = "../loginnew.html";
       }
     });
 }
@@ -127,7 +127,7 @@ function logout(event){
   event.preventDefault();
   alert("Are you sure to logout?");
   auth.signOut();
-  window.location.href = "../login.html";
+  window.location.href = "../loginnew.html";
 }
 
 document.getElementById("Save").addEventListener("click", create);

@@ -1,269 +1,137 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway&display=swap");
+
 * {
-  font-family: sans-serif;
-  transition: 0.4s;
+  font-family: "Poppins", sans-serif;
+  transition: 0.3s;
+  scroll-behavior: smooth;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
+}
+
+.addbtndiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 45px;
+}
+
+.addbtn {
+  border-radius: 10px;
 }
 
 body {
   margin: 0;
-  padding: 0;
-  position: fixed;
+  /* background-image: url(img/profilebg2.jpg); */
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url(https://dl.dropbox.com/s/mpmu0gjtxv2x3fs/Webp.net-resizeimage%20%281%29.jpg?raw=1);
 }
 
-.loginPage {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  height: 100%;
+
+.center-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.loginSide {
-  margin: 0px;
-  padding: 0;
-  width: 100%;
-  height: 100%;
+.container {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  margin-top: 45px;
+  /* margin-right: 5rem;  */
+  border-radius: 15px;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  padding-bottom: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  /* margin-left: 5rem; */
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgb(31 38 135 / 37%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  width: 400px;
 }
 
-.loginImg {
-  margin: 0;
-  padding: 0;
-  width: 100%;
+.txtboxes{
+  margin-top: 2rem;
+  text-align: start;
+  margin-bottom:2rem;
 }
 
-.loginImg p {
-  margin-left: 50px;
-  margin-top: 20px;
+.txtboxes p{
+  margin-bottom: 5px;
+  font-weight:bold;
 }
 
-.loginImg img {
-  width: 100%;
-  height: 100%;
+.txtboxes a{
+  font-size:14px;
+  text-decoration:none;
+  text-align:right;
+  font-weight:bold;
 }
 
-.loginSection {
-  margin-top: 15%;
-  padding: 5px;
-  margin-left: 15%;
-  margin-right: 15%;
-}
+#pass{
+  height:40px;
+  width:300px;
+  border:none;
+  background: rgba(255, 255, 255, 0.25);
 
-.loginSide p {
-  font-weight: bolder;
-  /* font-size: 20px; */
-}
-
-.loginSection a{
-    text-decoration: none;
-    font-size: 13px;
-    float: right;
-    font-weight: 700;
-    color:#3498db;
-}
-
-#email,
-#pass {
-  width: 100%;
-  height: 40px;
-  border: none;
-  border-radius: 10px;
-  font-weight: bold;
-  background-color:rgb(238, 238, 238);
-  color:gray;
-  font-size: 13px;
-  padding-left: 10px;
-}
-
-#submitBtn {
-  width: 100%;
-  height: 40px;
-  border-radius: 10px;
-  background-color: coral;
-  border-color: coral;
-  border-style: none;
-  font-weight: bold;
-  transition: all 0.4s;
-  font-size: 15px;
-}
-
-/* subtn */
-.subtn {
-  width: 100%;
-  height: 40px;
-  border-radius: 10px;
-  background: transparent;
-  font-weight: 700;
-  border: 2px solid gray(238, 238, 238);
-  color: gray(238, 238, 238);
-}
-
-#submitBtn:hover {
-  background-color: black;
-  color: white;
-}
-
-#divider {
-  height: 4px;
-  width: 60px;
   border-radius: 5px;
-  background-color: rgb(163, 163, 163);
+  font-size:13px;
+  padding-left: 5px;
 }
 
-.SignUp {
-  width: 100%;
-  height: 50px;
-  border-radius: 25px;
-  background-color: coral;
-  border-color: coral;
-  border-style: none;
-  font-weight: bold;
-  transition: all 0.4s;
+
+#email{
+  height:40px;
+  width:300px;
+  border:none;
+  background: rgba(255, 255, 255, 0.25);
+  margin-bottom: 20px;
+  border-radius: 5px;
+  font-size:13px;
+  padding-left: 5px;
 }
 
-#SignUp:hover {
-  background-color: black;
+
+.details {
+  /* font-weight: bold; */
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 15px;
   color: white;
 }
 
-.SignUpArea {
-  text-align: center;
+#ep2{
+  color: white;
+  font-weight: bold;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: none;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.25);
 }
 
-/* .SignUpArea p {
-    font-size: 15px;
+.signuplink{
+  margin-top:1.7rem;
+}
 
-} */
-
-.SignUpArea a {
-  text-decoration: none;
+.signuplink a{
   font-size: 15px;
+  text-decoration:none;
 }
 
-.txtsm {
+.signuplink span{
+  color:white;
   font-size: 15px;
-}
-
-.txtbig {
-  font-size: 35px;
-}
-
-.center {
-  text-align: center;
-}
-
-@media screen and (max-width: 400px) {
-  .loginSection {
-    padding: 0px;
-    margin-left: 0%;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    left: -95px;
-    top: 12px;
-    margin-right: 0%;
-    bottom: 33px;
-    right: 131px;
-    border-radius: 10px;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: nowrap;
-  }
-
-  .loginImg img {
-    width: 205%;
-    height: 100%;
-    opacity: 0.8;
-  }
-
-  #submitBtn {
-    background-color: coral;
-    transition: all 0.5s;
-  }
-
-  #submitBtn:hover {
-    background-color: black;
-    color: white;
-  }
-}
-
-@media screen and (min-width: 401px) and (max-width: 545px) {
-  .loginSection {
-    padding: 0px;
-    margin-left: 0%;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    left: auto;
-    top: 12px;
-    margin-right: 0%;
-    bottom: 33px;
-    right: 120px;
-    border-radius: 10px;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: nowrap;
-  }
-
-  .loginImg img {
-    width: 205%;
-    height: 100%;
-    opacity: 0.8;
-  }
-}
-
-@media screen and (min-width: 546px) and (max-width: 615px) {
-  .loginSection {
-    padding: 0px;
-    margin-left: 0%;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    left: auto;
-    top: 12px;
-    margin-right: 0%;
-    bottom: 33px;
-    right: 135px;
-    border-radius: 10px;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: nowrap;
-  }
-
-  .loginImg img {
-    width: 205%;
-    height: 100%;
-    opacity: 0.8;
-  }
-}
-
-@media screen and (min-width: 616px) and (max-width: 750px) {
-  .loginSection {
-    padding: 0px;
-    margin-left: 0%;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    left: auto;
-    top: 12px;
-    margin-right: 0%;
-    bottom: 33px;
-    right: 158px;
-    border-radius: 10px;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: nowrap;
-  }
-
-  .loginImg img {
-    width: 205%;
-    height: 100%;
-    opacity: 0.8;
-  }
-}
-
-@media screen and (min-width: 751px) {
-  /* body {
-        margin: 0;
-        padding: 0;
-        position: fixed;
-        background: url(img/256472.jpg);
-        
-    } */
 }

@@ -46,14 +46,12 @@ function create(event) {
             onAuthStateChanged(auth, (user) => {
               if (user) {
 
-
+                
                // Pushing data in firestore--------------------------------------          
 try {
   console.log("entered firestore code");
   const docRef =setDoc(doc(fs, "users", user.uid), {
-      admin: false,
-    // state: "CA",
-    // country: "USA"
+      // admin: false
   });
   console.log("Document written with ID: ", docRef.id);
 } catch (e) {
