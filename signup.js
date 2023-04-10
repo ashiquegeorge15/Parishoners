@@ -51,7 +51,7 @@ function create(event) {
 try {
   console.log("entered firestore code");
   const docRef =setDoc(doc(fs, "users", user.uid), {
-    //  name: "Los Angeles",
+      admin: false,
     // state: "CA",
     // country: "USA"
   });

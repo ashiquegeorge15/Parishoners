@@ -1,0 +1,234 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+
+* {
+    font-family: 'Raleway', sans-serif;
+    transition: 0.3s;
+    scroll-behavior: smooth;
+}
+
+
+.material-symbols-outlined {
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 48
+}
+
+.addbtndiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 45px;
+}
+
+
+body {
+    margin: 0;
+    background-image: url(img/crousel/wallpaperflare.com_wallpaper.jpg);
+    scroll-behavior: smooth;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+#churchLogo {
+    width: 25px;
+    margin-right: 10px;
+}
+
+/* name css */
+.name {
+    display: flex;
+    position: absolute;
+    top: 25px;
+    left: 40px;
+    font-size: 30px;
+    font-weight: bold;
+    align-items: normal;
+
+}
+
+
+.TopOptions {
+    display: flex;
+    height: 80px;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+
+.TopBar {
+    position: absolute;
+    /* top: 8px; */
+    right: 16px;
+    
+
+}
+
+.TopBar ul {
+    display: flex;
+    justify-content: space-between;
+    width: 350px;
+    align-items: center;
+    margin-right: 40px;
+    /* margin-top: 30px; */
+}
+
+.TopBar ul li {
+    list-style: none;
+}
+
+.TopBar a {
+    text-decoration: none;
+    color: black;
+    /* font-weight: bold; */
+    font-weight: 500;
+}
+
+.TopBar a:hover {
+    /* font-weight: bolder; */
+    /* font-size: 30px; */
+    animation: ease-in-out;
+    /* color: #3498DB; */
+}
+
+/* divider css */
+
+#divider {
+    height: 4px;
+    width: 60px;
+    border-radius: 5px;
+    background-color: rgb(163, 163, 163);
+}
+
+.mainContainer {
+    display: flex;
+    justify-content: center;
+}
+
+/* container css */
+.container {
+    max-width: 850px;
+    margin-top: 45px;
+    /* margin-right: 10%; */
+    height: auto;
+    border: 1px solid gray;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(6.5px);
+    -webkit-backdrop-filter: blur(6.5px);
+    border-radius: 10px;
+}
+
+.AnnouncmentContainer {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+/* .container{
+    width: 66%;
+} */
+
+.announcementslist{
+    list-style-type: none;
+}
+
+
+.title {
+    padding: 7px;
+    font-weight: bold;
+    /* background-color: rgb(170, 96, 255); */
+    font-size: 20px;
+    color: rgb(0, 0, 0);
+    text-align: center;
+}
+
+
+.content {
+    padding: 7px;
+    height: 100px;
+}
+
+.comment {
+    padding: 7px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.likebtn{
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap:10px
+}
+
+.commentbtn{
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap:10px
+}
+
+
+.sharebtn{
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap:10px;
+}
+
+
+/* #commentBox {
+    width: 94%;
+    height: 45px;
+    /* border-radius: 5px */
+   /* border: 1px solid gray;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    padding-left: 7px;
+}*/
+
+
+/*#postBtn {
+    width: 5%;
+    height: auto;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-style: none;
+    font-size: 15px;
+    background-color: rgb(170, 96, 255);
+} */
+
+
+
+
+/* seperator */
+.seperator {
+    margin: 0;
+}
+
+
+
+#readMore {
+    width: 100%;
+    height: 45px;
+    border: none;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+
+#readMore:hover {
+    background-color: #3498DB;
+    color: white;
+}

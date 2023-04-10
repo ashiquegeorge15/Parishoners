@@ -3,6 +3,10 @@
     "development"
   ],
   "hints": {
-    "axe/forms": "off"
+    "axe/forms": "off",
+    "axe/parsing": "off",
+    "axe/name-role-value": "off",
+    "axe/structure": "off",
+    "button-type": "off"
   }
 }
