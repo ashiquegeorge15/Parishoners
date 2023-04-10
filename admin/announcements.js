@@ -70,15 +70,6 @@ const time=`${hh}:${mi}`;
 
 //console.log(date+" "+time);
 
-function delAnn(){
-  
-  // remove(ref(db,"Announcements/"+id))
-  alert("delete permanently");
- console.log("function called ");
-  
-  
-}
-
 function insert(){
   if(annTitle.value==""||annBody.value==""){
     document.querySelector('#annTitle').placeholder="Insert Title Please!";
@@ -198,7 +189,7 @@ var myList = document.getElementById("myList");
 // Create a new <li> element
 listItem = document.createElement("li");
 listItem.classList.add("announcementslist");
-listItem.id=childKey;
+//listItem.id=childKey;
 // Create a new <div> element
 var innerDiv = document.createElement("div");
 innerDiv.classList.add("container");
@@ -221,7 +212,9 @@ var delBtn=document.createElement("input");
   // delBtn.innerHTML="Delete";
   delBtn.type="button";
   delBtn.value="delete";
-  delBtn.onclick="delAnn(childKey)";
+  delBtn.id=childKey;
+  // delBtn.classList.add("btn btn-primary btn-sm");
+  //delBtn.onclick="delAnn(childKey)";
   
   
   
@@ -243,6 +236,16 @@ var dtP=document.createElement("p");
 innerDiv.appendChild(titleDiv);
   titleDiv.appendChild(titleP);
   titleDiv.appendChild(delBtn);
+
+  // Call delete function on click of button
+  delBtn.addEventListener('click', function() {
+    //this.parentElement.remove();
+    // console.log("DELETE called");
+    alert("You sure to delete "+Title+"?");
+    const del=remove(ref(db, 'Announcements/'+this.id));
+    alert(del);
+    window.location.reload();
+  })
   // titleDelDiv.appendChild(delBtn);
   titleP.textContent=Title;
 
