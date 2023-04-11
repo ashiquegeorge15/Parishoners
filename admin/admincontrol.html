@@ -40,47 +40,148 @@
           <li><a href="#">About</a></li>
           <li><a href="#">Contact</a></li>
           <li><a href="#">Login</a></li>
-          
         </ul>
       </div>
     </div>
 
+    <!-- <div class="searchbox">
+      <input
+        type="search"
+        name="usersearch"
+        id="usersearch"
+        placeholder="Search..."
+      />
+      <button class="btn btn-primary" id="searchbtn" type="submit">Go</button>
+    </div> -->
 
-    <div class="searchbox">
-      <input type="search" name="usersearch" id="usersearch" placeholder="Search...">
-    </div>
-    
     <!-- usercards -->
-    <div class="users">
-      <div class="one">
-        <img class="userpic" src="img/image.png" alt="" />
-        <p style="vertical-align: middle;">Peter Griffins</p>
+    <div class="row">
+      <div class="col">
+        <h4 class="labels">Users</h4>
+        <ul class="userlist" id="userlist">
+          <!-- <li>
+            <div class="users">
+              <div class="one">
+                <img class="userpic" src="img/icon/defaultPic.png" alt="" />
+                <p style="vertical-align: middle">Peter Griffins</p>
+              </div>
+              <div class="two">
+                <button class="btn btn-primary" id="mkadminbtn" type="submit">
+                  Make admin
+                </button>
+                <button class="btn btn-primary" id="editbtn" type="submit">
+                  Edit
+                </button>
+                <button
+                  class="btn btn-danger"
+                  id="delbtn"
+                  type="submit"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </li> -->
+        </ul>
       </div>
-      <div class="two">
-        <button class="btn btn-primary" id="mkadminbtn" type="submit">Make admin</button>
-        <button class="btn btn-primary" id="editbtn"type="submit">Edit</button>
-        <button class="btn btn-primary" id="delbtn"type="submit" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button>
+
+      <div class="col">
+        <h4 class="labels">Admins</h4>
+        <ul class="adminlist" id="adminlist">
+          <!-- <li>
+            <div class="admins">
+              <div class="one">
+                <img class="userpic" src="img/icon/defaultPic.png" alt="" />
+                <p style="vertical-align: middle">Peter Griffins</p>
+              </div>
+              <div class="two">
+                <button
+                  class="btn btn-danger"
+                  id="delbtn"
+                  type="submit"
+                  data-bs-toggle="modal"
+                  data-bs-target="#removeadminmodal"
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+          </li> -->
+        </ul>
       </div>
     </div>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Are you sure?</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Delete</button>
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              Are you sure?
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Delete</button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-    
+    <div
+      class="modal fade"
+      id="removeadminmodal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">
+              Remove admin?
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-danger">Remove</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-
+    <script type="module" src="admincontrol.js"></script>
   </body>
 </html>

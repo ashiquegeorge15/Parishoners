@@ -1,8 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-analytics.js";
-import { getAuth,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
-import { getFirestore,doc,setDoc,getDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+import { getAuth,onAuthStateChanged,deleteUser} from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
+import { getFirestore,doc,setDoc,getDoc,deleteDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -26,9 +26,8 @@ const fs = getFirestore(app);
 
 console.log("script loaded");
 
-function create(event) {
-
-  // Getting user details ---------------------
+async function create() {
+  // Getting fetails from user---------------------
   const name=document.getElementById("uname").value;
   console.log(name);
   var x = document.getElementById("ugender");
@@ -118,7 +117,7 @@ async function disp(){
         // User is signed out
         // ...
         console.log("User not logged in---------------------")
-        window.location.href = "../loginnew.html";
+        window.location.href = "../login.html";
       }
     });
 }
@@ -127,9 +126,89 @@ function logout(event){
   event.preventDefault();
   alert("Are you sure to logout?");
   auth.signOut();
-  window.location.href = "../loginnew.html";
+  window.location.href = "../login.html";
+}
+
+//deleting profile data
+delAccBtn.addEventListener('click',async (d)=>{
+  // getting user Id from authentication
+  const user = auth.currentUser;
+
+
+  var con=confirm("are you sure to delete "+user.email);
+  if(con==true){
+
+
+
+ // Getting user details ---------------------
+ const name=document.getElementById("uname").value;
+ console.log(name);
+ var x = document.getElementById("ugender");
+ var i = x.selectedIndex;
+ var gender = x.options[i].text;
+ console.log(gender);
+ const phno=document.getElementById("uphno").value;
+ console.log(phno);
+ const address=document.getElementById("uaddress").value;
+ console.log(address);
+ const dob=document.getElementById("udob").value;
+ console.log(dob);
+
+ await deleteDoc(doc(fs,"users",user.uid));
+
+     //Delete account from Firebase authentication
+     deleteUser(user).then(() => {
+      // User deleted.
+      alert("user deleted");
+    }).catch((error) => {
+      // An error ocurred
+      // ...
+      alert("user not deleted");
+    });
+
+  }
+});
+
+async function data(){
+  
+  // Getting Details from Firestore
+  const docRef = doc(fs, "users", auth.currentUser.uid);
+const docSnap = await getDoc(docRef);
+
+if (docSnap.exists()) {
+  console.log("Document data:", docSnap.data());
+  document.getElementById("uname").value=docSnap.data().name
+  switch(docSnap.data().gender){
+  case "Choose...":
+  document.getElementById("ugender").value="selected";
+  break;
+  case "Prefer not to say":
+  document.getElementById("ugender").value="1";
+  break;
+  case "Male":
+  document.getElementById("ugender").value="2";
+  break;
+  case "Female":
+  document.getElementById("ugender").value="3";
+  break;}
+  document.getElementById("uaddress").value=docSnap.data().address
+  document.getElementById("udob").value=docSnap.data().dob
+  document.getElementById("uphno").value=docSnap.data().phno
+  
+  console.log(docSnap.data().name+"-----------------")
+ 
+}else {
+  // docSnap.data() will be undefined in this case
+  console.log("No such document!");
+}
+}
+
+function admincontrol(){
+  window.location.href="admincontrol.html";
 }
 
 document.getElementById("Save").addEventListener("click", create);
 document.getElementById("logout").addEventListener("click", logout);
+document.getElementById("editProfile").addEventListener("click", data);
+document.getElementById("admincontrol").addEventListener("click", admincontrol);
 window.onload=disp();

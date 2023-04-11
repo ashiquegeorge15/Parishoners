@@ -26,9 +26,8 @@ const fs = getFirestore(app);
 
 console.log("script loaded");
 
-function create(event) {
-
-  // Getting user details ---------------------
+async function create() {
+  // Getting fetails from user---------------------
   const name=document.getElementById("uname").value;
   console.log(name);
   var x = document.getElementById("ugender");
@@ -170,6 +169,41 @@ delAccBtn.addEventListener('click',async (d)=>{
   }
 });
 
+async function data(){
+  
+  // Getting Details from Firestore
+  const docRef = doc(fs, "users", auth.currentUser.uid);
+const docSnap = await getDoc(docRef);
+
+if (docSnap.exists()) {
+  console.log("Document data:", docSnap.data());
+  document.getElementById("uname").value=docSnap.data().name
+  switch(docSnap.data().gender){
+  case "Choose...":
+  document.getElementById("ugender").value="selected";
+  break;
+  case "Prefer not to say":
+  document.getElementById("ugender").value="1";
+  break;
+  case "Male":
+  document.getElementById("ugender").value="2";
+  break;
+  case "Female":
+  document.getElementById("ugender").value="3";
+  break;}
+  document.getElementById("uaddress").value=docSnap.data().address
+  document.getElementById("udob").value=docSnap.data().dob
+  document.getElementById("uphno").value=docSnap.data().phno
+  
+  console.log(docSnap.data().name+"-----------------")
+ 
+}else {
+  // docSnap.data() will be undefined in this case
+  console.log("No such document!");
+}
+}
+
 document.getElementById("Save").addEventListener("click", create);
 document.getElementById("logout").addEventListener("click", logout);
+document.getElementById("editProfile").addEventListener("click", data);
 window.onload=disp();

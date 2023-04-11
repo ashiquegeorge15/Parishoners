@@ -1,66 +1,70 @@
-* {box-sizing: border-box;font-family: 'DM Sans', sans-serif;
+* {
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
   transition: 0.3s;
-  scroll-behavior: smooth;}
-ul {list-style-type: none;}
-body {margin: 0px;}
-#churchLogo{
-    width: 25px;
-    margin-right: 10px;
+  scroll-behavior: smooth;
+}
+ul {
+  list-style-type: none;
+}
+body {
+  margin: 0px;
+}
+#churchLogo {
+  width: 25px;
+  margin-right: 10px;
 }
 
 /* name css */
 .name {
-    display: flex;
-    position: absolute;
-    top: 25px;
-    left: 40px;
-    font-size: 30px;
-    font-weight: bold;
-
+  display: flex;
+  position: absolute;
+  top: 25px;
+  left: 40px;
+  font-size: 30px;
+  font-weight: bold;
 }
-
 
 .TopOptions {
-    display: flex;
-    margin-top: 75px;
+  display: flex;
+  margin-top: 75px;
 }
 
-
 .TopBar {
-    position: absolute;
-    top: 8px;
-    right: 16px;
+  position: absolute;
+  top: 8px;
+  right: 16px;
 }
 
 .TopBar ul {
-    display: flex;
-    justify-content: space-between;
-    width: 350px;
-    margin-right: 40px;
-    margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  width: 350px;
+  margin-right: 40px;
+  margin-top: 30px;
 }
 
 .TopBar ul li {
-    list-style: none;
+  list-style: none;
 }
 
 .TopBar a {
-    text-decoration: none;
-    color: black;
-    font-weight: bold;
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
 }
 
 .TopBar a:hover {
-    font-weight: bolder;
-    font-size: 30px;
-    animation: ease-in-out;
-    /* color: #3498DB; */
+  font-weight: bolder;
+  font-size: 30px;
+  animation: ease-in-out;
+  /* color: #3498DB; */
 }
 
 .month {
   padding: 70px 25px;
   width: 100%;
-  background: #3498DB;
+  background: #3498db;
   text-align: center;
 }
 
@@ -111,7 +115,7 @@ body {margin: 0px;}
   width: 13.6%;
   text-align: center;
   margin-bottom: 5px;
-  font-size:20px;
+  font-size: 20px;
   color: #777;
   height: 4rem;
 }
@@ -120,20 +124,31 @@ body {margin: 0px;}
   padding: 7px;
   /* background: #1abc9c; */
   border-radius: 20px;
-  border: 1px solid #3498DB;
-  color: #3498DB !important
+  border: 1px solid #3498db;
+  color: #3498db !important;
 }
 
 /* Add media queries for smaller screens */
-@media screen and (max-width:720px) {
-  .weekdays li, .days li {width: 13.1%;}
+@media screen and (max-width: 720px) {
+  .weekdays li,
+  .days li {
+    width: 13.1%;
+  }
 }
 
 @media screen and (max-width: 420px) {
-  .weekdays li, .days li {width: 12.5%;}
-  .days li .active {padding: 2px;}
+  .weekdays li,
+  .days li {
+    width: 12.5%;
+  }
+  .days li .active {
+    padding: 2px;
+  }
 }
 
 @media screen and (max-width: 290px) {
-  .weekdays li, .days li {width: 12.2%;}
+  .weekdays li,
+  .days li {
+    width: 12.2%;
+  }
 }

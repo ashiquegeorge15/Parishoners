@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Raleway&display=swap");
 
 * {
-  font-family: "Poppins", sans-serif;
+  font-family: "Inter", sans-serif;
   transition: 0.3s;
   scroll-behavior: smooth;
 }
@@ -24,7 +24,7 @@
 body {
   margin: 0;
   /* background-image: url(img/profilebg2.jpg); */
-  background-repeat: no-repeat;
+  background-repeat: repeat;
   background-size: cover;
   background-image: url(https://dl.dropbox.com/s/mpmu0gjtxv2x3fs/Webp.net-resizeimage%20%281%29.jpg?raw=1);
 }
@@ -53,7 +53,7 @@ body {
   display: flex;
   flex-direction: column;
   /* margin-left: 5rem; */
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(185, 182, 182, 0.25);
   box-shadow: 0 8px 32px 0 rgb(31 38 135 / 37%);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -127,10 +127,125 @@ body {
 
 .signuplink a{
   font-size: 15px;
+  color:aqua;
   text-decoration:none;
 }
 
 .signuplink span{
   color:white;
   font-size: 15px;
+}
+
+
+
+
+@media screen and (max-width:690px){
+  .w-100 {
+    height: 80vh;
+}
+
+.Sub-menu ul li a{
+  font-size: 25px;
+}
+}
+
+
+@media screen and (min-width:1040px) and (max-width:990px){
+  #email{
+    height: 40px;
+    width: 300px;
+    border: none;
+    background: rgba(255, 255, 255, 0.25);
+    margin-bottom: 20px;
+    border-radius: 5px;
+    font-size: 13px;
+    padding-left: 5px;
+  }
+}
+
+@media screen and (min-width:300px) and (max-width:415px){
+
+  .center-container {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+  }
+
+
+  #email {
+    height: 30px;
+    width: 240px;
+    border: none;
+    background: rgba(255, 255, 255, 0.25);
+    margin-bottom: 20px;
+    border-radius: 5px;
+    font-size: 13px;
+    padding-left: 5px;
+}
+
+
+#password{
+  height: 30px;
+  width: 240px;
+}
+
+.submitBtn{
+  width: 24px;
+}
+
+
+.btn .btn-primary{
+  width: 20%;
+}
+
+
+}
+
+@media screen and (min-width:200px) and (max-width:300px){
+  
+  #email {
+    height: 25px;
+    width: 180px;
+    border: none;
+    background: rgba(255, 255, 255, 0.25);
+    margin-bottom: 20px;
+    border-radius: 5px;
+    font-size: 13px;
+    padding-left: 5px;
+}
+
+
+.center-container {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+
+
+#password{
+  height: 25px;
+  width: 180px;
+}
+
+.submitBtn{
+  width: 24px;
+}
+
+
+.btn .btn-primary{
+  width: 20%;
+}
+
+
 }

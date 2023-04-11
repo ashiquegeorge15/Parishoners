@@ -27,7 +27,7 @@ sendPasswordResetEmail(auth, email)
 .then(() => {
 
     alert("reset password link sent");
-console.log("reset password link sent");
+// console.log("reset password link sent");
 window.location.href= "login.html";
 
 // Password reset email sent!
@@ -37,6 +37,9 @@ window.location.href= "login.html";
 .catch((error) => {
 const errorCode = error.code;
 const errorMessage = error.message;
+alert(errorMessage);
+console.log(errorMessage);
+console.log(errorCode);
 // ..
 });
 

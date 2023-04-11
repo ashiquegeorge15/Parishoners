@@ -33,9 +33,16 @@ function create(event) {
       var email =  document.getElementById("email").value;
       // var FamId = document.getElementById("famId").value;
       var password = document.getElementById("password").value;
-      //For new registration
+
+     
+     
+       
+        
+          
+      
       createUserWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
+       
         // Signed in 
         const user = userCredential.user;
         // console.log(user);
@@ -51,7 +58,11 @@ function create(event) {
 try {
   console.log("entered firestore code");
   const docRef =setDoc(doc(fs, "users", user.uid), {
-      // admin: false
+      name:"",
+      gender:"",
+      phno:"",
+      address:"",
+      dob:""
   });
   console.log("Document written with ID: ", docRef.id);
 } catch (e) {
