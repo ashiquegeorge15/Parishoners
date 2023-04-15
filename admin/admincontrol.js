@@ -2,7 +2,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-analytics.js";
 import { getAuth ,deleteUser} from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
-import { getFirestore, collection, query, where,deleteDoc, getDocs,doc} from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
+import { getFirestore, collection, query, where,deleteDoc, getDocs,doc, setDoc} from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -65,11 +65,11 @@ async function delUsr(id,name){
 async function load() {
     //Get all users
     const querySnapshot = await getDocs(collection(fs, "users"));
-    querySnapshot.forEach(async (doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        const uName=doc.data().name
-        var uId=doc.id
-        console.log(doc.data().name);
+    querySnapshot.forEach(async (i) => {
+        // i.data() is never undefined for query doc snapshots
+        const uName=i.data().name
+        var uId=i.id
+        console.log(i.data().name);
         console.log("---------");
 
         // CREATE LI ELEMENTS----------------------
@@ -107,36 +107,84 @@ async function load() {
                 delbtn.classList.add("btn")
                 delbtn.classList.add("btn-danger")
                 delbtn.style.marginRight="3px"
-                // delbtn.id="mkadminbtn"
+                delbtn.id="mkadminbtn"
                 delbtn.textContent="Delete"
-                delbtn.addEventListener('click', function(){delUsr(doc.id,doc.data().name)});
+                delbtn.addEventListener('click', function(){
+                  // delete user data from Firebase Firestore
+                  delUsr(doc.id,doc.data().name)
+                  //delete user from Firebase Authentication
+                
+                });
                 btnDiv.appendChild(delbtn)
+
+                // make/remove admin button
 
                 const mkadminbtn=document.createElement("button")
                 mkadminbtn.classList.add("btn")
                 mkadminbtn.classList.add("btn-primary")
-                // mkadminbtn.id="mkadminbtn"
+                mkadminbtn.id="mkadminbtn"
+                mkadminbtn.name=uId;
                 mkadminbtn.textContent="make Admin"
+                mkadminbtn.addEventListener('click', async function() {
+                  console.log("mkadmin pressed");
+
+                  // check if user is an admin or user
+                  if(this.id=="mkadminbtn"){
+                    console.log ('%c is not admin ', 'background: #222; color: #bada55')
+
+                    try { 
+
+                      console.log("entered firestore code");
+                      // console.log(this.name);
+                      
+                      await setDoc(doc(fs, "Admin", this.name), {
+                        name: ""
+                     });
+                      
+                      console.log("Document written to firestore");
+                    
+                    } catch (e) {
+                      const err=console.error("Error adding document: ", e);
+                      console.log(err+" is error");
+                      alert(err+" is error");
+                    }
+                    window.location.reload();
+
+                  }else{
+                    console.log ('%c '+this.name+' is an admin ', 'background: #222; color: #800080')
+                    // var con=confirm ('%c Remove '+this.name+' from admin?', 'background: #222; color: #bada55')
+
+                    // if(con){
+                    await deleteDoc(doc(fs,"Admin",this.name));
+                      window.location.reload();}
+
+                  // }
+                  // window.location.reload();
+                })
                 btnDiv.appendChild(mkadminbtn)
 
 
-        // Test if admin
+        // Test if user is admin
         const querySnapshot = await getDocs(collection(fs, "Admin"));
         var aId="";
         querySnapshot.forEach((doc) => {
          // doc.data() is never undefined for query doc snapshots
          aId=doc.id
+
+          if(aId==uId)
+          {
+            mkadminbtn.textContent="remove Admin"
+            mkadminbtn.id="rmvadminbtn"
+            adminList.appendChild(newNode);
+            aId="";
+            count=false
+            // return false
+          }else{
+            userList.appendChild(newNode);
+          }
             // console.log(doc.id);
             // console.log("*****");
         })
-
-        if(aId==uId)
-        {
-            mkadminbtn.textContent="remove Admin"
-            adminList.appendChild(newNode);
-        }else{
-            userList.appendChild(newNode);
-        }
 
     });
       

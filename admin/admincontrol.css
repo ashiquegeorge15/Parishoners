@@ -23,7 +23,8 @@
 
 body {
   margin: 0;
-  background-image: url(img/crousel/wallpaperflare.com_wallpaper.jpg);
+  /* background-image: url(img/crousel/wallpaperflare.com_wallpaper.jpg); */
+  /* background-image: url(https://dl.dropbox.com/s/mpmu0gjtxv2x3fs/Webp.net-resizeimage%20%281%29.jpg?raw=1); */
   scroll-behavior: smooth;
   background-repeat: no-repeat;
   background-attachment: fixed;

@@ -68,10 +68,11 @@ const fs=getFirestore(app);
         {
           alert("email not found!")
         window.location.href = "signup.html";
-        }
+        }else{
         // errorMessage
         console.log(errorMessage);
         alert(errorMessage);
+        }
       });		  		  
   });
   //----- End

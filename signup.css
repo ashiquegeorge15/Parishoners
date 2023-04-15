@@ -48,17 +48,18 @@ body {
   /* margin-right: 5rem;  */
   border-radius: 15px;
   padding-left: 3rem;
+  /* height: 100vh; */
   padding-right: 3rem;
   padding-bottom: 2.5rem;
   display: flex;
   flex-direction: column;
   /* margin-left: 5rem; */
-  background: rgba(185, 182, 182, 0.25);
+  background: rgba(255, 255, 255, 0.25);
   box-shadow: 0 8px 32px 0 rgb(31 38 135 / 37%);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  width: 400px;
 }
+
 
 .txtboxes{
   margin-top: 2rem;
@@ -203,6 +204,31 @@ body {
   width: 20%;
 }
 
+.container {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  margin-top: 45px;
+  /* margin-right: 5rem; */
+  border-radius: 15px;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  padding-bottom: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  /* margin-left: 5rem; */
+  /* background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgb(31 38 135 / 37%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px); */
+  /* width: 400px; */
+  backdrop-filter: none;
+  background: none;
+  box-shadow: none;
+  /* height: 100vh; */
+  
+}
+
 
 }
 
@@ -229,6 +255,30 @@ body {
   align-items: center;
   justify-content: center;
 
+}
+
+.container {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  margin-top: 45px;
+  /* margin-right: 5rem; */
+  border-radius: 15px;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  padding-bottom: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  /* margin-left: 5rem; */
+  /* background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgb(31 38 135 / 37%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px); */
+  /* width: 400px; */
+  backdrop-filter: none;
+  background: none;
+  box-shadow: none;
+  
 }
 
 

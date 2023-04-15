@@ -27,7 +27,8 @@ const fs = getFirestore(app);
 console.log("script loaded");
 
 async function create() {
-  // Getting fetails from user---------------------
+  // Getting details from user---------------------
+  console.log("create called--------------")
   const name=document.getElementById("uname").value;
   console.log(name);
   var x = document.getElementById("ugender");
@@ -48,19 +49,21 @@ console.log("user: "+user);
 // Uploading details to firestore--------------------------------
 
 try { 
+  console.log("try block")
   console.log("entered firestore code");
-  const docRef =setDoc(doc(fs, "users", user.uid), {
+  await setDoc(doc(fs, "users", user.uid), {
      name: name,
      gender: gender,
     phno: phno,
     address: address,
     dob: dob
   });
-  console.log("Document written with ID: ", docRef.id);
-// window.location.reload();
+  console.log("Document written to firestore");
+
 } catch (e) {
   const err=console.error("Error adding document: ", e);
   console.log(err+" is error");
+  alert(err+" is error");
 }
 window.location.reload();
 }
@@ -124,9 +127,10 @@ async function disp(){
 
 function logout(event){
   event.preventDefault();
-  alert("Are you sure to logout?");
+  const con=confirm("Are you sure to logout?");
+  if(con){
   auth.signOut();
-  window.location.href = "../login.html";
+  window.location.href = "../login.html";}
 }
 
 //deleting profile data
@@ -176,7 +180,7 @@ async function data(){
 const docSnap = await getDoc(docRef);
 
 if (docSnap.exists()) {
-  console.log("Document data:", docSnap.data());
+  // console.log("Document data:", docSnap.data());
   document.getElementById("uname").value=docSnap.data().name
   switch(docSnap.data().gender){
   case "Choose...":
@@ -203,7 +207,39 @@ if (docSnap.exists()) {
 }
 }
 
+async function delUsr(id,name){
+  var con=confirm("You sure to delete "+name+"?")
+  if(con==true)
+  {
+  console.log("delete called on "+name)
+  
+  // const name=name
+  // console.log(gender);
+  // var gender = gender
+  // console.log(gender);
+  // const phno=phno
+  // const address=document.getElementById("uaddress").value;
+  // const dob=dob
+
+
+await deleteDoc(doc(fs,"users",id));
+
+    //Delete account from Firebase authentication
+    deleteUser(user).then(() => {
+      // User deleted.
+      alert("user deleted");
+    }).catch((error) => {
+      // An error ocurred
+      // ...
+     console.log("user not deleted");
+    });
+
+      window.location.reload();}
+
+}
+
 document.getElementById("Save").addEventListener("click", create);
 document.getElementById("logout").addEventListener("click", logout);
 document.getElementById("editProfile").addEventListener("click", data);
+document.getElementById("delAccBtn").addEventListener("click", delUsr);
 window.onload=disp();
