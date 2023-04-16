@@ -97,6 +97,11 @@ body {
 
 }
 
+.py-5 {
+  padding-top: 3rem!important;
+  padding-bottom: 0rem!important;
+}
+
 .line {
   width: 30px;
   background-color: #ffffffec;
@@ -202,6 +207,10 @@ body {
   animation: ease-in-out;
   background-color: #ddd;
   /* color: #3498DB; */
+}
+
+.my-5{
+  margin-bottom: 0rem!important;
 }
 
 /*container 2*/

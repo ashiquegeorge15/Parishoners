@@ -31,7 +31,7 @@ import { getDatabase, ref, set,get, update, remove,child,push, onChildAdded, onC
 
 //POST Announcement------------------------------------ADMIN ONLY
 const db=getDatabase();
-const postListRef = ref(db, 'Announcements/');
+const postListRef = ref(db, 'events/');
 const newPostRef = push(postListRef);
 
 var listItem
@@ -57,12 +57,12 @@ if(hh>12){
     hh=hh-12;
     if(hh<10)
     hh="0"+hh;
-    mi=mi+" PM";
+    mi=mi+"pm";
     // console.log(hh);
     // Time=hh+":"+mi;
   }
  }else{
-  mi= mi+" AM";
+  mi= mi+"am";
   // Time=hh+":"+mi;
  }
 const date=`${dd}/${mm}/${yy}`;
@@ -79,11 +79,11 @@ function insert(){
   else{
 set(newPostRef, {
   Title: annTitle.value,
-  Body: annBody.value,
+  Description: annBody.value,
   Date: date,
   Time: time
   }).then(()=>{
-  alert("Announcement posted!");
+  alert("Event posted!");
   window.location.reload();
   }).catch((error)=>{
   alert(error);
@@ -100,33 +100,33 @@ const dbref=ref(db);
 function test()
 {
   const db = getDatabase();
-const dbRef = ref(db, 'Announcements');
+const dbRef = ref(db, 'events');
 const auth = getAuth();
 
 const myList=document.getElementById("myList");
 
-var DD=0;
-var MM=0;
-var YY=0;
-var HH=0;
-var MI=0;
+// var DD=0;
+// var MM=0;
+// var YY=0;
+// var HH=0;
+// var MI=0;
 
-function low(dd,mm,yy,hh,mi){
-  myList.appendChild(listItem);
-  DD=dd;
-  MM=mm;
-  YY=yy;
-  HH=hh;
-  MI=mi;
-}
-function high(dd,mm,yy,hh,mi,listItem){
-  myList.insertBefore(listItem, myList.children[0]);
-  DD=dd;
-  MM=mm;
-  YY=yy;
-  HH=hh;
-  MI=mi;
-}
+// function low(dd,mm,yy,hh,mi){
+//   myList.appendChild(listItem);
+//   DD=dd;
+//   MM=mm;
+//   YY=yy;
+//   HH=hh;
+//   MI=mi;
+// }
+// function high(dd,mm,yy,hh,mi,listItem){
+//   myList.insertBefore(listItem, myList.children[0]);
+//   DD=dd;
+//   MM=mm;
+//   YY=yy;
+//   HH=hh;
+//   MI=mi;
+// }
 
 var i=1;//-----------------Test variable
 //code for SORTING records (Firebase) **** Didn't work
@@ -145,7 +145,7 @@ onValue(dbRef, (snapshot) => {
   snapshot.forEach((childSnapshot) => {
     const childKey = childSnapshot.key;
     const Title = childSnapshot.val().Title;
-    const Body = childSnapshot.val().Body;
+    const Body = childSnapshot.val().Description;
     const Date = childSnapshot.val().Date;
     let Time = childSnapshot.val().Time;
   //  console.log(childKey);
@@ -206,13 +206,13 @@ var titleP=document.createElement("p");
   // Set class of div to "dropdown"
   // titleDelDiv.classList.add("dropdown");
 //Create delete button
-var delBtn=document.createElement("input");
-  // Set class of button to "dropdown-item"
-  delBtn.classList.add("deletebtn");
-  // delBtn.innerHTML="Delete";
-  delBtn.type="button";
-  delBtn.value="Delete";
-  delBtn.id=childKey;
+// var delBtn=document.createElement("input");
+//   // Set class of button to "dropdown-item"
+//   delBtn.classList.add("deletebtn");
+//   // delBtn.innerHTML="Delete";
+//   delBtn.type="button";
+//   delBtn.value="Delete";
+//   delBtn.id=childKey;
 
   // delBtn.classList.add("btn btn-primary btn-sm");
   //delBtn.onclick="delAnn(childKey)";
@@ -236,17 +236,17 @@ var dtP=document.createElement("p");
 
 innerDiv.appendChild(titleDiv);
   titleDiv.appendChild(titleP);
-  titleDiv.appendChild(delBtn);
+  // titleDiv.appendChild(delBtn);
 
   // Call delete function on click of button
-  delBtn.addEventListener('click', function() {
-    //this.parentElement.remove();
-    // console.log("DELETE called");
-    alert("You sure to delete "+Title+"?");
-    const del=remove(ref(db, 'Announcements/'+this.id));
-    // alert(del);
-    window.location.reload();
-  })
+  // delBtn.addEventListener('click', function() {
+  //   //this.parentElement.remove();
+  //   // console.log("DELETE called");
+  //   alert("You sure to delete "+Title+"?");
+  //   const del=remove(ref(db, 'events/'+this.id));
+  //   // alert(del);
+  //   window.location.reload();
+  // })
   // titleDelDiv.appendChild(delBtn);
   titleP.textContent=Title;
 
@@ -265,54 +265,57 @@ innerDiv.appendChild(contentDiv);
 // Append the inner<div> element to the <li> element
 listItem.appendChild(innerDiv);
 
+//append latest event to list
+myList.appendChild(listItem);
+
 //SORT ACCORDING TO DATE AND TIME   *****------------------------- SORT
 
-if(myList.childNodes.length-11==0)//---- There are some extra 11 characters in length
-{
-// Append the <li> element to the <ul> element
-myList.appendChild(listItem);
-DD=dd;
-MM=mm;
-YY=yy;
-HH=hh;
-MI=mi;
-// console.log(DD);
-// console.log(MM);
-// console.log(YY);
-// console.log(HH);
-// console.log(MI);
+// if(myList.childNodes.length-11==0)//---- There are some extra 11 characters in length
+// {
+// // Append the <li> element to the <ul> element
+// myList.appendChild(listItem);
+// DD=dd;
+// MM=mm;
+// YY=yy;
+// HH=hh;
+// MI=mi;
+// // console.log(DD);
+// // console.log(MM);
+// // console.log(YY);
+// // console.log(HH);
+// // console.log(MI);
 
-}
+// }
 
-else
-{if(yy>YY){
-    high(dd,mm,yy,hh,mi,listItem);
-  }else if(yy==YY){if(mm>MM){
-    high(dd,mm,yy,hh,mi,listItem);
-    }else if(mm==MM){if(dd>DD){
-      high(dd,mm,yy,hh,mi,listItem);
-      }else if(dd==DD)
-      {if(hh>HH){
-        high(dd,mm,yy,hh,mi,listItem);
-        }else if(hh==HH){if(mi>=MI){
-          high(dd,mm,yy,hh,mi,listItem);
-          }else{
-            low(dd,mm,yy,hh,mi);
-          }
-        }else{
-          low(dd,mm,yy,hh,mi);
-        }
-      }else{
-        low(dd,mm,yy,hh,mi);
-      }
-    }else{
-      low(dd,mm,yy,hh,mi);
-    }
-  }else
-  {
+// else
+// {if(yy>YY){
+//     high(dd,mm,yy,hh,mi,listItem);
+//   }else if(yy==YY){if(mm>MM){
+//     high(dd,mm,yy,hh,mi,listItem);
+//     }else if(mm==MM){if(dd>DD){
+//       high(dd,mm,yy,hh,mi,listItem);
+//       }else if(dd==DD)
+//       {if(hh>HH){
+//         high(dd,mm,yy,hh,mi,listItem);
+//         }else if(hh==HH){if(mi>=MI){
+//           high(dd,mm,yy,hh,mi,listItem);
+//           }else{
+//             low(dd,mm,yy,hh,mi);
+//           }
+//         }else{
+//           low(dd,mm,yy,hh,mi);
+//         }
+//       }else{
+//         low(dd,mm,yy,hh,mi);
+//       }
+//     }else{
+//       low(dd,mm,yy,hh,mi);
+//     }
+//   }else
+//   {
 
-  }
-}
+//   }
+// }
 
 // console.log(listItem);
   });

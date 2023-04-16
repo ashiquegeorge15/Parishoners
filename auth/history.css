@@ -75,3 +75,68 @@ body {
   p{
     color: gray;
   }
+
+
+
+
+  @media screen and (max-width:730px) and (min-width:300px){
+    .TopOptions {
+      display: flex;
+      height: 40vh;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      
+  }
+
+
+  .TopBar ul {
+    display: flex;
+    /* justify-content: space-between; */
+    width: 400px;
+    margin: auto;
+    position: relative;
+    align-items: center;
+    margin-right: 40px;
+    justify-content: space-between;
+    /* flex-direction: column */
+  
+  }
+
+  .name{
+    display: none;
+  }
+
+
+  @media screen and (max-width:730px) and (min-width:300px){
+    
+  .TopBar ul {
+    display: flex;
+    /* justify-content: space-between; */
+    /* width: 400px; */
+    margin: auto;
+    padding: 0 auto 0 auto;
+    position: relative;
+    align-items: center;
+    margin-right: 40px;
+    justify-content: center;
+    flex-direction: column;
+    bottom: 30px;
+  
+  }
+
+  .TopOptions {
+    display: flex;
+    height: 35vh;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    
+}
+  }
+
+}

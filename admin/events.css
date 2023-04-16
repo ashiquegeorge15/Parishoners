@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
 
 * {
-    font-family: 'Inter', sans-serif;    
+    font-family: 'Inter', sans-serif;
     transition: 0.3s;
     scroll-behavior: smooth;
 }
@@ -22,17 +22,27 @@
     margin-top: 45px;
 }
 
+.deletebtn{
+    color: red;
+    border: 1px solid red;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    font-family: emoji;
+}
+
+.deletebtn:hover{
+    color: white;
+    background-color: red;
+}
 
 body {
     margin: 0;
-    /* background-image: url(img/crousel/wallpaperflare.com_wallpaper.jpg); */
-    background-image: url(https://dl.dropbox.com/s/mpmu0gjtxv2x3fs/Webp.net-resizeimage%20%281%29.jpg?raw=1);
+    background-image: url(img/crousel/wallpaperflare.com_wallpaper.jpg);
     scroll-behavior: smooth;
-    background-repeat: repeat;
+    background-repeat: no-repeat;
     background-attachment: fixed;
 }
 
-/* name css */
 #churchLogo {
     width: 25px;
     margin-right: 10px;
@@ -42,6 +52,7 @@ body {
 .name {
     display: flex;
     position: absolute;
+    top: 25px;
     left: 40px;
     font-size: 30px;
     font-weight: bold;
@@ -49,18 +60,10 @@ body {
 
 }
 
-.btn2 {
-    display: flex;
-    position: absolute;
-    margin: 30px 0 0 60px;
-}
-
 
 .TopOptions {
     display: flex;
-    position: sticky;
-    top: 0;
-    height: 70px;
+    height: 80px;
     align-items: center;
     background: rgba(255, 255, 255, 0.25);
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
@@ -73,8 +76,6 @@ body {
     position: absolute;
     /* top: 8px; */
     right: 16px;
-    
-
 }
 
 .TopBar ul {
@@ -83,7 +84,6 @@ body {
     width: 350px;
     align-items: center;
     margin-right: 40px;
-    margin-bottom: auto;
     /* margin-top: 30px; */
 }
 
@@ -143,13 +143,10 @@ body {
     width: 66%;
 } */
 
-.announcementslist {
+.announcementslist{
     list-style-type: none;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    padding: 30px 0 0 0;
 }
+
 
 .title {
     padding: 7px;
@@ -288,3 +285,4 @@ body {
     background-color: #3498DB;
     color: white;
 }
+

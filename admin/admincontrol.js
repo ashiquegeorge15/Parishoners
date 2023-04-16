@@ -1,8 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-analytics.js";
-import { getAuth ,deleteUser} from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
-import { getFirestore, collection, query, where,deleteDoc, getDocs,doc, setDoc} from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
+import { getAuth, deleteUser, onAuthStateChanged} from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
+import { getFirestore, collection, query, where,deleteDoc, getDoc, getDocs,doc, setDoc} from "https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore.js";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -63,6 +63,34 @@ async function delUsr(id,name){
 
 // List Users------------------------------------------------
 async function load() {
+
+  // Check if User is Admin
+  onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
+
+    // Check if user is Admin
+    const uid=user.uid
+    // console.log("user "+uid)
+
+    const docSnap = await getDoc(doc(fs,"Admin",uid));
+    if(docSnap.exists()) {
+      // console.log(docSnap.data());
+      console.log("User is Admin")
+    } else {
+      window.location.href="../auth/index.html"
+      console.log("Document does not exist")
+    }
+
+  } else {
+      // User is signed out
+      // ...
+      console.log("User not logged in---------------------")
+      window.location.href = "../index.html";
+    }
+  });
+
     //Get all users
     const querySnapshot = await getDocs(collection(fs, "users"));
     querySnapshot.forEach(async (i) => {

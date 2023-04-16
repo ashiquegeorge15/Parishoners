@@ -142,27 +142,53 @@ body {
 
 
 .container1 ul {
-    list-style: none;
-    display: flex;
-    justify-content: space-evenly;
-    padding: 20px 250px;
+  list-style: none;
+  display: flex;
+  justify-content: space-evenly;
+  padding: 20px 250px;
 }
+
+.container1-1 ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-evenly;
+  padding: 20px 250px;
+}
+/*  */
 
 .container1 ul li {
-    list-style: none;
-    text-transform: uppercase;
+  list-style: none;
+  text-transform: uppercase;
 }
 
+.container1-1 ul li {
+  list-style: none;
+  text-transform: uppercase;
+}
+/*  */
+
 .container1 a {
-    float: left;
-    text-align: center;
-    margin: 0;
-    padding: 30px 20px;
-    text-decoration: none;
-    font-size: 15px;
-    font-weight: bold;
-    transition: 0.3s;
-    color: black;
+  float: left;
+  text-align: center;
+  margin: 0;
+  padding: 30px 20px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: bold;
+  transition: 0.3s;
+  color: black;
+}
+
+.container1-1 a {
+  float: left;
+  text-align: center;
+  margin: 0;
+  padding: 30px 20px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: bold;
+  transition: 0.3s;
+  color: black;
 }
 
 .container1 a:hover {
@@ -171,6 +197,10 @@ body {
     animation: ease-in-out;
     background-color: #ddd;
     /* color: #3498DB; */
+}
+
+.container1-1{
+  display: none;
 }
 
 /*container 2*/
@@ -199,6 +229,10 @@ body {
     /* color: #3498DB; */
 }
 
+
+.my-5{
+  margin-bottom: 0rem!important;
+}
 
 /* Timings css */
 
@@ -713,6 +747,8 @@ body {
     font-weight: 500;
     font-size: 8px;
   }
+
+  
   
   .Sub-menu{
     /* display:none; */

@@ -2,7 +2,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-analytics.js";
 import { getAuth,onAuthStateChanged,deleteUser} from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
-import { getFirestore,doc,setDoc,getDoc,deleteDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+import { getFirestore,doc,setDoc,getDoc,deleteDoc,getDocs,collection } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -78,6 +78,38 @@ async function disp(){
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
         const uid = user.uid;
+
+        // test if user is admin
+        const querySnapshot = await getDocs(collection(fs, "Admin"));
+        var aId="";
+        var count=true
+        querySnapshot.forEach((doc) => {
+         // doc.data() is never undefined for query doc snapshots
+         aId=doc.id
+
+
+          if(aId==uid)
+          {
+            aId="";
+            // console.log(uid+' is admin')
+            count=false
+            // ccount=true
+            // return false
+          }
+
+
+            // console.log(doc.id);
+            // console.log("*****");
+        })
+        
+        // take to login page if not admin
+        if(count){
+          
+            auth.signOut();
+            window.location.href = "../login.html";
+          
+          // window.location.href="../login.html"
+        }
         // console.log(uid);
 
         // Getting data from firestore-------------------------

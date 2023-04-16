@@ -17,6 +17,17 @@
   margin-top: 45px;
 }
 
+
+.btn2{
+  display: flex;
+  position: relative;
+  /* left: 50px; */
+  float: right;
+  right: 40px;
+  top: 20px;
+}
+
+
 .addbtn {
   border-radius: 10px;
 }
@@ -177,6 +188,11 @@ body {
 
   }
 
+  .btn2{
+    top: 70vh;
+    right: 20vh;
+  }
+  
 
   #email {
     height: 30px;

@@ -21,6 +21,15 @@
   border-radius: 10px;
 }
 
+ .btn2{
+  display: flex;
+  position: relative;
+  /* left: 50px; */
+  float: right;
+  right: 40px;
+  top: 20px;
+}
+
 body {
   margin: 0;
   /* background-image: url(img/profilebg2.jpg); */
@@ -180,6 +189,9 @@ body {
     padding-left: 5px;
   }
 
+
+
+
   #email {
     height: 30px;
     width: 240px;
@@ -248,6 +260,11 @@ body {
 }
 
 
+.btn2{
+  top: 70vh;
+  right: 20vh;
+}
+
 #pass{
   height: 25px;
   width: 180px;
@@ -285,5 +302,6 @@ body {
   box-shadow: none;
   
 }
+
 
 }

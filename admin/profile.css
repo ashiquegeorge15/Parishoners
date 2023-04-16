@@ -156,3 +156,16 @@ body {
   border-radius: 5px;
   background: rgba(255, 255, 255, 0.25);
 }
+
+
+@media screen and (max-width:700px) and (min-width:200px){
+  .center-container {
+    position: absolute;
+    /* top: 50%; */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+}
