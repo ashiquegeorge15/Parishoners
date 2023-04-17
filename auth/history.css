@@ -1,10 +1,16 @@
 body {
-    margin: 0;
+    /* margin: 90px 0px 0px 0px; */
     /* background-image: url(img/profilebg2.jpg); */
     background-repeat: no-repeat;
     /* background-image: url(https://dl.dropbox.com/s/mpmu0gjtxv2x3fs/Webp.net-resizeimage%20%281%29.jpg?raw=1); */
     background-size: cover;
   }
+
+  /* profile piuc css */
+.profilepicclass a img{
+  width: 30px;
+  border-radius: 50%;
+}
   
   /* name css */
   #churchLogo {
@@ -22,6 +28,13 @@ body {
     align-items: normal;
     color: gray;
   }
+
+  .btn2 {
+    display: flex;
+    position: absolute;
+    margin: 30px 0 0 60px;
+}
+
   
   .TopOptions {
     display: flex;
@@ -91,6 +104,18 @@ body {
       
   }
 
+  .btn2 {
+    display: flex;
+    position: absolute;
+    margin: -58px 0 0 40px;
+}
+
+/* .body{
+  margin: 90px 0px 0px 0px;
+} */
+
+
+
 
   .TopBar ul {
     display: flex;
@@ -139,4 +164,17 @@ body {
 }
   }
 
+}
+
+
+@media screen and (max-width:1520px) and (min-width:730px){
+  body{
+    /* margin: 0;  */
+  }
+
+  .btn2 {
+    display: flex;
+    position: absolute;
+    margin: -56px 0 0 40px;
+}
 }

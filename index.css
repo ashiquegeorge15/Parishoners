@@ -17,7 +17,7 @@ body {
 
 .profilepicclass a img {
   width: 35px;
-  border-radius: 5px;
+  border-radius: 50%;
 }
 
 /* profile pic css */
@@ -183,7 +183,7 @@ body {
   padding: 30px 20px;
   text-decoration: none;
   font-size: 15px;
-  font-weight: bold;
+  /* font-weight: bold; */
   transition: 0.3s;
   color: black;
 }
@@ -202,11 +202,12 @@ body {
 /*  */
 
 .container1 a:hover {
-  font-weight: bolder;
-  font-size: 20px;
-  animation: ease-in-out;
-  background-color: #ddd;
-  /* color: #3498DB; */
+  border-radius:10px;
+    font-weight: bolder;
+    font-size: 20px;
+    animation: ease-in-out;
+    background-color: #ddd;
+    /* color: #3498DB; */
 }
 
 .my-5{
@@ -529,7 +530,7 @@ body {
     position: absolute;
     top: 8px;
     color: black;
-    font-weight: 500;
+    font-weight: 600;
   }
 
   
@@ -587,7 +588,7 @@ body {
     position: absolute;
     top: 8px;
     color: black;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 8px;
   }
 
@@ -662,7 +663,7 @@ body {
     position: absolute;
     top: 8px;
     color: black;
-    font-weight: 500;
+    font-weight: 600;
   }
 
   .Sub-menu ul li a{
@@ -737,7 +738,7 @@ body {
   position: absolute;
   top: 8px;
   color: black;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 8px;
 }
 
@@ -808,7 +809,7 @@ body {
     flex-direction: column;
     position: absolute;
     align-items: center;
-    top: 46%;
+    top: 35%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 20px;
@@ -821,6 +822,10 @@ body {
     -webkit-backdrop-filter: blur(8px);
     border-radius: 10px;
   }
+
+  .w-100 {
+    height: 60vh;
+}
 
   #ClogoImg {
     width: 100px;
@@ -843,7 +848,7 @@ body {
   position: absolute;
   top: 8px;
   color: black;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 
@@ -931,8 +936,13 @@ p{
   }
 
   .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
-    height: 125vh;
+    height: 75vh;
   }
+
+  .py-5{
+    padding-top: 0rem!important;
+  }
+
   
 }
 
@@ -945,7 +955,7 @@ p{
     flex-direction: column;
     position: absolute;
     align-items: center;
-    top: 46%;
+    top: 35%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 17px;
@@ -961,6 +971,10 @@ p{
 
   #ClogoImg {
     width: 100px;
+}
+
+.w-100 {
+  height: 60vh;
 }
 
   .container1-1 ul {
@@ -1019,7 +1033,7 @@ p{
   position: absolute;
   top: 8px;
   color: black;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .Sub-menu ul li a{
@@ -1072,7 +1086,7 @@ p{
 }
 
 .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
-  height: 125vh;
+  height: 84vh;
 }
 
 }

@@ -38,8 +38,8 @@ const fs=getFirestore(app);
         // Signed in 
         const user = userCredential.user;
         // console.log(user);
-        alert(user.email+" Login successful!");
-        //document.getElementById('logout').style.display = 'block';
+        // alert(user.email+" Login successful!");
+        // document.getElementById('logout').style.display = 'block';
         const querySnapshot = await getDocs(collection(fs, "Admin"));
         var aId="";
         querySnapshot.forEach((doc) => {

@@ -4,6 +4,22 @@
     font-family: 'Inter', sans-serif;    
     transition: 0.3s;
     scroll-behavior: smooth;
+    color:white;
+}
+
+/* profile piuc css */
+.profilepicclass a img{
+    width: 30px;
+    border-radius: 50%;
+  }
+
+p{
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font: 30px;
 }
 
 
@@ -24,12 +40,12 @@
 
 
 body {
-    margin: 0;
     /* background-image: url(img/crousel/wallpaperflare.com_wallpaper.jpg); */
     background-image: url(https://dl.dropbox.com/s/mpmu0gjtxv2x3fs/Webp.net-resizeimage%20%281%29.jpg?raw=1);
     scroll-behavior: smooth;
     background-repeat: repeat;
     background-attachment: fixed;
+    margin: 0px;
 }
 
 /* name css */
@@ -93,7 +109,7 @@ body {
 
 .TopBar a {
     text-decoration: none;
-    color: black;
+    color: white;
     /* font-weight: bold; */
     font-weight: 500;
 }
@@ -137,6 +153,11 @@ body {
 .AnnouncmentContainer {
     display: flex;
     flex-direction: column-reverse;
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* .container{
@@ -149,6 +170,7 @@ body {
     flex-direction: column;
     position: relative;
     padding: 30px 0 0 0;
+    z-index: -10;
 }
 
 .title {
@@ -287,4 +309,56 @@ body {
 #readMore:hover {
     background-color: #3498DB;
     color: white;
+}
+
+
+@media screen and (max-width:612px) and (min-width:200px){
+    .announcementslist {
+        list-style-type: none;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        padding: 30px 0 0 0;
+
+    }
+    
+    .title {
+        padding: 7px;
+        font-weight: bold;
+        /* background-color: rgb(170, 96, 255); */
+        font-size: 20px;
+        color: rgb(0, 0, 0);
+        text-align: center;
+    }
+    
+    .content {
+        padding: 7px;
+        height: 100px;
+    }
+
+    .container {
+        width: 850px;
+        margin-top: 45px;
+        /* margin-right: 10%; */
+        height: auto;
+        border: 1px solid gray;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.25);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(6.5px);
+        -webkit-backdrop-filter: blur(6.5px);
+        border-radius: 10px;
+    }
+    
+    .AnnouncmentContainer {
+        display: flex;
+        flex-direction: column-reverse;
+        margin: 0px;
+        padding: 0px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    
 }

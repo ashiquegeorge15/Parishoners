@@ -79,7 +79,7 @@ try {
 });
 
 
-        alert("Registered successfully!!");
+        // alert("Registered successfully!!");
         
 
         //Redirect to ------"auth/index.html"

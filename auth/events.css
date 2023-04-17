@@ -4,7 +4,14 @@
     font-family: 'Inter', sans-serif;
     transition: 0.3s;
     scroll-behavior: smooth;
+    color:white;
 }
+
+/* profile piuc css */
+.profilepicclass a img{
+    width: 30px;
+    border-radius: 50%;
+  }
 
 
 .material-symbols-outlined {
@@ -35,12 +42,14 @@
     background-color: red;
 }
 
+
 body {
-    margin: 0;
-    background-image: url(img/crousel/wallpaperflare.com_wallpaper.jpg);
+    /* background-image: url(img/crousel/wallpaperflare.com_wallpaper.jpg); */
+    background-image: url(https://dl.dropbox.com/s/mpmu0gjtxv2x3fs/Webp.net-resizeimage%20%281%29.jpg?raw=1);
     scroll-behavior: smooth;
-    background-repeat: no-repeat;
+    background-repeat: repeat;
     background-attachment: fixed;
+    margin: 0px;
 }
 
 #churchLogo {
@@ -52,13 +61,20 @@ body {
 .name {
     display: flex;
     position: absolute;
-    top: 25px;
+    /* top: 25px; */
     left: 40px;
     font-size: 30px;
     font-weight: bold;
     align-items: normal;
 
 }
+
+.btn2 {
+    display: flex;
+    position: absolute;
+    margin: 30px 0 0 60px;
+}
+
 
 
 .TopOptions {
@@ -79,6 +95,7 @@ body {
 }
 
 .TopBar ul {
+    padding-top:12px;
     display: flex;
     justify-content: space-between;
     width: 350px;
@@ -93,7 +110,7 @@ body {
 
 .TopBar a {
     text-decoration: none;
-    color: black;
+    color: white;
     /* font-weight: bold; */
     font-weight: 500;
 }
@@ -145,6 +162,11 @@ body {
 
 .announcementslist{
     list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 30px 0 0 0;
+    z-index: -10;
 }
 
 
@@ -153,7 +175,7 @@ body {
     font-weight: bold;
     /* background-color: rgb(170, 96, 255); */
     font-size: 20px;
-    color: rgb(0, 0, 0);
+    color: white;
     text-align: center;
 }
 
@@ -195,28 +217,6 @@ body {
     align-items: center;
     gap:10px;
 }
-
-
-/* #commentBox {
-    width: 94%;
-    height: 45px;
-    /* border-radius: 5px */
-   /* border: 1px solid gray;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-    padding-left: 7px;
-}*/
-
-
-/*#postBtn {
-    width: 5%;
-    height: auto;
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-    border-style: none;
-    font-size: 15px;
-    background-color: rgb(170, 96, 255);
-} */
 
 
 

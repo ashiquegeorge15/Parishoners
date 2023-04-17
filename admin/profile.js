@@ -273,9 +273,17 @@ await deleteDoc(doc(fs,"users",id));
 
 }
 
+
+// function uploadImage(e){
+//   console.log(e.target.files);
+//   }
+
 document.getElementById("Save").addEventListener("click", create);
 document.getElementById("logout").addEventListener("click", logout);
 document.getElementById("editProfile").addEventListener("click", data);
 document.getElementById("admincontrol").addEventListener("click", admincontrol);
+// document.getElementById("imginp").onchange=uploadImage(event);
 document.getElementById("delAccBtn").addEventListener("click", delUsr);
 window.onload=disp();
+
+

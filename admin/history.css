@@ -1,0 +1,180 @@
+body {
+  /* margin: 90px 0px 0px 0px; */
+  /* background-image: url(img/profilebg2.jpg); */
+  background-repeat: no-repeat;
+  /* background-image: url(https://dl.dropbox.com/s/mpmu0gjtxv2x3fs/Webp.net-resizeimage%20%281%29.jpg?raw=1); */
+  background-size: cover;
+}
+
+/* profile piuc css */
+.profilepicclass a img{
+  width: 30px;
+  border-radius: 50%;
+}
+
+/* name css */
+#churchLogo {
+  width: 25px;
+  margin-right: 10px;
+}
+
+/* name css */
+.name {
+  display: flex;
+  position: absolute;
+  left: 40px;
+  font-size: 30px;
+  font-weight: bold;
+  align-items: normal;
+  color: gray;
+}
+
+.btn2 {
+  display: flex;
+  position: absolute;
+  margin: 30px 0 0 60px;
+}
+
+
+.TopOptions {
+  display: flex;
+  height: 80px;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.TopBar {
+  position: absolute;
+  /* top: 8px; */
+  right: 16px;
+  height: 35px;
+}
+
+.TopBar ul {
+  display: flex;
+  justify-content: space-between;
+  width: 400px;
+  align-items: center;
+  margin-right: 40px;
+  /* margin-top: 30px; */
+}
+
+.TopBar ul li {
+  list-style: none;
+}
+
+.TopBar a {
+  text-decoration: none;
+  color: gray;
+  /* font-weight: bold; */
+  font-weight: 500;
+}
+
+/* container css */
+.container{
+  margin-top: 40px;
+  width: 80%;
+  margin-left: auto;
+  margin-left: auto;
+}
+
+h2{
+  color: #3498db;
+}
+
+p{
+  color: gray;
+}
+
+
+
+
+@media screen and (max-width:730px) and (min-width:300px){
+  .TopOptions {
+    display: flex;
+    height: 40vh;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    
+}
+
+.btn2 {
+  display: flex;
+  position: absolute;
+  margin: -58px 0 0 40px;
+}
+
+/* .body{
+margin: 90px 0px 0px 0px;
+} */
+
+
+
+
+.TopBar ul {
+  display: flex;
+  /* justify-content: space-between; */
+  width: 400px;
+  margin: auto;
+  position: relative;
+  align-items: center;
+  margin-right: 40px;
+  justify-content: space-between;
+  /* flex-direction: column */
+
+}
+
+.name{
+  display: none;
+}
+
+
+@media screen and (max-width:730px) and (min-width:300px){
+  
+.TopBar ul {
+  display: flex;
+  /* justify-content: space-between; */
+  /* width: 400px; */
+  margin: auto;
+  padding: 0 auto 0 auto;
+  position: relative;
+  align-items: center;
+  margin-right: 40px;
+  justify-content: center;
+  flex-direction: column;
+  bottom: 30px;
+
+}
+
+.TopOptions {
+  display: flex;
+  height: 35vh;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  
+}
+}
+
+}
+
+
+@media screen and (max-width:1520px) and (min-width:730px){
+body{
+  /* margin: 0;  */
+}
+
+.btn2 {
+  display: flex;
+  position: absolute;
+  margin: -56px 0 0 40px;
+}
+}

@@ -23,7 +23,7 @@
   position: relative;
   /* left: 50px; */
   float: right;
-  right: 40px;
+  /* right: 40px; */
   top: 20px;
 }
 
@@ -35,8 +35,8 @@
 body {
   margin: 0;
   /* background-image: url(img/profilebg2.jpg); */
-  background-repeat: repeat;
-  background-size: cover;
+  background-repeat: no-repeat;
+  /* background-size: cover; */
   background-image: url(https://dl.dropbox.com/s/mpmu0gjtxv2x3fs/Webp.net-resizeimage%20%281%29.jpg?raw=1);
 }
 
@@ -149,6 +149,16 @@ body {
 }
 
 
+/* 
+@media screen and (max-width: 1140px) {
+  html,
+  body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+}
+
+ */
 
 
 @media screen and (max-width:690px){
@@ -188,10 +198,10 @@ body {
 
   }
 
-  .btn2{
+  /* .btn2{
     top: 70vh;
     right: 20vh;
-  }
+  } */
   
 
   #email {
@@ -311,6 +321,40 @@ body {
 
 .btn .btn-primary{
   width: 20%;
+}
+
+
+}
+
+@media screen and (max-width:500px) and (min-width:200px){
+  .center-container {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  margin-top: 45px;
+  /* margin-right: 5rem; */
+  border-radius: 15px;
+  padding-left: 3rem;
+  /* height: 100vh; */
+  padding-right: 3rem;
+  padding-bottom: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  /* margin-left: 5rem; */
+  background: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 
