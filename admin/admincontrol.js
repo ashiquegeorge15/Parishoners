@@ -46,6 +46,7 @@ async function delUsr(id,name){
  
 
  await deleteDoc(doc(fs,"users",id));
+ await deleteDoc(doc(fs,"Admin",id));
 
       //Delete account from Firebase authentication
       deleteUser(user).then(() => {
@@ -79,8 +80,19 @@ async function load() {
       // console.log(docSnap.data());
       console.log("User is Admin")
     } else {
-      window.location.href="../auth/index.html"
+
+      const snap = await getDoc(doc(fs,"users",uid));
+
+      if(snap.exists()) {
+
+        window.location.href="../auth/index.html"
+        // console.log(docSnap.data());
+        console.log("User is Admin")
+      } else {
+
+        window.location.href="../index.html"
       console.log("Document does not exist")
+      }
     }
 
   } else {
@@ -139,7 +151,7 @@ async function load() {
                 delbtn.textContent="Delete"
                 delbtn.addEventListener('click', function(){
                   // delete user data from Firebase Firestore
-                  delUsr(doc.id,doc.data().name)
+                  delUsr(i.id,i.data().name);
                   //delete user from Firebase Authentication
                 
                 });

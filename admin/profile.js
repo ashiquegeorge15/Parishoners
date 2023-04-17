@@ -159,9 +159,10 @@ async function disp(){
 
 function logout(event){
   event.preventDefault();
-  alert("Are you sure to logout?");
+  const con=confirm("Are you sure to logout?");
+  if(con){
   auth.signOut();
-  window.location.href = "../login.html";
+  window.location.href = "../login.html";}
 }
 
 //deleting profile data

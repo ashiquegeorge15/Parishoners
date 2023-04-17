@@ -11,6 +11,11 @@
       crossorigin="anonymous"
     />
     <title>St Thomas Church | Home</title>
+    <link
+    rel="icon"
+    href="img/logo/marthoma-seeklogo.svg"
+    type="image/x-icon"
+  />
     <link rel="stylesheet" media="" href="index.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -27,6 +32,22 @@
       integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
       crossorigin="anonymous"
     ></script>
+
+    <div class="splash" >
+      <h1 class="fade-in"> <img src="img/logo/marthoma-seeklogo.svg" alt=""> </h1>
+      <h1 class="fade-in" style="font-weight: bold;font-size:55px;">Parishoners</h1>
+      <p class="fade-in">Online community for Parish members</p>
+    </div>
+
+    <script>
+      const splash = document.querySelector('.splash');
+
+      document.addEventListener('DOMContentLoaded', (e)=>{
+        setTimeout(()=>{
+          splash.classList.add('display-none');
+        }, 2000);
+      })
+    </script>
 
     <div
       id="carouselExampleSlidesOnly"

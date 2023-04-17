@@ -88,11 +88,11 @@ body {
 }
 
 #pass{
+  color:white;
   height:40px;
   width:300px;
   border:none;
   background: rgba(255, 255, 255, 0.25);
-
   border-radius: 5px;
   font-size:13px;
   padding-left: 5px;
@@ -100,6 +100,7 @@ body {
 
 
 #email{
+  color:white;
   height:40px;
   width:300px;
   border:none;

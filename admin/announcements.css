@@ -4,7 +4,7 @@
     font-family: 'Inter', sans-serif;
     transition: 0.3s;
     scroll-behavior: smooth;
-    color:white;
+    /* color:white; */
 }
 
 /* profile piuc css */
@@ -68,7 +68,7 @@ body {
     font-size: 30px;
     font-weight: bold;
     align-items: normal;
-
+    color:white;
 }
 
 
@@ -88,6 +88,9 @@ body {
     margin: 0px 0 0 15px;
 }
 
+.btn2{
+    display: none;
+}
 
 
 .TopBar {
@@ -174,7 +177,7 @@ body {
     font-weight: bold;
     /* background-color: rgb(170, 96, 255); */
     font-size: 20px;
-    color: rgb(0, 0, 0);
+    color: white;
     text-align: center;
 }
 
@@ -182,9 +185,11 @@ body {
 .content {
     padding: 7px;
     height: 100px;
+    color:white
 }
 
 .comment {
+    color:white;
     padding: 7px;
     height: 50px;
     display: flex;
@@ -216,6 +221,9 @@ body {
     align-items: center;
     gap:10px;
 }
+
+
+
 
 
 /* #commentBox {
@@ -308,3 +316,60 @@ body {
 }
 
 
+@media screen and (max-width:740px) and (min-width:200px){
+    .TopOptions{
+        display: none;
+    }
+
+    .announcementslist {
+        list-style-type: none;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        padding: 30px 0 0 0;
+
+    }
+    
+    .title {
+        padding: 7px;
+        font-weight: bold;
+        /* background-color: rgb(170, 96, 255); */
+        font-size: 20px;
+        color: rgb(0, 0, 0);
+        text-align: center;
+    }
+    
+    .content {
+        padding: 7px;
+        height: 100px;
+    }
+
+    .container {
+        width: 850px;
+        margin-top: 45px;
+        /* margin-right: 10%; */
+        height: auto;
+        border: 1px solid gray;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.25);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(6.5px);
+        -webkit-backdrop-filter: blur(6.5px);
+        border-radius: 10px;
+    }
+    
+    .AnnouncmentContainer {
+        display: flex;
+        flex-direction: column-reverse;
+        margin: 0px;
+        padding: 0px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .btn2{
+        display: block;
+    }
+    
+}

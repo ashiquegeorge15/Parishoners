@@ -73,7 +73,7 @@ const time=`${hh}:${mi}`;
 function insert(){
   if(annTitle.value==""||annBody.value==""){
     document.querySelector('#annTitle').placeholder="Insert Title Please!";
-    document.querySelector('#annBody').placeholder="Insert contentDiv Please!";
+    document.querySelector('#annBody').placeholder="Insert Content Please!";
   }
 
   else{

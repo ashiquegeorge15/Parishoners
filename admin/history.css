@@ -8,8 +8,8 @@ body {
 
 /* profile piuc css */
 .profilepicclass a img{
-  width: 30px;
-  border-radius: 50%;
+width: 30px;
+border-radius: 50%;
 }
 
 /* name css */
@@ -33,6 +33,10 @@ body {
   display: flex;
   position: absolute;
   margin: 30px 0 0 60px;
+}
+
+.btn2{
+display: none;
 }
 
 
@@ -92,7 +96,7 @@ p{
 
 
 
-@media screen and (max-width:730px) and (min-width:300px){
+@media screen and (max-width:730px) and (min-width:200px){
   .TopOptions {
     display: flex;
     height: 40vh;
@@ -104,11 +108,11 @@ p{
     
 }
 
-.btn2 {
+/* .btn2 {
   display: flex;
   position: absolute;
   margin: -58px 0 0 40px;
-}
+} */
 
 /* .body{
 margin: 90px 0px 0px 0px;
@@ -137,6 +141,56 @@ margin: 90px 0px 0px 0px;
 
 @media screen and (max-width:730px) and (min-width:300px){
   
+/* .TopBar ul {
+  display: flex; */
+  /* justify-content: space-between; */
+  /* width: 400px; */
+  /* margin: auto;
+  padding: 0 auto 0 auto;
+  position: relative;
+  align-items: center;
+  margin-right: 40px;
+  justify-content: center;
+  flex-direction: column;
+  bottom: 30px;
+
+}
+
+.TopOptions {
+  display: flex;
+  height: 35vh;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  
+}
+}
+
+} */
+
+
+
+.TopOptions {
+height: 15vh;
+}
+
+}
+@media screen and (max-width:1520px) and (min-width:730px){
+body{
+  /* margin: 0;  */
+}
+
+/* .btn2 {
+  display: flex;
+  position: absolute;
+  margin: -56px 0 0 40px;
+} */
+}
+
+
+@media screen and (max-width:1530px) and (min-width:730px){
 .TopBar ul {
   display: flex;
   /* justify-content: space-between; */
@@ -167,14 +221,22 @@ margin: 90px 0px 0px 0px;
 }
 
 
-@media screen and (max-width:1520px) and (min-width:730px){
-body{
-  /* margin: 0;  */
+
+@media screen and (max-width:450px) and (min-width:200px){
+
+
+ .TopOptions{
+  height: 10vh;
+ }
+
+ .TopBar ul {
+  display: flex;
+  /* justify-content: space-between; */
+  font-size: 15px;
+  padding: 0px 0px 0px 97px;
+  /* flex-direction: column; */
 }
 
-.btn2 {
-  display: flex;
-  position: absolute;
-  margin: -56px 0 0 40px;
-}
+  
+  
 }

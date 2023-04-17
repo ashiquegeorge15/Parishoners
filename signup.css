@@ -91,6 +91,7 @@ body {
 }
 
 #password{
+  color:white;
   height:40px;
   width:300px;
   border:none;
@@ -102,6 +103,7 @@ body {
 
 
 #email{
+  color:white;
   height:40px;
   width:300px;
   border:none;

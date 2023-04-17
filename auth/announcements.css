@@ -221,6 +221,10 @@ body {
     gap:10px;
 }
 
+.btn2{
+    display: none;
+}
+
 
 /* #commentBox {
     width: 94%;
@@ -312,7 +316,11 @@ body {
 }
 
 
-@media screen and (max-width:612px) and (min-width:200px){
+@media screen and (max-width:740px) and (min-width:200px){
+    .TopOptions{
+        display: none;
+    }
+
     .announcementslist {
         list-style-type: none;
         display: flex;
@@ -358,6 +366,10 @@ body {
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+    
+    .btn2{
+        display: block;
     }
     
     
