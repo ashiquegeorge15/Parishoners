@@ -48,14 +48,15 @@ const fs=getFirestore(app);
         //  console.log("****"+aId)
          if(user.uid==aId){
           console.log("you are an admin")
-          window.location.href = "admin/index.html";
+          window.location.href = "/admin/index.html";
           trig=false
          }
             // console.log(doc.id);
             // console.log("*****");
         })
         if(trig){
-       window.location.href = "auth/index.html";}
+          window.location.href = "/auth/index.html";
+        }
         //alert(user.email+" Login successful!hjvjhvh");
         // ...
   })

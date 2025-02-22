@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Member</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Add New Member</h2>
+        <form id="memberForm" class="needs-validation" novalidate>
+            <div class="row g-3">
+                <!-- Personal Information -->
+                <div class="col-12">
+                    <h4>Personal Information</h4>
+                </div>
+                
+                <div class="col-md-6">
+                    <label for="name" class="form-label">Full Name</label>
+                    <input type="text" class="form-control" id="name" required>
+                </div>
+                
+                <div class="col-md-6">
+                    <label for="dob" class="form-label">Date of Birth</label>
+                    <input type="date" class="form-control" id="dob" required>
+                </div>
+                
+                <div class="col-md-6">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" required>
+                </div>
+                
+                <div class="col-md-6">
+                    <label for="phone" class="form-label">Phone</label>
+                    <input type="tel" class="form-control" id="phone" required>
+                </div>
+                
+                <div class="col-12">
+                    <label for="address" class="form-label">Address</label>
+                    <textarea class="form-control" id="address" rows="3" required></textarea>
+                </div>
+
+                <!-- Social Media Links -->
+                <div class="col-12 mt-4">
+                    <h4>Social Media</h4>
+                </div>
+                
+                <div class="col-md-4">
+                    <label for="facebook" class="form-label">Facebook</label>
+                    <input type="url" class="form-control" id="facebook">
+                </div>
+                
+                <div class="col-md-4">
+                    <label for="twitter" class="form-label">Twitter</label>
+                    <input type="url" class="form-control" id="twitter">
+                </div>
+                
+                <div class="col-md-4">
+                    <label for="instagram" class="form-label">Instagram</label>
+                    <input type="url" class="form-control" id="instagram">
+                </div>
+
+                <!-- Photo Upload -->
+                <div class="col-12 mt-4">
+                    <h4>Profile Photo</h4>
+                </div>
+                
+                <div class="col-12">
+                    <label for="photoURL" class="form-label">Photo URL</label>
+                    <input type="url" class="form-control" id="photoURL">
+                </div>
+
+                <div class="col-12 mt-4">
+                    <button type="submit" class="btn btn-primary">Add Member</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script type="module">
+        import { addMember } from './firebase-config.js';
+
+        document.getElementById('memberForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const memberData = {
+                name: document.getElementById('name').value,
+                dob: document.getElementById('dob').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                photoURL: document.getElementById('photoURL').value || '',
+                socialMedia: {
+                    facebook: document.getElementById('facebook').value || '',
+                    twitter: document.getElementById('twitter').value || '',
+                    instagram: document.getElementById('instagram').value || ''
+                },
+                membershipDate: new Date().toISOString().split('T')[0]
+            };
+
+            try {
+                await addMember(memberData);
+                alert('Member added successfully!');
+                e.target.reset();
+            } catch (error) {
+                alert('Error adding member: ' + error.message);
+            }
+        });
+    </script>
+</body>
+</html>
