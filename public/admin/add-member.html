@@ -3,110 +3,267 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Member</title>
+    <title>Members - St Thomas Church</title>
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../index.css">
+    
+    <style>
+        body {
+            padding-top: 60px;
+            background-color: #f5f5f5;
+            min-height: 100vh;
+        }
+
+        .members-header {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .members-header h1 {
+            margin: 0;
+            color: #333;
+            font-size: 2rem;
+        }
+
+        .table-container {
+            margin: 20px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            width: 95%;
+            max-width: 1400px;
+        }
+
+        .section-title {
+            color: #2c3e50;
+            margin: 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .users-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-bottom: 30px;
+        }
+
+        .users-table th {
+            background-color: #f8f9fa;
+            padding: 15px;
+            font-weight: 600;
+            color: #2c3e50;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .users-table td {
+            padding: 12px 15px;
+            vertical-align: middle;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .users-table tbody tr:hover {
+            background-color: #f8f9fa;
+            transition: background-color 0.2s ease;
+        }
+
+        .user-photo {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .actions {
+            white-space: nowrap;
+        }
+
+        .btn-sm {
+            padding: 5px 10px;
+            margin: 0 2px;
+            border-radius: 4px;
+            font-size: 0.875rem;
+        }
+
+        .admin-table thead th {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 20px;
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .table-container {
+                padding: 15px;
+                width: 98%;
+            }
+
+            .users-table {
+                font-size: 14px;
+            }
+
+            .user-photo {
+                width: 35px;
+                height: 35px;
+            }
+
+            .btn-sm {
+                padding: 4px 8px;
+                font-size: 0.75rem;
+            }
+
+            .section-title {
+                font-size: 1.25rem;
+            }
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            background-color: #1a237e !important;
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #fff !important;
+            padding: 0 15px;
+        }
+
+        .navbar-nav {
+            margin-left: 20px;
+        }
+
+        .nav-item {
+            margin: 0 5px;
+        }
+
+        .nav-link {
+            color: rgba(255,255,255,0.8) !important;
+            font-weight: 500;
+            padding: 8px 15px !important;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #fff !important;
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .nav-link.active {
+            color: #fff !important;
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        .navbar-toggler {
+            border: none;
+            padding: 8px;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+            outline: none;
+        }
+
+        .navbar-toggler-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 10px 0;
+            }
+
+            .navbar-brand {
+                font-size: 1.25rem;
+            }
+
+            .navbar-nav {
+                margin-left: 0;
+                padding: 10px 0;
+            }
+
+            .nav-item {
+                margin: 5px 0;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h2>Add New Member</h2>
-        <form id="memberForm" class="needs-validation" novalidate>
-            <div class="row g-3">
-                <!-- Personal Information -->
-                <div class="col-12">
-                    <h4>Personal Information</h4>
-                </div>
-                
-                <div class="col-md-6">
-                    <label for="name" class="form-label">Full Name</label>
-                    <input type="text" class="form-control" id="name" required>
-                </div>
-                
-                <div class="col-md-6">
-                    <label for="dob" class="form-label">Date of Birth</label>
-                    <input type="date" class="form-control" id="dob" required>
-                </div>
-                
-                <div class="col-md-6">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" required>
-                </div>
-                
-                <div class="col-md-6">
-                    <label for="phone" class="form-label">Phone</label>
-                    <input type="tel" class="form-control" id="phone" required>
-                </div>
-                
-                <div class="col-12">
-                    <label for="address" class="form-label">Address</label>
-                    <textarea class="form-control" id="address" rows="3" required></textarea>
-                </div>
-
-                <!-- Social Media Links -->
-                <div class="col-12 mt-4">
-                    <h4>Social Media</h4>
-                </div>
-                
-                <div class="col-md-4">
-                    <label for="facebook" class="form-label">Facebook</label>
-                    <input type="url" class="form-control" id="facebook">
-                </div>
-                
-                <div class="col-md-4">
-                    <label for="twitter" class="form-label">Twitter</label>
-                    <input type="url" class="form-control" id="twitter">
-                </div>
-                
-                <div class="col-md-4">
-                    <label for="instagram" class="form-label">Instagram</label>
-                    <input type="url" class="form-control" id="instagram">
-                </div>
-
-                <!-- Photo Upload -->
-                <div class="col-12 mt-4">
-                    <h4>Profile Photo</h4>
-                </div>
-                
-                <div class="col-12">
-                    <label for="photoURL" class="form-label">Photo URL</label>
-                    <input type="url" class="form-control" id="photoURL">
-                </div>
-
-                <div class="col-12 mt-4">
-                    <button type="submit" class="btn btn-primary">Add Member</button>
-                </div>
+    <!-- Updated Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-church me-2"></i>
+                St Thomas Church
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/index.html">
+                            <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/admin/add-member.htm">
+                            <i class="fas fa-users me-2"></i>Members
+                        </a>
+                    </li>
+                </ul>
+                <!-- Add Logout Button -->
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt me-2"></i>Logout
+                        </a>
+                    </li>
+                </ul>
             </div>
-        </form>
+        </div>
+    </nav>
+
+    <div class="members-header">
+        <h1>Parish Members Management</h1>
     </div>
 
-    <script type="module">
-        import { addMember } from './firebase-config.js';
+    <div class="members-container">
+        <!-- Tables will be dynamically inserted here -->
+    </div>
 
-        document.getElementById('memberForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const memberData = {
-                name: document.getElementById('name').value,
-                dob: document.getElementById('dob').value,
-                email: document.getElementById('email').value,
-                phone: document.getElementById('phone').value,
-                address: document.getElementById('address').value,
-                photoURL: document.getElementById('photoURL').value || '',
-                socialMedia: {
-                    facebook: document.getElementById('facebook').value || '',
-                    twitter: document.getElementById('twitter').value || '',
-                    instagram: document.getElementById('instagram').value || ''
-                },
-                membershipDate: new Date().toISOString().split('T')[0]
-            };
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
-            try {
-                await addMember(memberData);
-                alert('Member added successfully!');
-                e.target.reset();
-            } catch (error) {
-                alert('Error adding member: ' + error.message);
-            }
-        });
-    </script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="add-member.js"></script>
 </body>
-</html>
+</html> 
+</html> 
