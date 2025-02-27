@@ -1,494 +1,271 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-analytics.js";
-import { getAuth,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
-import { getFirestore,doc,setDoc,getDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+document.addEventListener('DOMContentLoaded', function() {
+  const currentDate = new Date();
+  let currentView = 'month';
+  let events = [];
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDyqAiultYZzwcoRfQhNKRiCG3DuEBEsd8",
-  authDomain: "backendlogsign.firebaseapp.com",
-  projectId: "backendlogsign",
-  storageBucket: "backendlogsign.appspot.com",
-  messagingSenderId: "1039275246750",
-  appId: "1:1039275246750:web:ee61d0b254a2697a3e278f",
-  measurementId: "G-C9R69XEVH7"
-};
+  const calendarGrid = document.getElementById('calendarGrid');
+  const currentDateElement = document.getElementById('currentDate');
+  const weekdaysHeader = document.getElementById('weekdaysHeader');
+  const miniCalendar = document.getElementById('miniCalendar');
+  const eventModal = document.getElementById('eventModal');
+  const eventForm = document.getElementById('eventForm');
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const auth = getAuth();
+  // Navigation buttons
+  document.getElementById('prevBtn').addEventListener('click', () => navigateMonth(-1));
+  document.getElementById('nextBtn').addEventListener('click', () => navigateMonth(1));
+  document.getElementById('todayBtn').addEventListener('click', goToToday);
 
-
-console.log("script loaded");
-
-
-
-
-
-
-
-const calendar = document.querySelector(".calendar"),
-  date = document.querySelector(".date"),
-  daysContainer = document.querySelector(".days"),
-  prev = document.querySelector(".prev"),
-  next = document.querySelector(".next"),
-  todayBtn = document.querySelector(".today-btn"),
-  gotoBtn = document.querySelector(".goto-btn"),
-  dateInput = document.querySelector(".date-input"),
-  eventDay = document.querySelector(".event-day"),
-  eventDate = document.querySelector(".event-date"),
-  eventsContainer = document.querySelector(".events"),
-  addEventBtn = document.querySelector(".add-event"),
-  addEventWrapper = document.querySelector(".add-event-wrapper "),
-  addEventCloseBtn = document.querySelector(".close "),
-  addEventTitle = document.querySelector(".event-name "),
-  addEventFrom = document.querySelector(".event-time-from "),
-  addEventTo = document.querySelector(".event-time-to "),
-  addEventSubmit = document.querySelector(".add-event-btn ");
-
-let today = new Date();
-let activeDay;
-let month = today.getMonth();
-let year = today.getFullYear();
-
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-
-
-
-const eventsArr = [];
-getEvents();
-console.log(eventsArr);
-
-//function to add days in days with class day and prev-date next-date on previous month and next month days and active on today
-function initCalendar() {
-  const firstDay = new Date(year, month, 1);
-  const lastDay = new Date(year, month + 1, 0);
-  const prevLastDay = new Date(year, month, 0);
-  const prevDays = prevLastDay.getDate();
-  const lastDate = lastDay.getDate();
-  const day = firstDay.getDay();
-  const nextDays = 7 - lastDay.getDay() - 1;
-
-  date.innerHTML = months[month] + " " + year;
-
-  let days = "";
-
-  for (let x = day; x > 0; x--) {
-    days += `<div class="day prev-date">${prevDays - x + 1}</div>`;
-  }
-
-  for (let i = 1; i <= lastDate; i++) {
-    //check if event is present on that day
-    let event = false;
-    eventsArr.forEach((eventObj) => {
-      if (
-        eventObj.day === i &&
-        eventObj.month === month + 1 &&
-        eventObj.year === year
-      ) {
-        event = true;
-      }
-    });
-    if (
-      i === new Date().getDate() &&
-      year === new Date().getFullYear() &&
-      month === new Date().getMonth()
-    ) {
-      activeDay = i;
-      getActiveDay(i);
-      updateEvents(i);
-      if (event) {
-        days += `<div class="day today active event">${i}</div>`;
-      } else {
-        days += `<div class="day today active">${i}</div>`;
-      }
-    } else {
-      if (event) {
-        days += `<div class="day event">${i}</div>`;
-      } else {
-        days += `<div class="day ">${i}</div>`;
-      }
-    }
-  }
-
-  for (let j = 1; j <= nextDays; j++) {
-    days += `<div class="day next-date">${j}</div>`;
-  }
-  daysContainer.innerHTML = days;
-  addListner();
-}
-
-//function to add month and year on prev and next button
-function prevMonth() {
-  month--;
-  if (month < 0) {
-    month = 11;
-    year--;
-  }
-  initCalendar();
-}
-
-function nextMonth() {
-  month++;
-  if (month > 11) {
-    month = 0;
-    year++;
-  }
-  initCalendar();
-}
-
-prev.addEventListener("click", prevMonth);
-next.addEventListener("click", nextMonth);
-
-initCalendar();
-
-//function to add active on day
-function addListner() {
-  const days = document.querySelectorAll(".day");
-  days.forEach((day) => {
-    day.addEventListener("click", (e) => {
-      getActiveDay(e.target.innerHTML);
-      updateEvents(Number(e.target.innerHTML));
-      activeDay = Number(e.target.innerHTML);
-      //remove active
-      days.forEach((day) => {
-        day.classList.remove("active");
-      });
-      //if clicked prev-date or next-date switch to that month
-      if (e.target.classList.contains("prev-date")) {
-        prevMonth();
-        //add active to clicked day afte month is change
-        setTimeout(() => {
-          //add active where no prev-date or next-date
-          const days = document.querySelectorAll(".day");
-          days.forEach((day) => {
-            if (
-              !day.classList.contains("prev-date") &&
-              day.innerHTML === e.target.innerHTML
-            ) {
-              day.classList.add("active");
-            }
-          });
-        }, 100);
-      } else if (e.target.classList.contains("next-date")) {
-        nextMonth();
-        //add active to clicked day afte month is changed
-        setTimeout(() => {
-          const days = document.querySelectorAll(".day");
-          days.forEach((day) => {
-            if (
-              !day.classList.contains("next-date") &&
-              day.innerHTML === e.target.innerHTML
-            ) {
-              day.classList.add("active");
-            }
-          });
-        }, 100);
-      } else {
-        e.target.classList.add("active");
-      }
-    });
+  // View options
+  document.querySelectorAll('.view-option').forEach(option => {
+      option.addEventListener('click', (e) => changeView(e.target.dataset.view));
   });
-}
 
-todayBtn.addEventListener("click", () => {
-  today = new Date();
-  month = today.getMonth();
-  year = today.getFullYear();
-  initCalendar();
-});
+  // Create event button
+  document.getElementById('createEventBtn').addEventListener('click', openEventModal);
 
-dateInput.addEventListener("input", (e) => {
-  dateInput.value = dateInput.value.replace(/[^0-9/]/g, "");
-  if (dateInput.value.length === 2) {
-    dateInput.value += "/";
-  }
-  if (dateInput.value.length > 7) {
-    dateInput.value = dateInput.value.slice(0, 7);
-  }
-  if (e.inputType === "deleteContentBackward") {
-    if (dateInput.value.length === 3) {
-      dateInput.value = dateInput.value.slice(0, 2);
-    }
-  }
-});
+  // Close modal
+  document.querySelector('.close').addEventListener('click', closeEventModal);
 
-gotoBtn.addEventListener("click", gotoDate);
+  // Event form submission
+  eventForm.addEventListener('submit', saveEvent);
 
-function gotoDate() {
-  console.log("here");
-  const dateArr = dateInput.value.split("/");
-  if (dateArr.length === 2) {
-    if (dateArr[0] > 0 && dateArr[0] < 13 && dateArr[1].length === 4) {
-      month = dateArr[0] - 1;
-      year = dateArr[1];
-      initCalendar();
-      return;
-    }
-  }
-  alert("Invalid Date");
-}
+  // Initialize calendar
+  updateCalendar();
 
-//function get active day day name and date and update eventday eventdate
-function getActiveDay(date) {
-  const day = new Date(year, month, date);
-  const dayName = day.toString().split(" ")[0];
-  eventDay.innerHTML = dayName;
-  eventDate.innerHTML = date + " " + months[month] + " " + year;
-}
+  function updateCalendar() {
+      currentDateElement.textContent = formatDate(currentDate, 'MMMM yyyy');
+      updateWeekdaysHeader();
+      clearCalendarGrid();
 
-//function update events when a day is active
-function updateEvents(date) {
-  let events = "";
-  eventsArr.forEach((event) => {
-    if (
-      date === event.day &&
-      month + 1 === event.month &&
-      year === event.year
-    ) {
-      event.events.forEach((event) => {
-        events += `<div class="event">
-            <div class="title">
-              <i class="fas fa-circle"></i>
-              <h3 class="event-title">${event.title}</h3>
-            </div>
-            <div class="event-time">
-              <span class="event-time">${event.time}</span>
-            </div>
-        </div>`;
-      });
-    }
-  });
-  if (events === "") {
-    events = `<div class="no-event">
-            <h3>No Events</h3>
-        </div>`;
-  }
-  eventsContainer.innerHTML = events;
-  saveEvents();
-}
-
-//function to add event
-addEventBtn.addEventListener("click", () => {
-  addEventWrapper.classList.toggle("active");
-});
-
-addEventCloseBtn.addEventListener("click", () => {
-  addEventWrapper.classList.remove("active");
-});
-
-document.addEventListener("click", (e) => {
-  if (e.target !== addEventBtn && !addEventWrapper.contains(e.target)) {
-    addEventWrapper.classList.remove("active");
-  }
-});
-
-//allow 50 chars in eventtitle
-addEventTitle.addEventListener("input", (e) => {
-  addEventTitle.value = addEventTitle.value.slice(0, 60);
-});
-
-function defineProperty() {
-  var osccred = document.createElement("div");
-  osccred.innerHTML =
-    "A Project By <a href='https://www.youtube.com/channel/UCiUtBDVaSmMGKxg1HYeK-BQ' target=_blank>Open Source Coding</a>";
-  osccred.style.position = "absolute";
-  osccred.style.bottom = "0";
-  osccred.style.right = "0";
-  osccred.style.fontSize = "10px";
-  osccred.style.color = "#ccc";
-  osccred.style.fontFamily = "sans-serif";
-  osccred.style.padding = "5px";
-  osccred.style.background = "#fff";
-  osccred.style.borderTopLeftRadius = "5px";
-  osccred.style.borderBottomRightRadius = "5px";
-  osccred.style.boxShadow = "0 0 5px #ccc";
-  document.body.appendChild(osccred);
-}
-
-defineProperty();
-
-//allow only time in eventtime from and to
-addEventFrom.addEventListener("input", (e) => {
-  addEventFrom.value = addEventFrom.value.replace(/[^0-9:]/g, "");
-  if (addEventFrom.value.length === 2) {
-    addEventFrom.value += ":";
-  }
-  if (addEventFrom.value.length > 5) {
-    addEventFrom.value = addEventFrom.value.slice(0, 5);
-  }
-});
-
-addEventTo.addEventListener("input", (e) => {
-  addEventTo.value = addEventTo.value.replace(/[^0-9:]/g, "");
-  if (addEventTo.value.length === 2) {
-    addEventTo.value += ":";
-  }
-  if (addEventTo.value.length > 5) {
-    addEventTo.value = addEventTo.value.slice(0, 5);
-  }
-});
-
-//function to add event to eventsArr
-addEventSubmit.addEventListener("click", () => {
-  const eventTitle = addEventTitle.value;
-  const eventTimeFrom = addEventFrom.value;
-  const eventTimeTo = addEventTo.value;
-  if (eventTitle === "" || eventTimeFrom === "" || eventTimeTo === "") {
-    alert("Please fill all the fields");
-    return;
-  }
-
-  //check correct time format 24 hour
-  const timeFromArr = eventTimeFrom.split(":");
-  const timeToArr = eventTimeTo.split(":");
-  if (
-    timeFromArr.length !== 2 ||
-    timeToArr.length !== 2 ||
-    timeFromArr[0] > 23 ||
-    timeFromArr[1] > 59 ||
-    timeToArr[0] > 23 ||
-    timeToArr[1] > 59
-  ) {
-    alert("Invalid Time Format");
-    return;
-  }
-
-  const timeFrom = convertTime(eventTimeFrom);
-  const timeTo = convertTime(eventTimeTo);
-
-  //check if event is already added
-  let eventExist = false;
-  eventsArr.forEach((event) => {
-    if (
-      event.day === activeDay &&
-      event.month === month + 1 &&
-      event.year === year
-    ) {
-      event.events.forEach((event) => {
-        if (event.title === eventTitle) {
-          eventExist = true;
-        }
-      });
-    }
-  });
-  if (eventExist) {
-    alert("Event already added");
-    return;
-  }
-  const newEvent = {
-    title: eventTitle,
-    time: timeFrom + " - " + timeTo,
-  };
-  console.log(newEvent);
-  console.log(activeDay);
-  let eventAdded = false;
-  if (eventsArr.length > 0) {
-    eventsArr.forEach((item) => {
-      if (
-        item.day === activeDay &&
-        item.month === month + 1 &&
-        item.year === year
-      ) {
-        item.events.push(newEvent);
-        eventAdded = true;
+      switch (currentView) {
+          case 'month':
+              renderMonthView();
+              break;
+          case 'week':
+              renderWeekView();
+              break;
+          case 'day':
+              renderDayView();
+              break;
+          case 'year':
+              renderYearView();
+              break;
       }
-    });
+
+      updateMiniCalendar();
   }
 
-  if (!eventAdded) {
-    eventsArr.push({
-      day: activeDay,
-      month: month + 1,
-      year: year,
-      events: [newEvent],
-    });
+  function renderMonthView() {
+      const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+      const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+      const startDate = new Date(firstDayOfMonth);
+      startDate.setDate(startDate.getDate() - startDate.getDay());
+
+      for (let i = 0; i < 42; i++) {
+          const dateCell = createDateCell(new Date(startDate));
+          calendarGrid.appendChild(dateCell);
+          startDate.setDate(startDate.getDate() + 1);
+      }
   }
 
-  console.log(eventsArr);
-  addEventWrapper.classList.remove("active");
-  addEventTitle.value = "";
-  addEventFrom.value = "";
-  addEventTo.value = "";
-  updateEvents(activeDay);
-  //select active day and add event class if not added
-  const activeDayEl = document.querySelector(".day.active");
-  if (!activeDayEl.classList.contains("event")) {
-    activeDayEl.classList.add("event");
-  }
-});
+  function renderWeekView() {
+      const startOfWeek = new Date(currentDate);
+      startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());
 
-//function to delete event when clicked on event
-eventsContainer.addEventListener("click", (e) => {
-  if (e.target.classList.contains("event")) {
-    if (confirm("Are you sure you want to delete this event?")) {
-      const eventTitle = e.target.children[0].children[1].innerHTML;
-      eventsArr.forEach((event) => {
-        if (
-          event.day === activeDay &&
-          event.month === month + 1 &&
-          event.year === year
-        ) {
-          event.events.forEach((item, index) => {
-            if (item.title === eventTitle) {
-              event.events.splice(index, 1);
-            }
-          });
-          //if no events left in a day then remove that day from eventsArr
-          if (event.events.length === 0) {
-            eventsArr.splice(eventsArr.indexOf(event), 1);
-            //remove event class from day
-            const activeDayEl = document.querySelector(".day.active");
-            if (activeDayEl.classList.contains("event")) {
-              activeDayEl.classList.remove("event");
-            }
+      for (let i = 0; i < 7; i++) {
+          const dateCell = createDateCell(new Date(startOfWeek), true);
+          calendarGrid.appendChild(dateCell);
+          startOfWeek.setDate(startOfWeek.getDate() + 1);
+      }
+  }
+
+  function renderDayView() {
+      const dateCell = createDateCell(currentDate, true);
+      dateCell.style.width = '100%';
+      calendarGrid.appendChild(dateCell);
+  }
+
+  function renderYearView() {
+      for (let month = 0; month < 12; month++) {
+          const monthDate = new Date(currentDate.getFullYear(), month, 1);
+          const monthCell = document.createElement('div');
+          monthCell.className = 'month-cell';
+          monthCell.innerHTML = `
+              <h3>${formatDate(monthDate, 'MMMM')}</h3>
+              <div class="mini-month-grid"></div>
+          `;
+          const miniMonthGrid = monthCell.querySelector('.mini-month-grid');
+
+          const firstDayOfMonth = new Date(currentDate.getFullYear(), month, 1);
+          const lastDayOfMonth = new Date(currentDate.getFullYear(), month + 1, 0);
+          const startDate = new Date(firstDayOfMonth);
+          startDate.setDate(startDate.getDate() - startDate.getDay());
+
+          for (let i = 0; i < 42; i++) {
+              const miniDateCell = document.createElement('div');
+              miniDateCell.className = 'mini-date-cell';
+              miniDateCell.textContent = startDate.getDate();
+              if (startDate.getMonth() !== month) {
+                  miniDateCell.classList.add('different-month');
+              }
+              miniMonthGrid.appendChild(miniDateCell);
+              startDate.setDate(startDate.getDate() + 1);
           }
-        }
+
+          calendarGrid.appendChild(monthCell);
+      }
+  }
+
+  function createDateCell(date, isLarge = false) {
+      const dateCell = document.createElement('div');
+      dateCell.className = 'date-cell' + (isLarge ? ' large' : '');
+      if (date.getMonth() !== currentDate.getMonth()) {
+          dateCell.classList.add('different-month');
+      }
+      if (isSameDate(date, new Date())) {
+          dateCell.classList.add('today');
+      }
+
+      const dateNumber = document.createElement('div');
+      dateNumber.className = 'date-number';
+      dateNumber.textContent = date.getDate();
+      dateCell.appendChild(dateNumber);
+
+      const cellEvents = events.filter(event => isSameDate(new Date(event.date), date));
+      cellEvents.forEach(event => {
+          const eventElement = document.createElement('div');
+          eventElement.className = 'event';
+          eventElement.style.backgroundColor = event.color;
+          eventElement.textContent = event.title;
+          if (event.isReminder) {
+              eventElement.classList.add('reminder');
+          }
+          dateCell.appendChild(eventElement);
       });
-      updateEvents(activeDay);
-    }
+
+      dateCell.addEventListener('click', () => openEventModal(date));
+
+      return dateCell;
+  }
+
+  function updateWeekdaysHeader() {
+      const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      weekdaysHeader.innerHTML = '';
+      weekdays.forEach(day => {
+          const dayElement = document.createElement('div');
+          dayElement.className = 'weekday';
+          dayElement.textContent = day;
+          weekdaysHeader.appendChild(dayElement);
+      });
+  }
+
+  function updateMiniCalendar() {
+      const miniMonthElement = document.createElement('div');
+      miniMonthElement.className = 'mini-month';
+      miniMonthElement.textContent = formatDate(currentDate, 'MMMM yyyy');
+
+      const miniDaysElement = document.createElement('div');
+      miniDaysElement.className = 'mini-days';
+      ['S', 'M', 'T', 'W', 'T', 'F', 'S'].forEach(day => {
+          const dayElement = document.createElement('div');
+          dayElement.textContent = day;
+          miniDaysElement.appendChild(dayElement);
+      });
+
+      const miniDatesElement = document.createElement('div');
+      miniDatesElement.className = 'mini-dates';
+
+      const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+      const lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+      const startDate = new Date(firstDayOfMonth);
+      startDate.setDate(startDate.getDate() - startDate.getDay());
+
+      for (let i = 0; i < 42; i++) {
+          const miniDateElement = document.createElement('div');
+          miniDateElement.className = 'mini-date';
+          miniDateElement.textContent = startDate.getDate();
+
+          if (isSameDate(startDate, new Date())) {
+              miniDateElement.classList.add('today');
+          }
+
+          if (startDate.getMonth() !== currentDate.getMonth()) {
+              miniDateElement.classList.add('different-month');
+          }
+
+          if (events.some(event => isSameDate(new Date(event.date), startDate))) {
+              miniDateElement.classList.add('has-event');
+          }
+
+          miniDatesElement.appendChild(miniDateElement);
+          startDate.setDate(startDate.getDate() + 1);
+      }
+
+      miniCalendar.innerHTML = '';
+      miniCalendar.appendChild(miniMonthElement);
+      miniCalendar.appendChild(miniDaysElement);
+      miniCalendar.appendChild(miniDatesElement);
+  }
+
+  function navigateMonth(direction) {
+      currentDate.setMonth(currentDate.getMonth() + direction);
+      updateCalendar();
+  }
+
+  function goToToday() {
+      currentDate = new Date();
+      updateCalendar();
+  }
+
+  function changeView(view) {
+      currentView = view;
+      document.querySelectorAll('.view-option').forEach(option => {
+          option.classList.toggle('active', option.dataset.view === view);
+      });
+      updateCalendar();
+  }
+
+  function openEventModal(date = new Date()) {
+      eventModal.style.display = 'block';
+      document.getElementById('eventDate').value = formatDate(date, 'yyyy-MM-dd');
+  }
+
+  function closeEventModal() {
+      eventModal.style.display = 'none';
+  }
+
+  function saveEvent(e) {
+      e.preventDefault();
+      const newEvent = {
+          title: document.getElementById('eventTitle').value,
+          date: document.getElementById('eventDate').value,
+          time: document.getElementById('eventTime').value,
+          color: document.getElementById('eventColor').value,
+          isReminder: document.getElementById('isReminder').checked
+      };
+      events.push(newEvent);
+      closeEventModal();
+      updateCalendar();
+  }
+
+  function clearCalendarGrid() {
+      calendarGrid.innerHTML = '';
+  }
+
+  function formatDate(date, format) {
+      const options = {
+          'MMMM yyyy': { month: 'long', year: 'numeric' },
+          'yyyy-MM-dd': { year: 'numeric', month: '2-digit', day: '2-digit' },
+          'MMMM': { month: 'long' }
+      };
+      return date.toLocaleDateString('en-US', options[format]);
+  }
+
+  function isSameDate(date1, date2) {
+      return date1.getDate() === date2.getDate() &&
+             date1.getMonth() === date2.getMonth() &&
+             date1.getFullYear() === date2
+             date1.getMonth() === date2.getMonth() &&
+             date1.getFullYear() === date2.getFullYear();
   }
 });
-
-//function to save events in local storage
-function saveEvents() {
-  localStorage.setItem("events", JSON.stringify(eventsArr));
-}
-
-//function to get events from local storage
-function getEvents() {
-  //check if events are already saved in local storage then return event else nothing
-  if (localStorage.getItem("events") === null) {
-    return;
-  }
-  eventsArr.push(...JSON.parse(localStorage.getItem("events")));
-}
-
-function convertTime(time) {
-  //convert time to 24 hour format
-  let timeArr = time.split(":");
-  let timeHour = timeArr[0];
-  let timeMin = timeArr[1];
-  let timeFormat = timeHour >= 12 ? "PM" : "AM";
-  timeHour = timeHour % 12 || 12;
-  time = timeHour + ":" + timeMin + " " + timeFormat;
-  return time;
-}

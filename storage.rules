@@ -1,12 +1,28 @@
 rules_version = '2';
-
-// Craft rules based on data in your Firestore database
-// allow write: if firestore.get(
-//    /databases/(default)/documents/users/$(request.auth.uid)).data.isAdmin;
 service firebase.storage {
   match /b/{bucket}/o {
+    // Helper function to check if user is admin
+    function isAdmin() {
+      return request.auth != null && 
+             firestore.get(/databases/(default)/documents/Admin/$(request.auth.uid)).data != null;
+    }
+
+    // Default deny all
     match /{allPaths=**} {
       allow read, write: if false;
+    }
+    
+    // Gallery specific rules
+    match /gallery/{eventId}/{imageFile} {
+      // Allow public reading of gallery images
+      allow read: if true;
+      
+      // Allow admin users to upload images
+      allow create, update, delete: if isAdmin() &&
+        // Validate file is an image
+        request.resource.contentType.matches('image/.*') &&
+        // Limit file size (5MB)
+        request.resource.size <= 5 * 1024 * 1024;
     }
   }
 }
