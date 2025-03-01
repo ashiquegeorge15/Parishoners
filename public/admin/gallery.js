@@ -19,6 +19,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage(app);
 const auth = getAuth(app);
+auth.useDeviceLanguage(); // Optional: Set language to device language
 
 class EventGallery {
     constructor() {
@@ -65,14 +66,14 @@ class EventGallery {
             uploadZone.addEventListener('click', () => photoInput.click());
             uploadZone.addEventListener('dragover', (e) => {
                 e.preventDefault();
-                uploadZone.classList.add('bg-light');
+                uploadZone.classList.add('drag-over');
             });
             uploadZone.addEventListener('dragleave', () => {
-                uploadZone.classList.remove('bg-light');
+                uploadZone.classList.remove('drag-over');
             });
             uploadZone.addEventListener('drop', (e) => {
                 e.preventDefault();
-                uploadZone.classList.remove('bg-light');
+                uploadZone.classList.remove('drag-over');
                 const files = e.dataTransfer.files;
                 this.handleFiles(files);
             });
@@ -82,13 +83,13 @@ class EventGallery {
             });
         }
 
-        // Save event
+        // Save images
         document.getElementById('saveEvent')?.addEventListener('click', async () => {
             try {
                 await this.saveEvent();
             } catch (error) {
                 console.error("Error in save event:", error);
-                alert("Failed to save event. Please try again.");
+                alert("Failed to upload images. Please try again.");
             }
         });
     }
@@ -98,16 +99,20 @@ class EventGallery {
         preview.innerHTML = '';
 
         Array.from(files).forEach(file => {
-            if (!file.type.startsWith('image/')) return;
+            if (!file.type.startsWith('image/')) {
+                alert('Please upload only image files');
+                return;
+            }
 
             const reader = new FileReader();
             const previewItem = document.createElement('div');
-            previewItem.className = 'col-4';
+            previewItem.className = 'preview-item';
             previewItem.innerHTML = `
                 <div class="position-relative">
-                    <img src="" class="img-fluid rounded" style="height: 100px; object-fit: cover;">
-                    <button type="button" class="btn-close position-absolute top-0 end-0 m-1" 
-                            style="background-color: white;"></button>
+                    <img src="" class="preview-image">
+                    <button type="button" class="delete-image">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
             `;
 
@@ -116,7 +121,7 @@ class EventGallery {
                 img.src = e.target.result;
             };
 
-            previewItem.querySelector('.btn-close').addEventListener('click', () => {
+            previewItem.querySelector('.delete-image').addEventListener('click', () => {
                 previewItem.remove();
             });
 
@@ -127,11 +132,11 @@ class EventGallery {
 
     async uploadImage(file, eventId) {
         try {
-            // Create a storage reference with proper path
+            // Resize image before upload
+            const resizedImage = await this.resizeImage(file, 1920); // Max width 1920px
             const fileName = `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
             const storageRef = ref(storage, `gallery/${eventId}/${fileName}`);
 
-            // Upload file and metadata
             const metadata = {
                 contentType: file.type,
                 customMetadata: {
@@ -140,10 +145,8 @@ class EventGallery {
                 }
             };
 
-            // Upload the file
-            const snapshot = await uploadBytes(storageRef, file, metadata);
-            
-            // Get download URL
+            // Upload the resized file
+            const snapshot = await uploadBytes(storageRef, resizedImage, metadata);
             const downloadURL = await getDownloadURL(snapshot.ref);
             
             return {
@@ -151,37 +154,67 @@ class EventGallery {
                 path: `gallery/${eventId}/${fileName}`,
                 name: fileName,
                 type: file.type,
-                size: file.size
+                size: resizedImage.size
             };
-
         } catch (error) {
             console.error("Error uploading image:", error);
             throw new Error(`Failed to upload image: ${error.message}`);
         }
     }
 
+    // Add new method for image resizing
+    async resizeImage(file, maxWidth) {
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = (e) => {
+                const img = new Image();
+                img.src = e.target.result;
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+
+                    // Calculate new dimensions
+                    let width = img.width;
+                    let height = img.height;
+                    
+                    if (width > maxWidth) {
+                        height = Math.round((height * maxWidth) / width);
+                        width = maxWidth;
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+
+                    // Draw resized image
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    // Convert to blob
+                    canvas.toBlob((blob) => {
+                        resolve(blob);
+                    }, file.type, 0.9); // 0.9 quality
+                };
+            };
+        });
+    }
+
     async saveEvent() {
         try {
-            const title = document.getElementById('eventTitle').value;
-            const date = document.getElementById('eventDate').value;
-            const description = document.getElementById('eventDescription').value;
             const preview = document.getElementById('uploadPreview');
             const images = preview.querySelectorAll('img');
 
-            if (!title || !date || !description || images.length === 0) {
-                alert('Please fill all fields and add at least one photo');
+            if (images.length === 0) {
+                alert('Please select at least one image to upload');
                 return;
             }
 
             // Create event document first to get the ID
             const eventRef = await addDoc(collection(db, 'events'), {
-                title,
-                date,
-                description,
                 createdAt: serverTimestamp(),
                 updatedAt: serverTimestamp(),
                 imageCount: images.length,
-                status: 'uploading'
+                status: 'uploading',
+                date: new Date().toISOString() // Current date for ordering
             });
 
             const eventId = eventRef.id;
@@ -204,19 +237,18 @@ class EventGallery {
             });
 
             // Close modal and refresh
-            const modal = bootstrap.Modal.getInstance(document.getElementById('addEventModal'));
+            const modal = bootstrap.Modal.getInstance(document.getElementById('uploadModal'));
             modal.hide();
-            document.getElementById('eventForm').reset();
             document.getElementById('uploadPreview').innerHTML = '';
             
             // Refresh the gallery
             await this.loadEvents();
 
-            alert('Event saved successfully!');
+            alert('Images uploaded successfully!');
 
         } catch (error) {
             console.error('Error saving event:', error);
-            alert('Error saving event. Please try again.');
+            alert('Error uploading images. Please try again.');
         }
     }
 
@@ -225,12 +257,15 @@ class EventGallery {
             const eventsContainer = document.getElementById('eventsContainer');
             const spinner = document.querySelector('.loading-spinner');
             
-            if (!eventsContainer || !spinner) return;
+            if (!eventsContainer) return;
             
-            spinner.style.display = 'flex';
+            if (spinner) spinner.style.display = 'flex';
             eventsContainer.innerHTML = '';
 
-            // Get events from public events collection
+            const galleryGrid = document.createElement('div');
+            galleryGrid.className = 'gallery-grid';
+            eventsContainer.appendChild(galleryGrid);
+
             const eventsRef = collection(db, 'events');
             const q = query(eventsRef, orderBy('date', 'desc'));
             const querySnapshot = await getDocs(q);
@@ -238,37 +273,118 @@ class EventGallery {
             if (querySnapshot.empty) {
                 eventsContainer.innerHTML = `
                     <div class="alert alert-info">
-                        No events found. ${this.currentUser ? 'Create your first event!' : ''}
+                        No images found. ${this.currentUser ? 'Upload your first image!' : ''}
                     </div>
                 `;
-                spinner.style.display = 'none';
+                if (spinner) spinner.style.display = 'none';
                 return;
             }
 
-            querySnapshot.forEach(doc => {
-                const event = { id: doc.id, ...doc.data() };
-                const eventCard = this.createEventCard(event);
-                eventsContainer.appendChild(eventCard);
-                
-                // Initialize lightGallery
+            let validImagesCount = 0;
+
+            for (const docSnapshot of querySnapshot.docs) {
+                const event = { id: docSnapshot.id, ...docSnapshot.data() };
                 if (event.images && event.images.length > 0) {
-                    lightGallery(eventCard.querySelector('.gallery-grid'), {
-                        plugins: [lgZoom, lgThumbnail],
-                        speed: 500,
-                        thumbnail: true,
-                        download: this.currentUser ? true : false
+                    event.images.forEach((img, index) => {
+                        if (img.url && img.url.trim() !== '') {
+                            validImagesCount++;
+                            const imageItem = document.createElement('div');
+                            imageItem.className = 'gallery-item';
+                            imageItem.innerHTML = `
+                                <a href="${img.url}" 
+                                   data-src="${img.url}"
+                                   class="gallery-link"
+                                >
+                                    <img src="${img.url}" 
+                                         alt="Gallery image" 
+                                         loading="lazy"
+                                         onerror="this.parentElement.parentElement.remove()"
+                                    >
+                                    <div class="overlay">
+                                        <i class="fas fa-expand"></i>
+                                    </div>
+                                </a>
+                                ${this.currentUser ? `
+                                    <button class="delete-image" 
+                                            data-event-id="${event.id}" 
+                                            data-image-index="${index}"
+                                            data-image-path="${img.path}"
+                                            title="Delete image">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                ` : ''}
+                            `;
+
+                            // Add delete event listener
+                            const deleteBtn = imageItem.querySelector('.delete-image');
+                            if (deleteBtn) {
+                                deleteBtn.addEventListener('click', async (e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    
+                                    if (confirm('Are you sure you want to delete this image?')) {
+                                        try {
+                                            const eventId = deleteBtn.dataset.eventId;
+                                            const imageIndex = parseInt(deleteBtn.dataset.imageIndex);
+                                            const imagePath = deleteBtn.dataset.imagePath;
+
+                                            // Show loading state
+                                            deleteBtn.disabled = true;
+                                            deleteBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+                                            await this.deleteImage(eventId, imageIndex, imagePath);
+                                            imageItem.remove();
+
+                                            // Update valid images count
+                                            validImagesCount--;
+                                            if (validImagesCount === 0) {
+                                                eventsContainer.innerHTML = `
+                                                    <div class="alert alert-info">
+                                                        No images found. ${this.currentUser ? 'Upload your first image!' : ''}
+                                                    </div>
+                                                `;
+                                            }
+                                        } catch (error) {
+                                            console.error('Error deleting image:', error);
+                                            alert('Error deleting image. Please try again.');
+                                            // Reset button state
+                                            deleteBtn.disabled = false;
+                                            deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+                                        }
+                                    }
+                                });
+                            }
+
+                            galleryGrid.appendChild(imageItem);
+                        }
                     });
                 }
-            });
+            }
 
-            spinner.style.display = 'none';
+            if (validImagesCount === 0) {
+                eventsContainer.innerHTML = `
+                    <div class="alert alert-info">
+                        No valid images found. ${this.currentUser ? 'Upload your first image!' : ''}
+                    </div>
+                `;
+            } else {
+                lightGallery(galleryGrid, {
+                    plugins: [lgZoom, lgThumbnail],
+                    speed: 500,
+                    thumbnail: true,
+                    download: this.currentUser ? true : false,
+                    selector: '.gallery-link'
+                });
+            }
+
+            if (spinner) spinner.style.display = 'none';
 
         } catch (error) {
             console.error('Error loading events:', error);
             if (document.getElementById('eventsContainer')) {
                 document.getElementById('eventsContainer').innerHTML = `
                     <div class="alert alert-danger">
-                        <p>Error loading events. Please try again later.</p>
+                        <p>Error loading images. Please try again later.</p>
                         <button class="btn btn-outline-danger mt-2" onclick="window.location.reload()">
                             Retry
                         </button>
@@ -278,102 +394,89 @@ class EventGallery {
         }
     }
 
-    async deleteEvent(eventId) {
+    async deleteImage(eventId, imageIndex, imagePath) {
         try {
-            // Get event data to delete images
-            const eventDoc = await getDoc(doc(db, 'events', eventId));
+            // Get the current event document
+            const eventRef = doc(db, 'events', eventId);
+            const eventDoc = await getDoc(eventRef);
+            
             if (!eventDoc.exists()) {
                 throw new Error('Event not found');
             }
 
             const eventData = eventDoc.data();
+            const images = [...eventData.images];
 
-            // Delete images from storage
-            if (eventData.images && eventData.images.length > 0) {
-                const deletePromises = eventData.images.map(async (image) => {
-                    try {
-                        // Create reference to image in storage
-                        const imageRef = ref(storage, image.path);
-                        // Delete the image
-                        await deleteObject(imageRef);
-                    } catch (error) {
-                        console.error(`Error deleting image ${image.path}:`, error);
-                    }
+            // Delete image from storage
+            const imageRef = ref(storage, imagePath);
+            await deleteObject(imageRef);
+
+            // Remove the image from the array
+            images.splice(imageIndex, 1);
+
+            // Update or delete the event document
+            if (images.length === 0) {
+                // If no images left, delete the entire event
+                await deleteDoc(eventRef);
+            } else {
+                // Update event with remaining images
+                await updateDoc(eventRef, {
+                    images: images,
+                    imageCount: images.length,
+                    updatedAt: serverTimestamp()
                 });
-
-                // Wait for all images to be deleted
-                await Promise.all(deletePromises);
             }
 
-            // Delete the event document from Firestore
-            await deleteDoc(doc(db, 'events', eventId));
-
-            // Show success message
-            alert('Event deleted successfully');
-
         } catch (error) {
-            console.error('Error in deleteEvent:', error);
-            throw new Error('Failed to delete event: ' + error.message);
+            console.error('Error in deleteImage:', error);
+            throw error;
         }
     }
 
     createEventCard(event) {
         const card = document.createElement('div');
-        card.className = 'event-card';
+        card.className = 'gallery-section';
         card.innerHTML = `
-            <div class="event-header">
-                <div class="d-flex justify-content-between align-items-start">
-                    <h3>${event.title}</h3>
-                    ${this.currentUser ? `
-                        <span class="badge bg-${event.status === 'complete' ? 'success' : 'warning'}">
-                            ${event.status}
-                        </span>
-                    ` : ''}
-                </div>
-                <div class="event-date">
-                    <i class="fas fa-calendar-alt"></i>
-                    ${new Date(event.date).toLocaleDateString()}
-                </div>
-                <p class="mt-2">${event.description}</p>
-            </div>
             <div class="gallery-grid">
                 ${event.images ? event.images.map(img => `
-                    <a href="${img.url}" class="gallery-item" 
-                       data-src="${img.url}"
-                       data-sub-html="<h4>${event.title}</h4><p>${img.name}</p>">
-                        <img src="${img.url}" alt="Event photo">
-                        <div class="overlay">
-                            <i class="fas fa-search-plus"></i>
-                        </div>
-                    </a>
+                    <div class="gallery-item">
+                        <a href="${img.url}" 
+                           data-src="${img.url}"
+                           class="gallery-link"
+                           data-sub-html="<p>${new Date(event.date).toLocaleDateString()}</p>"
+                        >
+                            <img src="${img.url}" alt="Gallery image" loading="lazy">
+                            <div class="overlay">
+                                <i class="fas fa-expand"></i>
+                            </div>
+                        </a>
+                        ${this.currentUser ? `
+                            <button class="delete-image" data-id="${event.id}" title="Delete image">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        ` : ''}
+                    </div>
                 `).join('') : ''}
             </div>
-            ${this.currentUser ? `
-                <div class="event-footer mt-3 d-flex justify-content-end gap-2">
-                    <button class="btn btn-outline-danger btn-sm delete-event" data-id="${event.id}">
-                        <i class="fas fa-trash"></i> Delete Event
-                    </button>
-                </div>
-            ` : ''}
         `;
 
         // Add delete event listener if user is admin
         if (this.currentUser) {
-            const deleteBtn = card.querySelector('.delete-event');
-            if (deleteBtn) {
-                deleteBtn.addEventListener('click', async (e) => {
+            const deleteButtons = card.querySelectorAll('.delete-image');
+            deleteButtons.forEach(btn => {
+                btn.addEventListener('click', async (e) => {
                     e.preventDefault();
-                    if (confirm('Are you sure you want to delete this event and all its images? This action cannot be undone.')) {
+                    if (confirm('Are you sure you want to delete this image? This action cannot be undone.')) {
                         try {
-                            await this.deleteEvent(event.id);
-                            card.remove();
+                            await this.deleteEvent(btn.dataset.id);
+                            btn.closest('.gallery-item').remove();
                         } catch (error) {
-                            console.error('Error deleting event:', error);
-                            alert('Error deleting event. Please try again.');
+                            console.error('Error deleting image:', error);
+                            alert('Error deleting image. Please try again.');
                         }
                     }
                 });
-            }
+            });
         }
 
         return card;
