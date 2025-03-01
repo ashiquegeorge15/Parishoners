@@ -1,13 +1,27 @@
 @import url("https://fonts.googleapis.com/css2?family=Raleway&display=swap");
 
+:root {
+  --primary-color: #3498db;
+  --text-color: #2c3e50;
+  --light-bg: #f8f9fa;
+}
+
 * {
   font-family: 'Inter', sans-serif;
   transition: 0.3s;
   scroll-behavior: smooth;
 }
 
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--text-color);
+}
 
-
+h1, h2, h3, .navbar-brand {
+  font-family: 'Cinzel', serif;
+}
 
 .splash{
   position:fixed;
@@ -54,19 +68,8 @@
   animation: fadeIn 1s ease-in forwards;
 }
 
-
-
-
-
-
-
 .material-symbols-outlined {
   font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
-}
-
-body {
-  margin: 0;
-  padding: 0;
 }
 
 .profilepicclass a img {
@@ -163,7 +166,6 @@ body {
   border-radius: 10px;
   margin: 1.5px 3px;
 }
-
 
 .Sub-menu ul {
   padding: 0;
@@ -609,10 +611,6 @@ body {
 
 }
 
-
-
-
-
 @media screen and (min-width:740px) and (max-width:799px){
   
   .center{
@@ -673,9 +671,7 @@ body {
     bottom: 10px;
 }
 
-
 }
-
 
 @media screen and (max-width:690px){
   .w-100 {
@@ -687,7 +683,6 @@ body {
 }
 
 }
-
 
 @media screen and (min-width:500px) and (max-width:740px){
   .center{
@@ -724,7 +719,6 @@ body {
     font-size: 18px;
   }
 
-
   .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
     --bs-gutter-x: 1.5rem;
     --bs-gutter-y: 0;
@@ -754,10 +748,7 @@ body {
   padding-left: 2rem;
 }
 
-
-  }
-
-
+}
 
 @media screen and (min-width:500px) and (max-width:650px){
   .center{
@@ -784,7 +775,6 @@ body {
     width: 100px;
 }
 
-
 .Sub-menu {
   display: flex;
   width: 100%;
@@ -807,7 +797,6 @@ body {
 .Sub-menu ul li a{
   font-size: 18px;
 }
-
 
   .container1-1 ul {
     list-style: none;
@@ -853,7 +842,6 @@ body {
   display: block;
 }
 }
-
 
 @media screen and (min-width:400px) and (max-width:649px){
 
@@ -905,7 +893,6 @@ body {
   font-weight: 600;
 }
 
-
 .Sub-menu ul li a{
   font-size: 14px;
 }
@@ -929,7 +916,6 @@ body {
   padding-bottom: 0rem;
 }
 
-
 .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
   --bs-gutter-x: 1.5rem;
   --bs-gutter-y: 0;
@@ -940,7 +926,6 @@ body {
   margin-left: auto;
   height: 125vh;
 }
-
 
 p{
   margin-top: 0;
@@ -980,8 +965,6 @@ p{
 
 }
 
-
-
 @media screen and (min-width:400px) and (max-width:649px){
   .pastorimages img {
     width: 195px;
@@ -997,9 +980,7 @@ p{
     padding-top: 0rem!important;
   }
 
-  
 }
-
 
 @media screen and (min-width:250px) and (max-width:399px){
 
@@ -1079,7 +1060,6 @@ p{
     margin-left: 12px;
 }
 
-
 .Sub-menu {
   display: flex;
   width: 100%;
@@ -1104,7 +1084,6 @@ p{
   margin-left: auto;
   height: 125vh;
 }
-
 
 #Families{
   font-size: 15px;
@@ -1145,22 +1124,6 @@ p{
 
 }
 
-
-
-
-
-
-/* @media screen and (min-width:414px) and (max-height:896px){
-
-  .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
-    height: 75vh;
-  }
-
-  .w-100 {
-    height: 60vh;
-}
-} */
-
 .navbar {
   background: rgba(255, 255, 255, 0.25);
   backdrop-filter: blur(10px);
@@ -1168,12 +1131,14 @@ p{
   border-bottom: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
   padding: 1rem 2rem;
+  transition: background-color 0.3s ease;
 }
 
 .navbar-brand {
   font-weight: 600;
   color: #3498db;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  font-size: 1.5rem;
 }
 
 .nav-link {
@@ -1236,6 +1201,84 @@ p{
   
   .nav-link {
     margin: 0.5rem 0;
+  }
+}
+
+/* Hero Section */
+.hero-section {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-content {
+  color: white;
+  text-align: center;
+  padding: 2rem;
+}
+
+.hero-logo {
+  width: 120px;
+  margin-bottom: 2rem;
+}
+
+.hero-content h1 {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Service Times Section */
+.section-title {
+  position: relative;
+  padding-bottom: 1rem;
+  margin-bottom: 3rem;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background-color: var(--primary-color);
+}
+
+.service-times-card {
+  background: white;
+  padding: 3rem;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+  
+  .service-times-card {
+    padding: 1.5rem;
   }
 }
 

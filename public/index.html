@@ -16,66 +16,45 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
   </head>
 
   <body>
-    
-
-
-    <!-- <div class="splash" >
-      <h1 class="fade-in"> <img src="img/logo/marthoma-seeklogo.svg" alt=""> </h1>
-      <h1 class="fade-in" style="font-weight: bold;font-size:55px;">Parishoners</h1>
-      <p class="fade-in">Online community for Parish members</p>
-    </div>
-
-    <script>
-      const splash = document.querySelector('.splash');
-
-      document.addEventListener('DOMContentLoaded', (e)=>{
-        setTimeout(()=>{
-          splash.classList.add('display-none');
-        }, 2000);
-      })
-    </script> -->
-
-   
-
-    <div
-      id="carouselExampleSlidesOnly"
-      class="carousel slide"
-      data-bs-ride="carousel"
-    >
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <img
-            src="img/crousel/edited-img-2.jpeg"
-            class="d-block w-100"
-            alt="Church Image 2"
-          />
+    <!-- Hero Section with Overlay -->
+    <div class="hero-section">
+      <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="img/crousel/edited-img-2.jpeg" class="d-block w-100" alt="Church Image 2">
+          </div>
+          <div class="carousel-item">
+            <img
+              src="img/crousel/edited-img.jpeg"
+              class="d-block w-100"
+              alt="Church Image 1"
+            />
+          </div>
+          <div class="carousel-item">
+            <img
+              src="img/crousel/edited-img-3.jpeg"
+              class="d-block w-100"
+              alt="Church Image 3"
+            />
+          </div>
         </div>
-        <div class="carousel-item">
-          <img
-            src="img/crousel/edited-img.jpeg"
-            class="d-block w-100"
-            alt="Church Image 1"
-          />
-        </div>
-        <div class="carousel-item">
-          <img
-            src="img/crousel/edited-img-3.jpeg"
-            class="d-block w-100"
-            alt="Church Image 3"
-          />
+      </div>
+      <div class="hero-overlay">
+        <div class="hero-content text-center">
+          <img src="img/logo/marthoma-seeklogo.svg" alt="Church Logo" class="hero-logo">
+          <h1>St Thomas Church</h1>
+          <p>Welcome to our spiritual community</p>
+          <a href="#service-times" class="btn btn-light btn-lg mt-3">Join Us for Worship</a>
         </div>
       </div>
     </div>
 
-   
-    
-   
-
-
-    <nav class="navbar navbar-expand-lg fixed-top">
+    <!-- Simplified Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top bg-light bg-opacity-95">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">
           <img src="img/logo/marthoma-seeklogo.svg" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
@@ -116,129 +95,150 @@
       </div>
     </nav>
 
-    <!-- logo.church name.scroill down -->
+    <!-- Service Times Section -->
+    <section id="service-times" class="py-5 bg-light">
+      <div class="container text-center">
+        <h2 class="section-title">Worship With Us</h2>
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+            <div class="service-times-card">
+              <h3>Mass Schedule</h3>
+              <div class="schedule-grid">
+                <div class="schedule-item">
+                  <h4>Weekdays</h4>
+                  <p>Monday - Saturday<br>7:00 AM & 8:00 AM</p>
+                </div>
+                <div class="schedule-item">
+                  <h4>Sunday</h4>
+                  <p>6:30 AM | 7:30 AM<br>8:30 AM (Children's Mass)<br>9:45 AM (English)</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <div class="start">
-      <div class="center">
-        <img src="img/logo/marthoma-seeklogo.svg" alt="" id="ClogoImg" />
-        St Thomas Church
+    <!-- history -->
+
+    <div class="container-fluid">
+      <div class="hist-heading" id="hist-heading">
+        <h1 style="font-weight: bold">History</h1>
+      </div>
+      <div class="container" style="max-height: 300px">
+        <div class="row">
+          <div class="col-md-6" style="max-height: 300px;">
+            <div class="history">
+              <p>
+                St. Thomas, the Apostle of Jesus Christ is believed to have
+                landed in AD 52 in Cranganore near Cochin, which was at that
+                time an important seaport on the Malabar Coast, having trade
+                connections with the Middle East in those days. F.E. Keay in his
+                book, A History of the Syrian Church in India, has established,
+                from the mention in the book of Kings, of the articles brought
+                to the court of King Solomon from India, that even before the
+                time of Christ, there was trade between the Malabar Coast and
+                Palestine in spices and luxury articles like ivory.
+              </p>
+              <p>
+                Therefore, it was quite natural for Thomas to come to India with
+                the Gospel as the disciples went to different parts of the world
+                in accordance with the commission given to them by Jesus Christ.
+                In the true Apostolic tradition he preached first to the Jewish
+                settlers in and around Cochin, and then worked among the Hindus.
+                Through the ministry of the Word and the many miracles which
+                tradition attributes to him,he brought many.....
+              </p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div>
+              <iframe
+                width="100%"
+                height="300px"
+                src="https://www.youtube.com/embed/ZyjDQNynB7g?autoplay=1&mute=1"
+              >
+              </iframe>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- members dues... -->
-  
-    <!-- <ul>
-        <li>
-            <a href="">MENU</a>
-            <ul class="dropdown">
-                <li><a href="">ANNOUNCEMENTS</a></li>
-                <li><a href="">MEMBERS</a></li>
-                <li><a href="">RECENT ACTIVITY</a></li>
-                <li><a href="">EVENTS</a></li>
-                <select name="Families" id="Families">
-                    <option value="George family">George Family</option>
-                    <option value="George family">George Family</option>
-                    <option value="George family">George Family</option>
-                    <option value="George family">George Family</option>
-                    <option value="George family">George Family</option>
-                    <option value="George family">George Family</option>
-                    <option value="George family">George Family</option>
-                  </select>
-            </ul>
-        </li>
-    </ul> -->
+    <div class="readmore"><a href="history.html">Read more</a></div>
 
-<!-- <div class="container1"></div>
-    <ul>
-        <li>
-            <a href="">MENU</a>
-            <ul class="dropdown">
-                <li><a href="login.html">Announcments</a></li>
-                <li><a href="#">Members</a></li>
-                <li><a href="login.html">Recent activities</a></li>
-                <li><a href="calendar.html">Events</a></li>
-        
-                <select name="Families" id="Families">
-                  <option value="George family">George Family</option>
-                  <option value="George family">George Family</option>
-                  <option value="George family">George Family</option>
-                  <option value="George family">George Family</option>
-                  <option value="George family">George Family</option>
-                  <option value="George family">George Family</option>
-                  <option value="George family">George Family</option>
-                </select>
-              </ul>
-        </li>
-    </ul> -->
+    <!-- pastors details -->
 
-
-
-    <!-- MENU BUTTONS FOR RESPONSIVENESS only -->
-
-    <div class="container1-1">
-      <ul>
-        <li><a href="login.html">Announcments</a></li>
-        <li><a href="#members">Members</a></li>
-        <li><a href="login.html">Recent activities</a></li>
-        <li><a href="login.html">Events</a></li>
-
-        <!-- <select name="Families" id="Families">
-          <option value="George family">George Family</option>
-          <option value="George family">George Family</option>
-          <option value="George family">George Family</option>
-          <option value="George family">George Family</option>
-          <option value="George family">George Family</option>
-          <option value="George family">George Family</option>
-          <option value="George family">George Family</option>
-        </select> -->
-      </ul>
+    <div class="hist-heading" id="members">
+      <h1>Our Priest and Evangelist</h1>
     </div>
 
-    
-    
-    <div class="container1">
-      <ul>
-        <li><a href="login.html">Announcments</a></li>
-        <li><a href="#members">Members</a></li>
-        <li><a href="login.html">Recent activities</a></li>
-        <li><a href="calendar.html">Events</a></li>
+    <div class="pastorimages">
+      <div class="img1">
+        <span>
+          <img src="img/icon/defaultPic.png" alt="" />
+          <p>Fr. "Unknown"</p>
+        </span>
+      </div>
 
-        <!-- <select name="Families" id="Families">
-          <option value="George family">George Family</option>
-          <option value="George family">George Family</option>
-          <option value="George family">George Family</option>
-          <option value="George family">George Family</option>
-          <option value="George family">George Family</option>
-          <option value="George family">George Family</option>
-          <option value="George family">George Family</option>
-        </select> -->
-      </ul>
+      <div class="img2">
+        <span>
+          <img src="img/icon/defaultPic.png" alt="" />
+          <p>Fr. "Unknown"</p>
+        </span>
+      </div>
     </div>
 
-    <!-- timing -->
-
-    <div class="timings">
-      <div class="time-details">
-        <h2>Timings</h2>
-        <!-- <hr style="width: 200px; height:2px; background-color:gray; border:none;"> -->
-        <p>
-          Monday to Saturday : 7am and 8am
-          <br />
-          First Friday Eucharistic Adoration at 5pm followed by Mass at 5:30pm
-          <br />
-          Saturday : 5:30pm (Anticipated Sunday Mass)
-          <br />
-          Sunday : 6:30am, 7:30am, 8:30am (Children Mass), 9:45am (English)
-        </p>
-        <!-- <div class="tbtndiv">
-          <button class="notify">
-            <span class="material-symbols-outlined"> notifications </span>Set
-            Reminder
-          </button>
-          <button class="edit-timing">
-            <span class="material-symbols-outlined"> edit </span>Edit
-          </button>
-        </div> -->
+    <div
+      class="container-fluid pb-0 mb-0 justify-content-center text-light"
+      style="background-color: #3498db" id="contact"
+    >
+      <footer>
+        <div class="row my-5 justify-content-center py-5">
+          <div class="col-11">
+            <div class="row">
+              <div class="col-xl-6 col-md-4 col-sm-4 col-12 my-auto mx-auto a">
+                <h3 class="text-muted mb-md-0 mb-5 bold-text">
+                  JP Nagar Mar Thoma Congregation
+                </h3>
+              </div>
+              <div class="col-xl-2 col-md-4 col-sm-4 col-12">
+                <h6 class="mb-3 mb-lg-4 text-muted bold-text mt-sm-0 mt-5">
+                  <b>CONTACT</b>
+                </h6>
+                <p class="mb-1">Example123@gmail.com</p>
+                <p>+910987654321</p>
+              </div>
+              <div class="col-xl-2 col-md-4 col-sm-4 col-12">
+                <h6 class="mb-3 mb-lg-4 text-muted bold-text mt-sm-0 mt-5">
+                  <b>ADDRESS</b>
+                </h6>
+                <p class="mb-1">605, RATAN ICON BUILDING</p>
+                <p>SEAWOODS SECTOR</p>
+              </div>
+            </div>
+            <div class="row">
+              <div
+                class="col-xl-8 col-md-4 col-sm-4 col-auto my-md-0 mt-5 order-sm-1 order-3 align-self-end"
+              >
+                <p class="social text-muted mb-0 pb-0 bold-text">
+                  <span class="mx-2"
+                    ><i class="fa fa-facebook" aria-hidden="true"></i
+                  ></span>
+                  <span class="mx-2"
+                    ><i class="fa fa-linkedin-square" aria-hidden="true"></i
+                  ></span>
+                  <span class="mx-2"
+                    ><i class="fa fa-twitter" aria-hidden="true"></i
+                  ></span>
+                  <span class="mx-2"
+                    ><i class="fa fa-instagram" aria-hidden="true"></i
+                  ></span>
+                </p>
+                
+              </div>
+              <div
+                class="col-xl-2 col-md-4 col-sm-4 col-auto order-1 align-self-end"
       </div>
     </div>
 
