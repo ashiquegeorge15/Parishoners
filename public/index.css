@@ -22,6 +22,8 @@ body {
   font-family: var(--font-primary);
   color: var(--text-color);
   font-weight: 400;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 h1:not(.hero-content h1), h2, h3, .navbar-brand {
@@ -556,11 +558,74 @@ h1:not(.hero-content h1), h2, h3, .navbar-brand {
 }
 
 /* screen overflow fix */
-@media screen and (max-width: 1140px) {
-  html,
+@media screen and (max-width: 1200px) {
   body {
     width: 100%;
     overflow-x: hidden;
+  }
+  
+  .container {
+    max-width: 95%;
+    padding: 0 15px;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .section-subtitle {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+  
+  .container {
+    padding: 0 10px;
+  }
+  
+  .section-title {
+    font-size: 1.75rem;
+  }
+  
+  .py-5 {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+  
+  .container {
+    padding: 0 8px;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
+  
+  .section-subtitle {
+    font-size: 0.9rem;
+  }
+  
+  .py-5 {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
   }
 }
 
@@ -681,7 +746,7 @@ h1:not(.hero-content h1), h2, h3, .navbar-brand {
 
 @media screen and (max-width:690px){
   .w-100 {
-    height: 80vh;
+    height: fit-content;
 }
 
 .Sub-menu ul li a{
@@ -868,7 +933,7 @@ h1:not(.hero-content h1), h2, h3, .navbar-brand {
   }
 
   .w-100 {
-    height: 60vh;
+    height: fit-content;
 }
 
   #ClogoImg {
@@ -1011,7 +1076,7 @@ p{
 }
 
 .w-100 {
-  height: 60vh;
+  height: fit-content;
 }
 
   .container1-1 ul {
@@ -1679,68 +1744,48 @@ p{
 
 /* Contact Section Styles */
 #contact {
-  padding: 6rem 0;
-  background: white;
+  background-color: var(--light-bg);
 }
 
 .contact-card {
-  background: white;
-  border-radius: 25px;
-  padding: 3rem;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-  position: relative;
-  overflow: hidden;
+  background: #fff;
+  border-radius: 15px;
+  padding: 2rem;
+  height: 100%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.contact-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 5px;
-  background: linear-gradient(90deg, #3498db, #2980b9);
-}
-
-.contact-info {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-  margin-top: 3rem;
+.contact-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
 .contact-item {
   display: flex;
   align-items: flex-start;
   gap: 1.5rem;
-  padding: 1.5rem;
-  background: rgba(52, 152, 219, 0.05);
-  border-radius: 15px;
-  transition: all 0.3s ease;
-}
-
-.contact-item:hover {
-  transform: translateY(-5px);
-  background: rgba(52, 152, 219, 0.1);
 }
 
 .contact-item i {
   font-size: 2rem;
-  color: #3498db;
-  background: white;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  color: var(--primary-color);
+  background: rgba(52, 152, 219, 0.1);
+  padding: 1rem;
   border-radius: 50%;
-  box-shadow: 0 5px 15px rgba(52, 152, 219, 0.2);
+  transition: all 0.3s ease;
+}
+
+.contact-card:hover .contact-item i {
+  transform: scale(1.1);
+  background: var(--primary-color);
+  color: white;
 }
 
 .contact-details h3 {
   font-family: var(--font-old);
-  font-size: 1.3rem;
-  color: #2c3e50;
+  font-size: 1.5rem;
+  color: var(--text-color);
   margin-bottom: 0.5rem;
 }
 
@@ -1751,9 +1796,51 @@ p{
 }
 
 .contact-details .note {
-  color: #3498db;
+  color: var(--primary-color);
   font-style: italic;
   font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.map-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-top: 2rem;
+}
+
+.map-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.map-container iframe {
+  border-radius: 15px;
+  width: 100%;
+  height: 450px;
+}
+
+@media (max-width: 768px) {
+  .contact-card {
+    margin-bottom: 1rem;
+  }
+
+  .contact-item {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .contact-details h3 {
+    font-size: 1.3rem;
+  }
+
+  .map-container iframe {
+    height: 350px;
+  }
 }
 
 /* Footer Styles */
@@ -2150,6 +2237,160 @@ p{
 
 .swiper-pagination-bullet-active {
   opacity: 1;
+}
+
+/* History Sections Styles */
+#congregation-history,
+#church-history {
+  background-color: var(--section-bg);
+  position: relative;
+}
+
+.history-card {
+  background: #fff;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 30px;
+}
+
+.history-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.history-image {
+  position: relative;
+  /* height: 200px; */
+  overflow: hidden;
+}
+
+.history-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.history-card:hover .history-image img {
+  transform: scale(1.1);
+}
+
+.history-content {
+  padding: 2rem;
+  text-align: left;
+}
+
+.history-content h3 {
+  color: var(--heading-color);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-family: 'Cinzel', serif;
+}
+
+.history-content p {
+  color: var(--text-color);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+  .history-content h3 {
+    font-size: 1.3rem;
+  }
+  
+  .history-content p {
+    font-size: 0.9rem;
+  }
+  
+  .history-image {
+    height: 180px;
+  }
+}
+
+/* Office Bearers Card Styles */
+.office-bearers-card {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.office-bearers-card:hover {
+  transform: translateY(-10px);
+}
+
+.office-bearers-card .btn {
+  transition: all 0.3s ease;
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.office-bearers-card:hover .btn {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* Office Bearers Page Styles */
+.page-header {
+  background-color: #f8f9fa;
+  padding-top: 120px;
+  margin-bottom: 2rem;
+}
+
+.office-bearers-grid {
+  background-color: var(--section-bg);
+}
+
+.office-bearers-grid .leadership-card {
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .page-header {
+    padding-top: 100px;
+  }
+}
+
+/* Map Container Styles */
+.map-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+  min-height: 450px;
+}
+
+.map-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.map-container iframe {
+  border-radius: 15px;
+}
+
+@media (max-width: 991px) {
+  .map-container {
+    margin-top: 2rem;
+    min-height: 350px;
+  }
+}
+
+/* Update contact card styles for new layout */
+.contact-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 
