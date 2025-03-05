@@ -17,6 +17,8 @@
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   </head>
 
   <body>
@@ -46,19 +48,19 @@
       <div class="hero-overlay">
         <div class="hero-content text-center">
           <img src="img/logo/marthoma-seeklogo.svg" alt="Church Logo" class="hero-logo">
-          <h1>St Thomas Church</h1>
-          <p>Welcome to our spiritual community</p>
+          <h1>Mar Thoma Church</h1>
+          <p>Learn to Love Growth and Change and You Will be a Success!</p>
           <a href="#service-times" class="btn btn-light btn-lg mt-3">Join Us for Worship</a>
         </div>
       </div>
     </div>
 
-    <!-- Simplified Navigation -->
-    <nav class="navbar navbar-expand-lg fixed-top bg-light bg-opacity-95">
-      <div class="container-fluid">
+    <!-- Modern Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+      <div class="container">
         <a class="navbar-brand" href="#">
-          <img src="img/logo/marthoma-seeklogo.svg" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
-          St Thomas Church
+          <img src="img/logo/marthoma-seeklogo.svg" alt="Logo" width="40" height="40" class="d-inline-block align-text-top me-2">
+          <span class="brand-text">St Thomas Church</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -66,27 +68,37 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link" href="donations.html">Donate</a>
+              <a class="nav-link" href="donations.html">
+                <i class="fas fa-hand-holding-heart me-1"></i>
+                Donate
+              </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#hist-heading">About</a>
+              <a class="nav-link" href="#hist-heading">
+                <i class="fas fa-church me-1"></i>
+                About
+              </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#contact">Contact</a>
+              <a class="nav-link" href="#contact">
+                <i class="fas fa-envelope me-1"></i>
+                Contact
+              </a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-bars me-1"></i>
                 Menu
               </a>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="login.html">Announcements</a></li>
-                <li><a class="dropdown-item" href="#members">Members</a></li>
-                <li><a class="dropdown-item" href="login.html">Recent Activities</a></li>
-                <li><a class="dropdown-item" href="calendar.html">Events</a></li>
+                <li><a class="dropdown-item" href="login.html"><i class="fas fa-bullhorn me-2"></i>Announcements</a></li>
+                <li><a class="dropdown-item" href="#members"><i class="fas fa-users me-2"></i>Members</a></li>
+                <li><a class="dropdown-item" href="login.html"><i class="fas fa-calendar-check me-2"></i>Recent Activities</a></li>
+                <li><a class="dropdown-item" href="calendar.html"><i class="fas fa-calendar-alt me-2"></i>Events</a></li>
               </ul>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="login.html">
+              <a class="nav-link profile-link" href="login.html">
                 <img src="img/icon/defaultPic.png" alt="Profile" class="profile-pic">
               </a>
             </li>
@@ -96,22 +108,150 @@
     </nav>
 
     <!-- Service Times Section -->
-    <section id="service-times" class="py-5 bg-light">
-      <div class="container text-center">
-        <h2 class="section-title">Worship With Us</h2>
+    <section id="service-times" class="py-5">
+      <div class="container">
+        <div class="section-header text-center mb-5">
+          <h2 class="section-title">Worship With Us</h2>
+          <p class="section-subtitle">Join us in prayer and celebration</p>
+        </div>
         <div class="row justify-content-center">
-          <div class="col-md-8">
-            <div class="service-times-card">
-              <h3>Mass Schedule</h3>
-              <div class="schedule-grid">
-                <div class="schedule-item">
-                  <h4>Weekdays</h4>
-                  <p>Monday - Saturday<br>7:00 AM & 8:00 AM</p>
+          <div class="col-lg-8">
+            <div class="worship-card">
+              <div class="worship-content">
+                <div class="worship-icon">
+                  <i class="fas fa-church"></i>
                 </div>
-                <div class="schedule-item">
-                  <h4>Sunday</h4>
-                  <p>6:30 AM | 7:30 AM<br>8:30 AM (Children's Mass)<br>9:45 AM (English)</p>
+                <div class="worship-day">
+                  <h3>Sunday Service</h3>
+                  <div class="worship-time">
+                    <span class="time-display">8:30 AM</span>
+                    <p class="service-info">Join us for a time of worship and fellowship</p>
+                  </div>
                 </div>
+                <div class="worship-location">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <p>3rd Floor, National Public School<br>Inside T John College</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Church History Section -->
+    <!-- Remove this entire section -->
+
+    <!-- Leadership Section -->
+    <section id="leadership" class="py-5">
+      <div class="container">
+        <div class="section-header text-center mb-5">
+          <h2 class="section-title">Our Leadership</h2>
+          <p class="section-subtitle">Angels of God has brought us peace and happiness</p>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="leadership-card">
+              <div class="leadership-image">
+                <img src="img/Rev. Dr. Theodosius.webp" alt="Metropolitan">
+              </div>
+              <div class="leadership-content">
+                <h3>Rev. Dr. Theodosius Mar Metropolitan</h3>
+                <p class="designation">The Metropolitan</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="leadership-card">
+              <div class="leadership-image">
+                <img src="img/1Gregorios_Mar_Stephanos.webp" alt="Episcopa">
+              </div>
+              <div class="leadership-content">
+                <h3>Rt. Rev. Dr. Mathews Mar Makarios Episcopa</h3>
+                <p class="designation">Episcopas</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="leadership-card">
+              <div class="leadership-image">
+                <img src="img/john_thomas.jpg" alt="Vicar">
+              </div>
+              <div class="leadership-content">
+                <h3>Rev. John Thomas</h3>
+                <p class="designation">Our Vicar</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ministries Section -->
+    <section id="ministries" class="py-5">
+      <div class="container">
+        <div class="section-header text-center mb-5">
+          <h2 class="section-title">Our Ministries</h2>
+          <p class="section-subtitle">Serving the community through various ministries</p>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="ministry-card">
+              <div class="ministry-image">
+                <img src="img/sundas.jpg" alt="Sunday School">
+              </div>
+              <div class="ministry-content">
+                <h3>Sunday School</h3>
+                <p>Classes conducted every Sunday at 10:30 AM following the Marthoma Sunday School curriculum.</p>
+                <a href="#" class="btn btn-outline-primary">Learn More</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="ministry-card">
+              <div class="ministry-image">
+                <img src="img/sevika sangam.png" alt="Sevika Sanghom">
+              </div>
+              <div class="ministry-content">
+                <h3>Sevika Sanghom</h3>
+                <p>The women's wing of our church, dedicated to service and spiritual growth.</p>
+                <a href="#" class="btn btn-outline-primary">Learn More</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="ministry-card">
+              <div class="ministry-image">
+                <img src="img/edvaka mission.jpg" alt="Edavaka Mission">
+              </div>
+              <div class="ministry-content">
+                <h3>Edavaka Mission</h3>
+                <p>Involved in voluntary mission work within our parish and community.</p>
+                <a href="#" class="btn btn-outline-primary">Learn More</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="ministry-card">
+              <div class="ministry-image">
+                <img src="img/youths.jpg" alt="Yuvajana Sakhyam">
+              </div>
+              <div class="ministry-content">
+                <h3>Yuvajana Sakhyam</h3>
+                <p>Youth ministry focusing on Worship, Study, Witness, and Service.</p>
+                <a href="#" class="btn btn-outline-primary">Learn More</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="ministry-card">
+              <div class="ministry-image">
+                <img src="img/choirmain.jpg" alt="Choir">
+              </div>
+              <div class="ministry-content">
+                <h3>Choir</h3>
+                <p>Affiliated with DSMC, enhancing worship through sacred music.</p>
+                <a href="#" class="btn btn-outline-primary">Learn More</a>
               </div>
             </div>
           </div>
@@ -189,261 +329,508 @@
       </div>
     </div>
 
-    <div
-      class="container-fluid pb-0 mb-0 justify-content-center text-light"
-      style="background-color: #3498db" id="contact"
-    >
-      <footer>
-        <div class="row my-5 justify-content-center py-5">
-          <div class="col-11">
-            <div class="row">
-              <div class="col-xl-6 col-md-4 col-sm-4 col-12 my-auto mx-auto a">
-                <h3 class="text-muted mb-md-0 mb-5 bold-text">
-                  JP Nagar Mar Thoma Congregation
-                </h3>
-              </div>
-              <div class="col-xl-2 col-md-4 col-sm-4 col-12">
-                <h6 class="mb-3 mb-lg-4 text-muted bold-text mt-sm-0 mt-5">
-                  <b>CONTACT</b>
-                </h6>
-                <p class="mb-1">Example123@gmail.com</p>
-                <p>+910987654321</p>
-              </div>
-              <div class="col-xl-2 col-md-4 col-sm-4 col-12">
-                <h6 class="mb-3 mb-lg-4 text-muted bold-text mt-sm-0 mt-5">
-                  <b>ADDRESS</b>
-                </h6>
-                <p class="mb-1">605, RATAN ICON BUILDING</p>
-                <p>SEAWOODS SECTOR</p>
-              </div>
-            </div>
-            <div class="row">
-              <div
-                class="col-xl-8 col-md-4 col-sm-4 col-auto my-md-0 mt-5 order-sm-1 order-3 align-self-end"
-              >
-                <p class="social text-muted mb-0 pb-0 bold-text">
-                  <span class="mx-2"
-                    ><i class="fa fa-facebook" aria-hidden="true"></i
-                  ></span>
-                  <span class="mx-2"
-                    ><i class="fa fa-linkedin-square" aria-hidden="true"></i
-                  ></span>
-                  <span class="mx-2"
-                    ><i class="fa fa-twitter" aria-hidden="true"></i
-                  ></span>
-                  <span class="mx-2"
-                    ><i class="fa fa-instagram" aria-hidden="true"></i
-                  ></span>
-                </p>
-                
-              </div>
-              <div
-                class="col-xl-2 col-md-4 col-sm-4 col-auto order-1 align-self-end"
-      </div>
-    </div>
-
-    <!-- history -->
-
-    <!-- <hr style="width: 250px; height:5px; background-color: #3498DB;"> -->
-
-    <div class="container-fluid">
-      <div class="hist-heading" id="hist-heading">
-        <h1 style="font-weight: bold">History</h1>
-      </div>
-      <div class="container" style="max-height: 300px">
+    <!-- Office Bearers Section -->
+    <section id="office-bearers" class="py-5">
+      <div class="container">
+        <div class="section-header text-center mb-5">
+          <h2 class="section-title">Our Office Bearers</h2>
+          <p class="section-subtitle">Dedicated leaders serving our community</p>
+        </div>
         <div class="row">
-          <div class="col-md-6" style="max-height: 300px;">
-            <div class="history">
-              <p>
-                St. Thomas, the Apostle of Jesus Christ is believed to have
-                landed in AD 52 in Cranganore near Cochin, which was at that
-                time an important seaport on the Malabar Coast, having trade
-                connections with the Middle East in those days. F.E. Keay in his
-                book, A History of the Syrian Church in India, has established,
-                from the mention in the book of Kings, of the articles brought
-                to the court of King Solomon from India, that even before the
-                time of Christ, there was trade between the Malabar Coast and
-                Palestine in spices and luxury articles like ivory.
-              </p>
-              <p>
-                Therefore, it was quite natural for Thomas to come to India with
-                the Gospel as the disciples went to different parts of the world
-                in accordance with the commission given to them by Jesus Christ.
-                In the true Apostolic tradition he preached first to the Jewish
-                settlers in and around Cochin, and then worked among the Hindus.
-                Through the ministry of the Word and the many miracles which
-                tradition attributes to him,he brought many.....
-              </p>
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="office-bearer-card">
+              <div class="bearer-image">
+                <img src="img/icon/defaultPic.png" alt="President">
+              </div>
+              <div class="bearer-content">
+                <h3>Rev. John Thomas</h3>
+                <p class="designation">President</p>
+              </div>
             </div>
           </div>
-          <div class="col-md-6">
-            <div>
-              <iframe
-                width="100%"
-                height="300px"
-                src="https://www.youtube.com/embed/ZyjDQNynB7g?autoplay=1&mute=1"
-              >
-              </iframe>
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="office-bearer-card">
+              <div class="bearer-image">
+                <img src="img/icon/defaultPic.png" alt="Vice President">
+              </div>
+              <div class="bearer-content">
+                <h3>Mr. C George</h3>
+                <p class="designation">Vice President</p>
+              </div>
             </div>
           </div>
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="office-bearer-card">
+              <div class="bearer-image">
+                <img src="img/icon/defaultPic.png" alt="Secretary">
+              </div>
+              <div class="bearer-content">
+                <h3>Mr. Raji Joseph</h3>
+                <p class="designation">Secretary</p>
+              </div>
+            </div>
+          </div>
+          <!-- Add more office bearers as needed -->
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="readmore"><a href="history.html">Read more</a></div>
-
-    <!-- pastors details -->
-
-    <div class="hist-heading" id="members">
-      <h1>Our Priest and Evangelist</h1>
-    </div>
-
-    <div class="pastorimages">
-      <div class="img1">
-        <span>
-          <img src="img/icon/defaultPic.png" alt="" />
-          <p>Fr. "Unknown"</p>
-        </span>
-      </div>
-
-      <div class="img2">
-        <span>
-          <img src="img/icon/defaultPic.png" alt="" />
-          <p>Fr. "Unknown"</p>
-        </span>
-      </div>
-    </div>
-
-    <!-- contact us -->
-
-    <!-- <div class="hist-heading">
-      <h1>Contact Us</h1>
-    </div> -->
-
-    <!-- <hr style="width: 250px; height:5px; background-color: #3498DB;"> -->
-
-    <!-- <div class="con-icon">
-      <a href="#"><img src="img/email.png" alt="email" id="emailIcon" /></a>
-      <a href="#"
-        ><img src="img/location.png" alt="Location" id="emailIcon"
-      /></a>
-    </div>
-
-    <div class="contact" id="contact">
-      <div class="contact-details">
-        <p>Phone : +91 1234 4567 90 | +91 1234 4567 90</p>
-        <br />
-        <p>E-mail : abcd.1234@gmail.com</p>
-      </div>
-
-      <div class="address">
-        <p>St Thomas church</p>
-        <p>Ribander, Panaji, Goa</p>
-        <p>123456</p>
-      </div>
-    </div> -->
-
-    <!-- <div class="contact-icon">
-        <div class="con1">
-            <div class="ContactDetailsIcon">
-                <a href="#"><img src="img/email.png" alt="email" id="emailIcon"></a>
-            </div>
-            <div class="con-details">
-                <P>Phone : +91 1234 4567 90 | +91 1234 4567 90</P>
-                <br>
-                <p>E-mail : abcd.1234@gmail.com</p>
-            </div>
-        </div>
-
-
-        <div class="con2">
-            <div class="addDetailsIcon">
-                <a href="#"><img src="img/location.png" alt="Location" id="emailIcon"></a>
-            </div>
-            <div class="add">
-                <p>St Thomas church</p>
-                <p>Ribander, Panaji, Goa</p>
-                <p>123456</p>
-            </div>
-        </div>
-    </div>
-    </div> -->
-
-
-    
-    <div
-      class="container-fluid pb-0 mb-0 justify-content-center text-light"
-      style="background-color: #3498db" id="contact"
-    >
-      <footer>
-        <div class="row my-5 justify-content-center py-5">
-          <div class="col-11">
-            <div class="row">
-              <div class="col-xl-6 col-md-4 col-sm-4 col-12 my-auto mx-auto a">
-                <h3 class="text-muted mb-md-0 mb-5 bold-text">
-                  JP Nagar Mar Thoma Congregation
-                </h3>
+    <!-- Contact Section -->
+    <section id="contact" class="py-5">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div class="contact-card">
+              <div class="section-header text-center mb-5">
+                <h2 class="section-title">Contact Us</h2>
+                <p class="section-subtitle">Get in touch with us</p>
               </div>
-              <!-- <div class="col-xl-2 col-md-4 col-sm-4 col-12">
-                <h6 class="mb-3 mb-lg-4 bold-text"><b>MENU</b></h6>
-                <ul class="list-unstyled">
-                  <li>Home</li>
-                  <li>About</li>
-                  <li>Blog</li>
-                  <li>Portfolio</li>
-                </ul>
-              </div> -->
-              <div class="col-xl-2 col-md-4 col-sm-4 col-12">
-                <h6 class="mb-3 mb-lg-4 text-muted bold-text mt-sm-0 mt-5">
-                  <b>CONTACT</b>
-                </h6>
-                <p class="mb-1">Example123@gmail.com</p>
-                <p>+910987654321</p>
-              </div>
-              <div class="col-xl-2 col-md-4 col-sm-4 col-12">
-                <h6 class="mb-3 mb-lg-4 text-muted bold-text mt-sm-0 mt-5">
-                  <b>ADDRESS</b>
-                </h6>
-                <p class="mb-1">605, RATAN ICON BUILDING</p>
-                <p>SEAWOODS SECTOR</p>
-              </div>
-            </div>
-            <div class="row">
-              <div
-                class="col-xl-8 col-md-4 col-sm-4 col-auto my-md-0 mt-5 order-sm-1 order-3 align-self-end"
-              >
-                <p class="social text-muted mb-0 pb-0 bold-text">
-                  <span class="mx-2"
-                    ><i class="fa fa-facebook" aria-hidden="true"></i
-                  ></span>
-                  <span class="mx-2"
-                    ><i class="fa fa-linkedin-square" aria-hidden="true"></i
-                  ></span>
-                  <span class="mx-2"
-                    ><i class="fa fa-twitter" aria-hidden="true"></i
-                  ></span>
-                  <span class="mx-2"
-                    ><i class="fa fa-instagram" aria-hidden="true"></i
-                  ></span>
-                </p>
-                
-              </div>
-              <div
-                class="col-xl-2 col-md-4 col-sm-4 col-auto order-1 align-self-end"
-              >
-                
-              </div>
-              <div
-                class="col-xl-2 col-md-4 col-sm-4 col-auto order-2 align-self-end mt-3"
-              >
+              <div class="contact-info">
+                <div class="contact-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <div class="contact-details">
+                    <h3>Address</h3>
+                    <p>3rd Floor of National Public School<br>
+                    Inside T John College<br>
+                    Bannerghatta Road, Besides Nice Road<br>
+                    Bangalore</p>
+                    <p class="note">*Lift facility Available</p>
+                  </div>
+                </div>
+                <div class="contact-item">
+                  <i class="fas fa-phone"></i>
+                  <div class="contact-details">
+                    <h3>Phone</h3>
+                    <p>+91 9353957949</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </footer>
-    </div>
+      </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-5">
+      <div class="container">
+        <div class="section-header text-center mb-5">
+          <h2 class="section-title">Photo Gallery</h2>
+          <p class="section-subtitle">Moments from our community</p>
+        </div>
+        
+        <!-- Swiper with effects -->
+        <div class="swiper gallery-swiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="gallery-slide">
+                <img src="img/crousel/edited-img.jpeg" alt="Church Image">
+                <div class="gallery-overlay">
+                  <p>Church Service</p>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="gallery-slide">
+                <img src="img/crousel/edited-img-2.jpeg" alt="Church Image">
+                <div class="gallery-overlay">
+                  <p>Church Building</p>
+                </div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="gallery-slide">
+                <img src="img/crousel/edited-img-3.jpeg" alt="Church Image">
+                <div class="gallery-overlay">
+                  <p>Community Gathering</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-pagination"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section id="resources" class="py-5">
+      <div class="container">
+        <div class="section-header text-center mb-5">
+          <h2 class="section-title">Resources</h2>
+          <p class="section-subtitle">Helpful materials for your spiritual journey</p>
+        </div>
+        <div class="resources-grid">
+          <div class="resource-card">
+            <div class="resource-icon">
+              <i class="fas fa-book-bible"></i>
+            </div>
+            <h3>Daily Devotionals</h3>
+            <p>Start your day with spiritual guidance and reflection.</p>
+            <a href="#" class="btn btn-link">Read More <i class="fas fa-arrow-right"></i></a>
+          </div>
+          <div class="resource-card">
+            <div class="resource-icon">
+              <i class="fas fa-podcast"></i>
+            </div>
+            <h3>Sermon Podcasts</h3>
+            <p>Listen to past sermons and spiritual teachings.</p>
+            <a href="#" class="btn btn-link">Listen Now <i class="fas fa-arrow-right"></i></a>
+          </div>
+          <div class="resource-card">
+            <div class="resource-icon">
+              <i class="fas fa-calendar-alt"></i>
+            </div>
+            <h3>Church Calendar</h3>
+            <p>Stay updated with upcoming events and celebrations.</p>
+            <a href="#" class="btn btn-link">View Calendar <i class="fas fa-arrow-right"></i></a>
+          </div>
+          <div class="resource-card">
+            <div class="resource-icon">
+              <i class="fas fa-hands-praying"></i>
+            </div>
+            <h3>Prayer Requests</h3>
+            <p>Submit your prayer requests to our community.</p>
+            <a href="#" class="btn btn-link">Submit Request <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section id="newsletter" class="py-5">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <div class="newsletter-card">
+              <div class="row align-items-center">
+                <div class="col-lg-6">
+                  <div class="newsletter-content">
+                    <h2>Stay Updated</h2>
+                    <p>Subscribe to our newsletter for the latest updates and events.</p>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <form class="newsletter-form">
+                    <div class="input-group">
+                      <input type="email" class="form-control" placeholder="Enter your email">
+                      <button class="btn btn-primary" type="submit">Subscribe</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>About Us</h3>
+            <p>Mar Thoma Church is a part of the One Holy Catholic and Apostolic Church, one of the ancient Churches in the world.</p>
+          </div>
+          <div class="footer-section">
+            <h3>Quick Links</h3>
+            <ul class="footer-links">
+              <li><a href="#about">About Us</a></li>
+              <li><a href="#leadership">Leadership</a></li>
+              <li><a href="#ministries">Ministries</a></li>
+              <li><a href="#service-times">Service Times</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h3>Connect With Us</h3>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-youtube"></i></a>
+              <a href="#"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2024 Mar Thoma Church. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const navbar = document.querySelector('.navbar');
+      const navLinks = document.querySelectorAll('.nav-link');
+      const brandText = document.querySelector('.brand-text');
+      const dropdownItems = document.querySelectorAll('.dropdown-item');
+      
+      function updateNavbarColor() {
+        const scrollPosition = window.scrollY;
+        const heroSection = document.querySelector('.hero-section');
+        const heroBottom = heroSection ? heroSection.offsetHeight : 0;
+        
+        // Check if we're in the hero section
+        if (scrollPosition < heroBottom) {
+          // In hero section - white text
+          navbar.style.background = 'rgba(255, 255, 255, 0.1)';
+          navLinks.forEach(link => {
+            link.style.color = '#fff';
+            link.style.textShadow = '0 1px 2px rgba(0, 0, 0, 0.2)';
+          });
+          brandText.style.color = '#fff';
+          brandText.style.textShadow = '0 2px 4px rgba(0, 0, 0, 0.2)';
+          
+          // Update dropdown styles
+          const dropdownMenu = document.querySelector('.dropdown-menu');
+          if (dropdownMenu) {
+            dropdownMenu.style.background = 'rgba(255, 255, 255, 0.1)';
+            dropdownMenu.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+          }
+          
+          dropdownItems.forEach(item => {
+            item.style.color = '#fff';
+          });
+        } else {
+          // Outside hero section - dark text
+          navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+          navLinks.forEach(link => {
+            link.style.color = '#2c3e50';
+            link.style.textShadow = 'none';
+          });
+          brandText.style.color = '#2c3e50';
+          brandText.style.textShadow = 'none';
+          
+          // Update dropdown styles
+          const dropdownMenu = document.querySelector('.dropdown-menu');
+          if (dropdownMenu) {
+            dropdownMenu.style.background = 'rgba(255, 255, 255, 0.95)';
+            dropdownMenu.style.borderColor = 'rgba(0, 0, 0, 0.1)';
+          }
+          
+          dropdownItems.forEach(item => {
+            item.style.color = '#2c3e50';
+          });
+        }
+      }
+
+      // Initial call
+      updateNavbarColor();
+
+      // Update on scroll
+      window.addEventListener('scroll', updateNavbarColor);
+      
+      // Update on resize
+      window.addEventListener('resize', updateNavbarColor);
+    });
+    </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Select all sections you want to animate
+        const sections = document.querySelectorAll('section');
+        
+        // Add initial classes
+        sections.forEach(section => {
+          section.classList.add('slide-in');
+        });
+        
+        // Create the observer
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('active');
+              // Optional: stop observing after animation
+              // observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.1 // Trigger when 10% of the element is visible
+        });
+        
+        // Observe all sections
+        sections.forEach(section => {
+          observer.observe(section);
+        });
+        
+        // Optional: Add different directions for alternating sections
+        sections.forEach((section, index) => {
+          section.classList.remove('slide-in');
+          if (index % 2 === 0) {
+            section.classList.add('slide-in-left');
+          } else {
+            section.classList.add('slide-in-right');
+          }
+        });
+      });
+    </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const swiper = new Swiper('.gallery-swiper', {
+            effect: "coverflow",
+            grabCursor: true,
+            centeredSlides: true,
+            slidesPerView: "auto",
+            coverflowEffect: {
+                rotate: 50,
+                stretch: 0,
+                depth: 100,
+                modifier: 1,
+                slideShadows: true
+            },
+            loop: true,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+                dynamicBullets: true
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            speed: 1000,
+            breakpoints: {
+                320: {
+                    slidesPerView: 1,
+                    effect: "fade"
+                },
+                640: {
+                    slidesPerView: 2,
+                    effect: "coverflow"
+                },
+                968: {
+                    slidesPerView: 3,
+                    effect: "coverflow"
+                }
+            }
+        });
+    });
+    </script>
+    <style>
+    .gallery-swiper {
+        width: 100%;
+        padding: 50px 0;
+    }
+
+    .gallery-slide {
+        position: relative;
+        width: 100%;
+        height: 300px;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+        transition: transform 0.5s ease, box-shadow 0.5s ease;
+    }
+
+    .gallery-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.7s ease;
+    }
+
+    .gallery-overlay {
+        position: absolute;
+        bottom: -100%;
+        left: 0;
+        right: 0;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+        color: white;
+        padding: 20px;
+        opacity: 0;
+        transition: all 0.5s ease;
+    }
+
+    .gallery-slide:hover .gallery-overlay {
+        bottom: 0;
+        opacity: 1;
+    }
+
+    .gallery-slide:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
+    }
+
+    .gallery-slide:hover img {
+        transform: scale(1.1);
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+        color: #fff;
+        background: rgba(0, 0, 0, 0.5);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+    }
+
+    .swiper-button-next:hover,
+    .swiper-button-prev:hover {
+        background: rgba(0, 0, 0, 0.8);
+        transform: scale(1.1);
+    }
+
+    .swiper-button-next:after,
+    .swiper-button-prev:after {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .swiper-pagination-bullet {
+        width: 12px;
+        height: 12px;
+        background: rgba(255, 255, 255, 0.5);
+        transition: all 0.3s ease;
+    }
+
+    .swiper-pagination-bullet-active {
+        background: #fff;
+        transform: scale(1.2);
+    }
+
+    .swiper-slide {
+        transition: transform 0.5s ease;
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+
+    .swiper-slide-active {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    .gallery-overlay p {
+        transform: translateY(20px);
+        opacity: 0;
+        transition: all 0.5s ease;
+    }
+
+    .gallery-slide:hover .gallery-overlay p {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    .gallery-swiper {
+        perspective: 1000px;
+    }
+
+    .swiper-wrapper {
+        transform-style: preserve-3d;
+    }
+
+    * {
+        transition: all 0.3s ease-in-out;
+    }
+    </style>
   </body>
 </html>
+

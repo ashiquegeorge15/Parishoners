@@ -1,0 +1,276 @@
+/* gallery.css */
+/* Base Styles */
+body {
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Container */
+.events-container {
+    width: 100%;
+    max-width: 1800px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Gallery Grid */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    padding: 10px;
+    width: 100%;
+}
+
+@media (min-width: 1600px) {
+    .gallery-grid {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+@media (min-width: 1920px) {
+    .gallery-grid {
+        grid-template-columns: repeat(7, 1fr);
+    }
+}
+
+/* Gallery Items */
+.gallery-item {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.gallery-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+/* Overlay */
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.gallery-item:hover .overlay {
+    opacity: 1;
+}
+
+.overlay i {
+    color: white;
+    font-size: 1.25rem;
+    transform: scale(0.9);
+    transition: transform 0.2s ease;
+}
+
+.gallery-item:hover .overlay i {
+    transform: scale(1);
+}
+
+/* Delete Button */
+.delete-image {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(-5px);
+    transition: all 0.2s ease;
+    z-index: 2;
+}
+
+.gallery-item:hover .delete-image {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.delete-image i {
+    color: #dc3545;
+    font-size: 0.875rem;
+}
+
+/* Upload Button */
+#addEventBtn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #000;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+#addEventBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    background: #333;
+}
+
+/* Upload Modal */
+.modal-content {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-footer {
+    padding: 15px 20px;
+    border-top: 1px solid #eee;
+}
+
+/* Upload Zone */
+#uploadZone {
+    border: 2px dashed #ddd;
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    background: #f8f9fa;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#uploadZone:hover {
+    border-color: #000;
+    background: #f0f0f0;
+}
+
+/* Preview Grid */
+#uploadPreview {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.preview-item {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.preview-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Loading States */
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+}
+
+#saveEvent.loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+#saveEvent.loading:after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 50%;
+    left: 50%;
+    margin-left: -8px;
+    margin-top: -8px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* LightGallery Customization */
+.lg-backdrop {
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.lg-toolbar,
+.lg-outer {
+    background-color: transparent;
+}
+

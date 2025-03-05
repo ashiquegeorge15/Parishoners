@@ -131,28 +131,6 @@ body {
     font-size: 0.875rem;
 }
 
-/* Upload Button */
-#addEventBtn {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    background: #000;
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 25px;
-    font-size: 0.9rem;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-    z-index: 1000;
-}
-
-#addEventBtn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    background: #333;
-}
-
 /* Upload Modal */
 .modal-content {
     border-radius: 12px;
