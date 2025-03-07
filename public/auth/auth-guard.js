@@ -1,11 +1,8 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getFirestore, doc, getDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDyqAiultYZzwcoRfQhNKRiCG3DuEBEsd8",
   authDomain: "backendlogsign.firebaseapp.com",
@@ -21,9 +18,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const db = getFirestore(app);
 
-console.log("script loaded");
-
-// Check authentication and approval status
+// Check if user is authenticated and approved
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
     // No user is signed in, redirect to login
@@ -44,14 +39,20 @@ onAuthStateChanged(auth, async (user) => {
     if (!userDoc.exists() || !userDoc.data().isApproved) {
       // User is not approved, sign out and redirect
       await auth.signOut();
+      
+      // Redirect with appropriate error parameter
       window.location.href = '/login.html?error=not_approved';
       return;
     }
+    
+    // User is approved, update last access time
+    await updateDoc(doc(db, "users", user.uid), {
+      lastAccess: serverTimestamp()
+    });
 
   } catch (error) {
     console.error("Error checking user status:", error);
-    // On error, sign out user for security
-    await auth.signOut();
-    window.location.href = '/login.html?error=check_failed';
+    // On error, log the issue but don't necessarily sign the user out
+    alert("Error checking access status. Please try again.");
   }
-});
+}); 

@@ -1,8 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-analytics.js";
-import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, sendEmailVerification } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
-import { getFirestore, collection, addDoc, doc, setDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+import { getAuth, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -20,7 +19,6 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 const auth = getAuth();
 const fs = getFirestore(app);
 
@@ -37,69 +35,61 @@ async function create(event) {
         const name = document.getElementById("name")?.value || '';
         const phone = document.getElementById("phone")?.value || '';
 
-        // Create user with email and password
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
+        // Show loading state
+        document.getElementById("submitBtn").disabled = true;
+        document.getElementById("submitBtn").textContent = "Creating Account...";
 
-        // Prepare user data
-        const userData = {
+        // Create user with Firebase Auth
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const uid = userCredential.user.uid;
+
+        // Store ALL user data in Firestore users collection
+        await setDoc(doc(fs, "users", uid), {
             email: email,
             name: name,
             phno: phone,
-            gender: "",
-            address: "",
-            dob: "",
             createdAt: serverTimestamp(),
             lastLogin: serverTimestamp(),
-            lastUpdated: serverTimestamp(),
-            role: 'member',
-            status: 'active',
-            emailVerified: user.emailVerified,
-            photoURL: user.photoURL || '',
-            deviceInfo: {
-                browser: navigator.userAgent,
-                platform: navigator.platform,
-                language: navigator.language
-            }
-        };
+            isApproved: false,  // User starts as not approved
+            status: 'pending',  // Status is pending until approved
+            role: 'member'
+        });
 
-        // Store user data in Firestore
-        await setDoc(doc(fs, "users", user.uid), userData);
-
-        // Send email verification
-        await sendEmailVerification(user);
-
-        // Set up auth state change listener
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                // Update last login time
-                try {
-                    await updateDoc(doc(fs, "users", user.uid), {
-                        lastLogin: serverTimestamp(),
-                        emailVerified: user.emailVerified,
-                        lastLoginDevice: {
-                            browser: navigator.userAgent,
-                            platform: navigator.platform,
-                            language: navigator.language
-                        }
-                    });
-                } catch (error) {
-                    console.error("Error updating last login:", error);
-                }
+        // Create access request
+        await setDoc(doc(fs, "accessRequests", uid), {
+            email: email,
+            displayName: name || email.split('@')[0],
+            requestedAt: serverTimestamp(),
+            status: 'pending',
+            userDetails: {
+                name: name,
+                phone: phone,
+                email: email
             }
         });
 
-        // Show success message
-        alert("Registration successful! Please check your email for verification.");
+        // Sign out user until approved
+        await signOut(auth);
 
-        // Redirect to auth page
-        window.location.href = "auth/index.html";
+        // Reset button
+        document.getElementById("submitBtn").disabled = false;
+        document.getElementById("submitBtn").textContent = "Sign Up";
+
+        // Show success message
+        alert("Registration successful! Your account is pending admin approval. You will be notified once approved.");
+
+        // Redirect to login page
+        window.location.href = "login.html";
 
     } catch (error) {
         console.error("Registration error:", error);
         
+        // Reset button
+        document.getElementById("submitBtn").disabled = false;
+        document.getElementById("submitBtn").textContent = "Sign Up";
+        
         if (error.code === 'auth/email-already-in-use') {
-            alert("Email already exists");
+            alert("Email already exists!");
             window.location.href = "login.html";
         } else {
             alert(`Registration failed: ${error.message}`);
@@ -112,26 +102,6 @@ const submitBtn = document.getElementById("submitBtn");
 if (submitBtn) {
     submitBtn.addEventListener("click", create);
 }
-
-// Add auth state change listener for all pages
-auth.onAuthStateChanged(async (user) => {
-    if (user) {
-        try {
-            // Update user's last login time
-            await updateDoc(doc(fs, "users", user.uid), {
-                lastLogin: serverTimestamp(),
-                emailVerified: user.emailVerified,
-                lastLoginDevice: {
-                    browser: navigator.userAgent,
-                    platform: navigator.platform,
-                    language: navigator.language
-                }
-            });
-        } catch (error) {
-            console.error("Error updating user data:", error);
-        }
-    }
-});
 
 // Handle errors globally
 window.addEventListener('unhandledrejection', event => {
