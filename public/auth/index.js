@@ -23,35 +23,134 @@ const db = getFirestore(app);
 
 console.log("script loaded");
 
-// Check authentication and approval status
+// Update user name in sidebar
+async function updateUserInfo(user) {
+    try {
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        if (userDoc.exists()) {
+            const userData = userDoc.data();
+            document.getElementById('userName').textContent = userData.name || 'Parish Member';
+        }
+    } catch (error) {
+        console.error("Error fetching user data:", error);
+    }
+}
+
+// Handle logout
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+    try {
+        await auth.signOut();
+        window.location.href = '/login.html';
+    } catch (error) {
+        console.error("Error signing out:", error);
+    }
+});
+
+// Show loader function
+function showLoader() {
+    const loader = document.getElementById('page-loader');
+    if (loader) {
+        loader.classList.add('active');
+    }
+}
+
+// Hide loader function
+function hideLoader() {
+    const loader = document.getElementById('page-loader');
+    if (loader) {
+        loader.classList.remove('active');
+        // Optional: Remove loader completely after transition
+        setTimeout(() => {
+            loader.style.display = 'none';
+        }, 300);
+    }
+}
+
+// Add event listeners for page transitions
+document.addEventListener('DOMContentLoaded', () => {
+    // Hide loader when page is fully loaded
+    hideLoader();
+
+    // Add click event listeners to all navigation links
+    document.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', (e) => {
+            // Only show loader for internal links
+            if (link.href && link.href.startsWith(window.location.origin)) {
+                showLoader();
+            }
+        });
+    });
+
+    // Handle browser back/forward buttons
+    window.addEventListener('popstate', () => {
+        showLoader();
+    });
+});
+
+// Modify your existing navigation handling
+document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+        if (!link.id.includes('logoutBtn')) { // Don't show loader for logout
+            showLoader();
+        }
+    });
+});
+
+// Modify your existing auth state change handler
 onAuthStateChanged(auth, async (user) => {
-  if (!user) {
-    // No user is signed in, redirect to login
-    window.location.href = '/login.html';
-    return;
-  }
-
-  try {
-    // Check if user is admin
-    const adminDoc = await getDoc(doc(db, "Admin", user.uid));
-    if (adminDoc.exists()) {
-      // User is admin, allow access
-      return;
+    showLoader(); // Show loader when checking auth state
+    
+    if (!user) {
+        window.location.href = '/login.html';
+        return;
     }
 
-    // Check if user is approved
-    const userDoc = await getDoc(doc(db, "users", user.uid));
-    if (!userDoc.exists() || !userDoc.data().isApproved) {
-      // User is not approved, sign out and redirect
-      await auth.signOut();
-      window.location.href = '/login.html?error=not_approved';
-      return;
-    }
+    try {
+        await updateUserInfo(user);
+        const adminDoc = await getDoc(doc(db, "Admin", user.uid));
+        if (adminDoc.exists()) {
+            hideLoader(); // Hide loader after admin check
+            return;
+        }
 
-  } catch (error) {
-    console.error("Error checking user status:", error);
-    // On error, sign out user for security
-    await auth.signOut();
-    window.location.href = '/login.html?error=check_failed';
-  }
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        if (!userDoc.exists() || !userDoc.data().isApproved) {
+            await auth.signOut();
+            window.location.href = '/login.html?error=not_approved';
+            return;
+        }
+
+        hideLoader(); // Hide loader after all checks
+    } catch (error) {
+        console.error("Error checking user status:", error);
+        await auth.signOut();
+        window.location.href = '/login.html?error=check_failed';
+    }
+});
+
+// Add this to handle page unload
+window.addEventListener('beforeunload', () => {
+    showLoader();
+});
+
+// Add this for handling AJAX requests if you're using them
+const originalFetch = window.fetch;
+window.fetch = async (...args) => {
+    showLoader();
+    try {
+        const response = await originalFetch(...args);
+        hideLoader();
+        return response;
+    } catch (error) {
+        hideLoader();
+        throw error;
+    }
+};
+
+// Show loader immediately when page starts loading
+document.addEventListener('DOMContentLoaded', () => {
+    const loader = document.getElementById('page-loader');
+    if (loader) {
+        loader.classList.add('active');
+    }
 });

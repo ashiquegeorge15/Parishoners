@@ -49,33 +49,40 @@ async function create(event) {
     try {
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
-        const name = document.getElementById("name")?.value || '';
-        const phone = document.getElementById("phone")?.value || '';
+        const name = document.getElementById("name").value;
+        const phone = document.getElementById("phone").value;
+        const address = document.getElementById("address").value;
+        const dob = document.getElementById("dob").value;
+        const gender = document.querySelector('input[name="gender"]:checked')?.value || '';
+
+        // Update button state
+        const submitBtn = document.getElementById("submitBtn");
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
 
         console.log("Starting registration process...");
 
-        // First check if email exists in users collection
-        const usersRef = collection(fs, "users");
-        const q = query(usersRef, where("email", "==", email));
-        console.log("Checking if email exists...");
-        const querySnapshot = await getDocs(q);
-        
-        if (!querySnapshot.empty) {
-            console.log("Email already exists");
+        // Check if email exists
+        const emailExists = await checkEmailExists(email);
+        if (emailExists) {
             showAccountExistsModal(email);
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Sign Up';
             return;
         }
 
-        console.log("Creating auth user...");
+        // Create auth user
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
-        console.log("Auth user created:", user.uid);
 
-        // Prepare user data
+        // Prepare user data with new fields
         const userData = {
             email: email,
             name: name,
             phno: phone,
+            address: address,
+            dateOfBirth: dob,
+            gender: gender,
             createdAt: serverTimestamp(),
             lastLogin: serverTimestamp(),
             isApproved: false,
@@ -86,53 +93,37 @@ async function create(event) {
             uid: user.uid
         };
 
-        console.log("Attempting to save user data...");
-        // SAVE TO USERS COLLECTION
-        try {
-            await setDoc(doc(fs, "users", user.uid), userData);
-            console.log("User data saved successfully");
-        } catch (error) {
-            console.error("Error saving user data:", error);
-            throw error;
-        }
+        // Save to users collection
+        await setDoc(doc(fs, "users", user.uid), userData);
 
-        console.log("Creating access request...");
-        // Create access request
-        try {
-            await setDoc(doc(fs, "accessRequests", user.uid), {
+        // Create access request with additional details
+        await setDoc(doc(fs, "accessRequests", user.uid), {
+            email: email,
+            displayName: name,
+            requestedAt: serverTimestamp(),
+            status: 'pending',
+            userDetails: {
+                name: name,
+                phone: phone,
                 email: email,
-                displayName: name || email.split('@')[0],
-                requestedAt: serverTimestamp(),
-                status: 'pending',
-                userDetails: {
-                    name: name,
-                    phone: phone,
-                    email: email
-                }
-            });
-            console.log("Access request created successfully");
-        } catch (error) {
-            console.error("Error creating access request:", error);
-            throw error;
-        }
+                address: address,
+                dateOfBirth: dob,
+                gender: gender
+            }
+        });
 
         // Send email verification
         await sendEmailVerification(user);
-
-        // Sign out user until approved
         await auth.signOut();
 
-        // Show pending approval modal
+        // Show success modal
         showPendingApprovalModal();
 
     } catch (error) {
-        console.error("Registration error details:", error);
-        // Reset button and show error
+        console.error("Registration error:", error);
         const submitBtn = document.getElementById("submitBtn");
-        if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = 'Sign Up';
-        }
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Sign Up';
         
         if (error.code === 'auth/email-already-in-use') {
             showAccountExistsModal(document.getElementById("email").value);

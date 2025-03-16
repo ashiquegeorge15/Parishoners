@@ -72,6 +72,15 @@
 
 
     <script type="module" src="announcements.js"></script>
+    <script>
+        // Show loader immediately when page starts loading
+document.addEventListener('DOMContentLoaded', () => {
+    const loader = document.getElementById('page-loader');
+    if (loader) {
+        loader.classList.add('active');
+    }
+});
+    </script>
 
 
 </body>
