@@ -3,163 +3,135 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upcoming Church Events</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <title>Events
-    </title>
-    <link
-    rel="icon"
-    href="img/logo/marthoma-seeklogo.svg"
-    type="image/x-icon"
-  />
-    <link rel="stylesheet" href="events.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(165deg, #4361ee 0%, #3a0ca3 100%);
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: var(--light-color);
+        }
+        .header {
+            background: var(--primary-gradient);
+            padding: 1rem 2rem;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .header nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 1rem;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        .header nav a:hover {
+            opacity: 0.8;
+        }
+        .main-container {
+            padding: 2rem;
+        }
+        .calendar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        .calendar-container iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+        .intro-text {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .intro-text h1 {
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+        .intro-text p {
+            color: #6c757d;
+        }
+        /* Modal styling */
+        .modal-header {
+            background: var(--primary-gradient);
+            color: white;
+        }
+    </style>
 </head>
 
 <body>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-        crossorigin="anonymous"></script>
-
-
-    <!-- donate about... -->
-
-    <div class="TopOptions">
-        <div class="name"> <img src="img/logo/marthoma-seeklogo.svg" alt="" id="churchLogo"> St Thomas Church</div>
-        <div class="TopBar">
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="donations.html">Donate</a></li>
-                <li><a href="index.html">About</a></li>
-                <!-- <li><a class="loginbtn" href="profile.html"><span class="material-symbols-outlined">
-                    account_circle
-                </span></a></li> -->
-                <!-- <li><a href="#">Login</a></li> -->
-                <li class="profilepicclass">
-                    <a href="profile.html"><img src="img/icon/defaultPic.png" alt="" /></a>
-                  </li>
-            </ul>
-        </div>
-    </div>
-
-
-    <!-- <div class="addbtndiv">
-        <button type="submit" class="button-86"><span class="material-symbols-outlined">
-                add
-            </span>Add Announcment</button>
-    </div> -->
-
-    <!-- Button trigger modal -->
-    <!-- <div class="addbtndiv">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addannouncements">
-            Add event
-        </button>
-    </div> -->
-
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">St Thomas Church</div>
+        <nav>
+            <a href="index.html">Dashboard</a>
+            <a href="profile.html">Profile</a>
+        </nav>
+    </header>
     
- <a href="index.html"><button
-        type="button"
-        class="btn btn-primary btn2"
-        data-bs-toggle="modal"
-        data-bs-target="#"
-      >
-        Back
-      </button></a> 
-  
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="addannouncements" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Main Content -->
+    <main class="main-container">
+        <div class="intro-text">
+            <h1>Upcoming Church Events</h1>
+            <p>Hover over an event for details and add it to your calendar</p>
+        </div>
+        
+        <div class="calendar-container">
+            <iframe src="https://calendar.google.com/calendar/embed?height=500&wkst=1&ctz=Asia%2FKolkata&showPrint=0&showCalendars=0&mode=AGENDA&src=MDM3YzU0ZTZhNWJkYTFkZjk5NjI3ZWJkMGFmZjlmODY2ZmNlMjY0MGRkYjcyY2JmODEwNGY1NDZjODU5YWVkMkBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&color=%234285F4" 
+                    style="border-width:0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </main>
+    
+    <!-- Event Details Modal (for demonstration purposes) -->
+    <div class="modal fade" id="eventDetailsModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add event</h1>
+                    <h5 class="modal-title">Event Details</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="mb-3">
-                        <!-- announcements title -->
-                        <label for="exampleFormControlInput1" class="form-label">Title</label>
-                        <input type="email" class="form-control" id="annTitle" required>
-                    </div>
-                    <div class="mb-3">
-                        <!-- announcements Body -->
-                        <label for="exampleFormControlTextarea1" class="form-label">Message</label>
-                        <textarea class="form-control" id="annBody" rows="3" required ></textarea>
-                    </div>
+                    <h5 id="modalEventTitle">Event Title</h5>
+                    <p id="modalEventDate">Event Date &amp; Time</p>
+                    <p id="modalEventDescription">Detailed event description goes here.</p>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="addEventToCalendarBtn">Add to My Calendar</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <!-- post btn -->
-                    <button type="button" class="btn btn-primary" id="postBtn">Post event</button>
                 </div>
             </div>
         </div>
     </div>
-
-
-
-    <!-- announcments... -->
-
-
-    <div class="mainContainer" >
-
-        <div class="AnnouncmentContainer"  >
-            <ul class="announcementslist" id="myList">
-                <!-- <li class="announcementslist" > 
-                    <div class="container">
-                        <div class="title">
-                            <p>Announcment</p>
-                        </div> -->
-                        <!-- <hr class="seperator"> -->
-                        <!-- <div class="content">
-                            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Soluta, saepe libero provident
-                                omnis ab
-                                praesentium, enim quos reiciendis, nemo veniam aliquid nihil. Itaque blanditiis minima
-                                expedita
-                                impedit,
-                                iure et eos.</p>
-                        </div> -->
-                        <!-- <hr class="seperator"> -->
-                        <!-- <div class="comment">
-                            <button type="submit" class="likebtn"><span class="material-symbols-outlined">
-                                    thumb_up
-                                </span>Like</button>
-                            <button type="submit" class="commentbtn"><span class="material-symbols-outlined">
-                                    comment
-                                </span>Comment</button>
-                            <button type="submit" class="sharebtn"><span class="material-symbols-outlined">
-                                    share
-                                </span>Share</button>
-
-                                <p></p>
-                        </div>
-                    </div>
-                </li> -->
-            </ul>
-        </div>
-    </div>
-
-
-
-    <script type="module" src="events.js"></script>
+    
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+            crossorigin="anonymous"></script>
     <script>
-        // Show loader immediately when page starts loading
-document.addEventListener('DOMContentLoaded', () => {
-    const loader = document.getElementById('page-loader');
-    if (loader) {
-        loader.classList.add('active');
-    }
-});
+        // The Google Calendar embed does not support hover events on individual events.
+        // In a more advanced integration, you might use a full calendar library to render event blocks,
+        // attach hover listeners, and trigger modals with event details.
+        // For demonstration, the modal is included if you later decide to integrate such features.
     </script>
-
-
 </body>
 
 </html>
