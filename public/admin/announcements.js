@@ -1,8 +1,8 @@
-
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-analytics.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-auth.js";
+import { getDatabase, ref, set, get, update, remove, child, push, onValue, orderByChild } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -20,308 +20,284 @@ const firebaseConfig = {
   measurementId: "G-C9R69XEVH7"
 };
 
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
-
-import { getDatabase, ref, set,get, update, remove,child,push, onChildAdded, onChildChanged, onChildRemoved, onValue,orderByChild } from "https://www.gstatic.com/firebasejs/9.17.2/firebase-database.js";
-
-//******************************** */ INSERT ANNOUNCEMENT
-
-//POST Announcement------------------------------------ADMIN ONLY
-const db=getDatabase();
-const postListRef = ref(db, 'Announcements/');
-const newPostRef = push(postListRef);
-
-var listItem
-
-const btn=document.querySelector("#postBtn");
-
-const annTitle=document.querySelector('#annTitle');
-const annBody=document.querySelector('#annBody');
-
-                      //Date and Time
-
-let today=new Date();
-const dd=String( today.getDate()).padStart(2,'0');
-const mm=String( today.getMonth()+1).padStart(2,'0');
-const yy= today.getFullYear();
-let hh= String(today.getHours()).padStart(2,'0');
-let mi= String(today.getMinutes()).padStart(2,'0');
-
-// console.log(hh);
-if(hh>12){
-  if(mi>=0){
-    console.log()
-    hh=hh-12;
-    if(hh<10)
-    hh="0"+hh;
-    mi=mi+" PM";
-    // console.log(hh);
-    // Time=hh+":"+mi;
-  }
- }else{
-  mi= mi+" AM";
-  // Time=hh+":"+mi;
- }
-const date=`${dd}/${mm}/${yy}`;
-const time=`${hh}:${mi}`;
-
-//console.log(date+" "+time);
-
-function insert(){
-  if(annTitle.value==""||annBody.value==""){
-    document.querySelector('#annTitle').placeholder="Insert Title Please!";
-    document.querySelector('#annBody').placeholder="Insert Content Please!";
-  }
-
-  else{
-set(newPostRef, {
-  Title: annTitle.value,
-  Body: annBody.value,
-  Date: date,
-  Time: time
-  }).then(()=>{
-  // alert("Announcement posted!");
-  window.location.reload();
-  }).catch((error)=>{
-  alert(error);
-  });}
-}
-
-btn.addEventListener('click',insert);
-
-
-
-//DISPLAY Anouncements
-
-const dbref=ref(db);
-function test()
-{
-  const db = getDatabase();
-const dbRef = ref(db, 'Announcements');
+const db = getDatabase();
 const auth = getAuth();
 
-const myList=document.getElementById("myList");
+// DOM Elements
+const postBtn = document.querySelector("#postBtn");
+const annTitle = document.querySelector('#annTitle');
+const annBody = document.querySelector('#annBody');
+const myList = document.getElementById("myList");
+const announcementForm = document.getElementById("announcementForm");
+const modal = new bootstrap.Modal(document.getElementById('addannouncements'));
 
-var DD=0;
-var MM=0;
-var YY=0;
-var HH=0;
-var MI=0;
-
-function low(dd,mm,yy,hh,mi){
-  myList.appendChild(listItem);
-  DD=dd;
-  MM=mm;
-  YY=yy;
-  HH=hh;
-  MI=mi;
-}
-function high(dd,mm,yy,hh,mi,listItem){
-  myList.insertBefore(listItem, myList.children[0]);
-  DD=dd;
-  MM=mm;
-  YY=yy;
-  HH=hh;
-  MI=mi;
-}
-
-var i=1;//-----------------Test variable
-//code for SORTING records (Firebase) **** Didn't work
-// const myUserId = auth.currentUser.uid;
-// const topUserPostsRef = query(ref(db, 'Announcements/' + myUserId), orderByChild('date'));
-
-
-
-//******************************************************************************************
-//-------------------------- Getting Values from Firebase ------------------
-//*******************************************************************************************
-
-
-
-onValue(dbRef, (snapshot) => {
-  snapshot.forEach((childSnapshot) => {
-    const childKey = childSnapshot.key;
-    const Title = childSnapshot.val().Title;
-    const Body = childSnapshot.val().Body;
-    const Date = childSnapshot.val().Date;
-    let Time = childSnapshot.val().Time;
-  //  console.log(childKey);
-
-
-    let dd=Date.slice(0, 2);
-    let mm=Date.slice(3,5);
-    let yy=Date.slice(6,10);
-    let hh=Time.slice(0,2);
-    let mi=Time.slice(3,5);
-
-    // if(hh>12){
-    //   if(mi>0){
-    //     hh=hh-12;
-    //     mi=mi+" PM";
-    //     Time=hh+":"+mi;
-    //   }
-    //  }else{
-    //   mi= mi+" AM";
-    //   Time=hh+":"+mi;
-    //  }
-
-    // console.log("day "+dd);
-    // console.log("month "+mm);
-    // console.log("year "+yy);
-    // console.log("hour "+hh);
-    // console.log("min "+mi);
-
+// Date and Time Formatting
+function getCurrentDateTime() {
+  let today = new Date();
+  const dd = String(today.getDate()).padStart(2, '0');
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const yy = today.getFullYear();
+  let hh = today.getHours();
+  let mi = String(today.getMinutes()).padStart(2, '0');
+  let period = "AM";
   
-    // console.log(Title);
-    // console.log(Body);
-    // console.log();
-
-    //CREATE NODE
-    // Get a reference to the empty <ul> element
-var myList = document.getElementById("myList");
-
-// console.log(myList.childNodes.length-11+" "+i);
-// i=i+1;
-
-// Create a new <li> element
-listItem = document.createElement("li");
-listItem.classList.add("announcementslist");
-//listItem.id=childKey;
-// Create a new <div> element
-var innerDiv = document.createElement("div");
-innerDiv.classList.add("container");
-
-// Create div and p for title
-var titleDiv=document.createElement("div");
-  // Set the class of the <div> element to "titleDiv"
-titleDiv.classList.add("title");
-var titleP=document.createElement("p");
-
-
-// Create div for delete button
-// var titleDelDiv=document.createElement("div");
-  // Set class of div to "dropdown"
-  // titleDelDiv.classList.add("dropdown");
-//Create delete button
-var delBtn=document.createElement("input");
-  // Set class of button to "dropdown-item"
-  delBtn.classList.add("deletebtn");
-  // delBtn.innerHTML="Delete";
-  delBtn.type="button";
-  delBtn.value="Delete";
-  delBtn.id=childKey;
-
-  // delBtn.classList.add("btn btn-primary btn-sm");
-  //delBtn.onclick="delAnn(childKey)";
+  if (hh >= 12) {
+    period = "PM";
+    if (hh > 12) hh -= 12;
+  }
   
+  if (hh === 0) hh = 12;
   
+  hh = String(hh).padStart(2, '0');
   
-// Create div and p for content
-var contentDiv=document.createElement("div");
-  // Set the class of the <div> element to "titleDiv"
-contentDiv.classList.add("content");
-var contentP=document.createElement("p");
-
-// Create div and p for date and time
-var dtDiv=document.createElement("div");
-  // Set the class of the <div> element to "titleDiv"
-dtDiv.classList.add("comment");
-var dtP=document.createElement("p");
-
-
-// Append the title Div element to the inner Div element
-
-innerDiv.appendChild(titleDiv);
-  titleDiv.appendChild(titleP);
-  titleDiv.appendChild(delBtn);
-
-  // Call delete function on click of button
-  delBtn.addEventListener('click', function() {
-    //this.parentElement.remove();
-    // console.log("DELETE called");
-    alert("You sure to delete "+Title+"?");
-    const del=remove(ref(db, 'Announcements/'+this.id));
-    // alert(del);
-    window.location.reload();
-  })
-  // titleDelDiv.appendChild(delBtn);
-  titleP.textContent=Title;
-
-// Append the content Div element to the inner Div element
-
-innerDiv.appendChild(contentDiv);
-  contentDiv.appendChild(contentP);
-  contentP.textContent=Body;
-
-// Append the title Div element to the inner Div element
-
-  innerDiv.appendChild(dtDiv);
-  dtDiv.appendChild(dtP);
-  dtP.textContent=Date+" "+Time;
-
-// Append the inner<div> element to the <li> element
-listItem.appendChild(innerDiv);
-
-//SORT ACCORDING TO DATE AND TIME   *****------------------------- SORT
-
-if(myList.childNodes.length-11==0)//---- There are some extra 11 characters in length
-{
-// Append the <li> element to the <ul> element
-myList.appendChild(listItem);
-DD=dd;
-MM=mm;
-YY=yy;
-HH=hh;
-MI=mi;
-// console.log(DD);
-// console.log(MM);
-// console.log(YY);
-// console.log(HH);
-// console.log(MI);
-
+  return {
+    date: `${dd}/${mm}/${yy}`,
+    time: `${hh}:${mi} ${period}`
+  };
 }
 
-else
-{if(yy>YY){
-    high(dd,mm,yy,hh,mi,listItem);
-  }else if(yy==YY){if(mm>MM){
-    high(dd,mm,yy,hh,mi,listItem);
-    }else if(mm==MM){if(dd>DD){
-      high(dd,mm,yy,hh,mi,listItem);
-      }else if(dd==DD)
-      {if(hh>HH){
-        high(dd,mm,yy,hh,mi,listItem);
-        }else if(hh==HH){if(mi>=MI){
-          high(dd,mm,yy,hh,mi,listItem);
-          }else{
-            low(dd,mm,yy,hh,mi);
-          }
-        }else{
-          low(dd,mm,yy,hh,mi);
-        }
-      }else{
-        low(dd,mm,yy,hh,mi);
-      }
-    }else{
-      low(dd,mm,yy,hh,mi);
+// Insert Announcement
+function insertAnnouncement(event) {
+  event.preventDefault();
+  
+  // Form validation
+  if (annTitle.value.trim() === "" || annBody.value.trim() === "") {
+    if (annTitle.value.trim() === "") {
+      annTitle.classList.add('is-invalid');
+      annTitle.placeholder = "Please enter a title";
     }
-  }else
-  {
+    
+    if (annBody.value.trim() === "") {
+      annBody.classList.add('is-invalid');
+      annBody.placeholder = "Please enter announcement content";
+    }
+    return;
+  }
+  
+  // Get current date and time
+  const { date, time } = getCurrentDateTime();
+  
+  // Reference for new announcement
+  const postListRef = ref(db, 'Announcements/');
+  const newPostRef = push(postListRef);
+  
+  // Set loading state
+  postBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Posting...';
+  postBtn.disabled = true;
+  
+  // Save to Firebase
+  set(newPostRef, {
+    Title: annTitle.value.trim(),
+    Body: annBody.value.trim(),
+    Date: date,
+    Time: time
+  }).then(() => {
+    // Reset form and close modal
+    annTitle.value = "";
+    annBody.value = "";
+    annTitle.classList.remove('is-invalid');
+    annBody.classList.remove('is-invalid');
+    modal.hide();
+    
+    // Show success toast
+    showToast('Announcement posted successfully!', 'success');
+    
+    // Reset button state
+    postBtn.innerHTML = 'Post Announcement';
+    postBtn.disabled = false;
+  }).catch((error) => {
+    console.error("Error posting announcement:", error);
+    showToast('Error posting announcement. Please try again.', 'error');
+    
+    // Reset button state
+    postBtn.innerHTML = 'Post Announcement';
+    postBtn.disabled = false;
+  });
+}
 
+// Create Toast Notification
+function showToast(message, type) {
+  // Create toast container if it doesn't exist
+  let toastContainer = document.querySelector('.toast-container');
+  if (!toastContainer) {
+    toastContainer = document.createElement('div');
+    toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
+    document.body.appendChild(toastContainer);
+  }
+  
+  // Create toast element
+  const toastEl = document.createElement('div');
+  toastEl.className = `toast align-items-center ${type === 'error' ? 'bg-danger' : 'bg-success'} text-white border-0`;
+  toastEl.setAttribute('role', 'alert');
+  toastEl.setAttribute('aria-live', 'assertive');
+  toastEl.setAttribute('aria-atomic', 'true');
+  
+  // Toast content
+  toastEl.innerHTML = `
+    <div class="d-flex">
+      <div class="toast-body">
+        ${message}
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  `;
+  
+  // Add toast to container
+  toastContainer.appendChild(toastEl);
+  
+  // Initialize and show toast
+  const toast = new bootstrap.Toast(toastEl, {
+    autohide: true,
+    delay: 3000
+  });
+  toast.show();
+  
+  // Remove toast after it's hidden
+  toastEl.addEventListener('hidden.bs.toast', () => {
+    toastEl.remove();
+  });
+}
+
+// Delete Announcement
+function deleteAnnouncement(id, title) {
+  if (confirm(`Are you sure you want to delete "${title}"?`)) {
+    remove(ref(db, 'Announcements/' + id))
+      .then(() => {
+        showToast('Announcement deleted successfully!', 'success');
+      })
+      .catch((error) => {
+        console.error("Error deleting announcement:", error);
+        showToast('Error deleting announcement. Please try again.', 'error');
+      });
   }
 }
 
-// console.log(listItem);
+// Display Announcements
+function loadAnnouncements() {
+  const dbRef = ref(db, 'Announcements');
+  
+  // Clear existing list
+  myList.innerHTML = '';
+  
+  // Variables for sorting
+  let announcements = [];
+  
+  onValue(dbRef, (snapshot) => {
+    // Collect all announcements for sorting
+    snapshot.forEach((childSnapshot) => {
+      const childKey = childSnapshot.key;
+      const announcement = {
+        id: childKey,
+        title: childSnapshot.val().Title,
+        body: childSnapshot.val().Body,
+        date: childSnapshot.val().Date,
+        time: childSnapshot.val().Time,
+        // Convert date to sortable format (yyyy-mm-dd)
+        sortDate: childSnapshot.val().Date.split('/').reverse().join('-') + ' ' + childSnapshot.val().Time
+      };
+      announcements.push(announcement);
+    });
+    
+    // Sort by date (newest first)
+    announcements.sort((a, b) => b.sortDate.localeCompare(a.sortDate));
+    
+    // Display sorted announcements
+    if (announcements.length === 0) {
+      // Show message when no announcements
+      const emptyMessage = document.createElement('div');
+      emptyMessage.className = 'text-center mt-5 p-4 bg-light rounded';
+      emptyMessage.innerHTML = `
+        <div class="text-muted">
+          <i class="fas fa-bullhorn fa-3x mb-3"></i>
+          <h5>No announcements yet</h5>
+          <p>Click "Add Announcement" to create the first one.</p>
+        </div>
+      `;
+      myList.appendChild(emptyMessage);
+    } else {
+      // Create announcement cards
+      announcements.forEach((announcement, index) => {
+        createAnnouncementCard(announcement, index);
+      });
+    }
+  }, {
+    onlyOnce: true
   });
-}, {
-  onlyOnce: true
-});
 }
 
- window.onload=test();
+// Create Announcement Card
+function createAnnouncementCard(announcement, index) {
+  // Create list item
+  const listItem = document.createElement("li");
+  listItem.classList.add("announcementslist");
+  listItem.style.animationDelay = `${0.1 * (index % 5)}s`;
+  
+  // Create container
+  const container = document.createElement("div");
+  container.classList.add("container");
+  
+  // Create title section
+  const titleDiv = document.createElement("div");
+  titleDiv.classList.add("title");
+  
+  const titleP = document.createElement("p");
+  titleP.textContent = announcement.title;
+  
+  const delBtn = document.createElement("button");
+  delBtn.classList.add("deletebtn");
+  delBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+  delBtn.addEventListener('click', () => deleteAnnouncement(announcement.id, announcement.title));
+  
+  titleDiv.appendChild(titleP);
+  titleDiv.appendChild(delBtn);
+  
+  // Create content section
+  const contentDiv = document.createElement("div");
+  contentDiv.classList.add("content");
+  
+  const contentP = document.createElement("p");
+  contentP.textContent = announcement.body;
+  contentDiv.appendChild(contentP);
+  
+  // Create date/time section
+  const dtDiv = document.createElement("div");
+  dtDiv.classList.add("comment");
+  
+  const dtP = document.createElement("p");
+  dtP.innerHTML = `<i class="far fa-calendar-alt"></i> ${announcement.date} &nbsp; <i class="far fa-clock"></i> ${announcement.time}`;
+  dtDiv.appendChild(dtP);
+  
+  // Assemble card
+  container.appendChild(titleDiv);
+  container.appendChild(contentDiv);
+  container.appendChild(dtDiv);
+  listItem.appendChild(container);
+  
+  // Add to DOM
+  myList.appendChild(listItem);
+}
+
+// Event Listeners
+if (postBtn) {
+  postBtn.addEventListener('click', insertAnnouncement);
+}
+
+// Reset validation state on input
+annTitle.addEventListener('input', () => {
+  annTitle.classList.remove('is-invalid');
+});
+
+annBody.addEventListener('input', () => {
+  annBody.classList.remove('is-invalid');
+});
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+  loadAnnouncements();
+});
 
 
 
