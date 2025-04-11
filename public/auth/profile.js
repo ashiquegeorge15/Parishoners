@@ -1,8 +1,9 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-analytics.js";
-import { getAuth,onAuthStateChanged,deleteUser} from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
-import { getFirestore,doc,setDoc,getDoc,deleteDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+import { getAuth, onAuthStateChanged, deleteUser } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-storage.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -23,8 +24,105 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth();
 const fs = getFirestore(app);
+const storage = getStorage(app);
 
 console.log("script loaded");
+
+// Handle profile picture preview
+const profileImgInput = document.getElementById("imginp");
+if (profileImgInput) {
+  profileImgInput.addEventListener("change", function(event) {
+    const file = event.target.files[0];
+    if (file && file.type.match('image.*')) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        // Display image preview if available
+        const previewImg = document.createElement("img");
+        previewImg.src = e.target.result;
+        previewImg.style.width = "150px";
+        previewImg.style.height = "150px";
+        previewImg.style.borderRadius = "50%";
+        previewImg.style.objectFit = "cover";
+        previewImg.style.marginBottom = "10px";
+        
+        const previewContainer = document.querySelector(".modal-body");
+        // Remove any existing preview
+        const existingPreview = previewContainer.querySelector(".preview-image");
+        if (existingPreview) {
+          previewContainer.removeChild(existingPreview);
+        }
+        
+        // Add new preview at the top of the modal body
+        previewContainer.insertBefore(previewImg, previewContainer.firstChild);
+        previewImg.classList.add("preview-image");
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+}
+
+// Upload profile picture to Firebase Storage
+async function uploadProfilePicture(file, userId) {
+  if (!file) return null;
+  
+  try {
+    // Create a reference to the profile picture location
+    const profilePicRef = ref(storage, `profilepic/${userId}_${Date.now()}`);
+    
+    // Upload the file
+    const snapshot = await uploadBytes(profilePicRef, file);
+    console.log('Uploaded profile picture!');
+    
+    // Get download URL
+    const downloadURL = await getDownloadURL(snapshot.ref);
+    console.log('Profile picture URL:', downloadURL);
+    
+    return {
+      url: downloadURL,
+      path: profilePicRef.fullPath
+    };
+  } catch (error) {
+    console.error("Error uploading profile picture:", error);
+    alert("Failed to upload profile picture: " + error.message);
+    return null;
+  }
+}
+
+// Resize image before upload to reduce storage usage
+async function resizeImage(file, maxWidth = 500) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (e) => {
+      const img = new Image();
+      img.src = e.target.result;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Calculate new dimensions
+        let width = img.width;
+        let height = img.height;
+        
+        if (width > maxWidth) {
+          height = Math.round((height * maxWidth) / width);
+          width = maxWidth;
+        }
+        
+        canvas.width = width;
+        canvas.height = height;
+        
+        // Draw resized image
+        ctx.drawImage(img, 0, 0, width, height);
+        
+        // Convert to blob
+        canvas.toBlob((blob) => {
+          resolve(blob);
+        }, file.type, 0.8); // 0.8 quality
+      };
+    };
+  });
+}
 
 async function create() {
   // Getting details from user---------------------

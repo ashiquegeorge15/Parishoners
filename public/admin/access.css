@@ -78,6 +78,17 @@
     animation: highlight 2s ease-out;
 }
 
+/* Animation for highlight when clicked from notification */
+@keyframes highlight-clicked {
+    0%, 50% { background-color: rgba(74, 144, 226, 0.2); }
+    100% { background-color: transparent; }
+}
+
+.highlight-row {
+    animation: highlight-clicked 2s ease-out;
+    border-left: 3px solid #4a90e2;
+}
+
 .processing {
     opacity: 0.7;
     background-color: #f8f9fa;

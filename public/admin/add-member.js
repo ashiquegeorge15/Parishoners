@@ -27,6 +27,27 @@ async function checkIfAdmin(user) {
     }
 }
 
+// Function to load admin profile picture
+async function loadAdminProfilePicture(userId) {
+    try {
+        // Get user profile data from Firestore
+        const userDoc = await db.collection('users').doc(userId).get();
+        
+        // If user has a profile picture, update the image
+        if (userDoc.exists && userDoc.data().profilePic && userDoc.data().profilePic.url) {
+            const profileImg = document.querySelector('.profile-img');
+            if (profileImg) {
+                profileImg.src = userDoc.data().profilePic.url;
+                console.log("Profile picture updated in sidebar");
+            }
+        } else {
+            console.log("No profile picture found for sidebar");
+        }
+    } catch (error) {
+        console.error("Error loading profile picture for sidebar:", error);
+    }
+}
+
 // Function to fetch user/admin details
 async function getUserDetails(userId) {
     try {
@@ -37,6 +58,7 @@ async function getUserDetails(userId) {
             const userData = userDoc.data();
             return {
                 ...userData,
+                profilePicUrl: userData.profilePic?.url || null,
                 adminSince: adminDoc.exists ? adminDoc.data().createdAt : null,
                 lastLogin: userData.lastLogin || null,
                 userId: userId,
@@ -53,12 +75,14 @@ async function getUserDetails(userId) {
 // Function to create user card
 function createUserCard(user, docId) {
     const isAdmin = user.isAdmin;
+    const profilePicUrl = user.profilePic?.url || user.profilePicUrl || '../img/icon/defaultPic.png';
+    
     return `
         <tr class="list-item ${isAdmin ? 'table-info' : ''} align-middle" data-id="${docId}">
             <td class="text-center">
                 <div class="d-flex align-items-center justify-content-center">
                     <div class="position-relative">
-                        <img src="${user.photoURL || '../img/icon/defaultPic.png'}" 
+                        <img src="${profilePicUrl}" 
                              alt="User Photo" 
                              class="rounded-circle shadow-sm" 
                              style="width: 45px; height: 45px; object-fit: cover;">
@@ -92,11 +116,10 @@ function createUserCard(user, docId) {
                     <span><i class="fas fa-map-marker-alt me-1"></i>${user.address || 'No Address'}</span>
                 </div>
             </td>
-            <td class="text-center">
-                <span class="badge ${user.gender === 'Male' ? 'bg-info' : 
-                                   user.gender === 'Female' ? 'bg-pink' : 'bg-secondary'}">
-                    ${user.gender || 'Not Specified'}
-                </span>
+            <td>
+                <div class="d-flex flex-column">
+                    <span><i class="fas fa-venus-mars me-1"></i>${user.gender || 'Not Specified'}</span>
+                </div>
             </td>
             <td class="actions text-end">
                 <div class="btn-group shadow-sm">
@@ -149,6 +172,7 @@ async function showUserDetails(userId) {
         const isAdmin = (await db.collection('Admin').doc(userId).get()).exists;
         const lastLogin = userData.lastLogin ? new Date(userData.lastLogin.toDate()).toLocaleString() : 'Never';
         const createdAt = userData.createdAt ? new Date(userData.createdAt.toDate()).toLocaleString() : 'Unknown';
+        const profilePicUrl = userData.profilePic?.url || '../img/icon/defaultPic.png';
 
         const modalHtml = `
             <div class="modal fade" id="viewUserModal" tabindex="-1">
@@ -164,7 +188,7 @@ async function showUserDetails(userId) {
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-4 text-center mb-3">
-                                    <img src="${userData.photoURL || '../img/icon/defaultPic.png'}" 
+                                    <img src="${profilePicUrl}" 
                                          class="rounded-circle shadow img-thumbnail mb-3" 
                                          style="width: 150px; height: 150px; object-fit: cover;">
                                     <h4 class="text-primary mb-1">${userData.name || 'No Name'}</h4>
@@ -248,82 +272,56 @@ async function showUserDetails(userId) {
         // Add modal to document
         document.body.insertAdjacentHTML('beforeend', modalHtml);
 
-        // Initialize modal
+        // Show the modal
         const modal = new bootstrap.Modal(document.getElementById('viewUserModal'));
         modal.show();
 
-        // Add edit button listener
+        // Add event listener to edit button in modal
         document.querySelector('.edit-user-btn').addEventListener('click', () => {
             modal.hide();
             const editBtn = document.querySelector(`.edit-user[data-id="${userId}"]`);
-            if (editBtn) editBtn.click();
+            if (editBtn) {
+                editBtn.click();
+            }
         });
 
     } catch (error) {
         console.error("Error showing user details:", error);
-        alert(`Error showing user details: ${error.message}`);
+        alert('Error showing user details: ' + error.message);
     }
 }
 
 // Function to fetch unique users
 async function fetchUniqueUsers() {
     try {
-        const currentUser = auth.currentUser;
-        if (!currentUser) {
-            throw new Error('No authenticated user');
-        }
+        const snapshot = await db.collection('users').get();
+        const users = [];
+        const uniqueEmails = new Set();
 
-        const isAdmin = await checkIfAdmin(currentUser);
-        if (!isAdmin) {
-            throw new Error('Admin privileges required');
-        }
-
-        const usersSnapshot = await db.collection('users').get();
-        const adminsSnapshot = await db.collection('Admin').get();
-        
-        const adminIds = new Set();
-        adminsSnapshot.forEach(doc => adminIds.add(doc.id));
-        
-        const uniqueUsers = new Map();
-        
-        usersSnapshot.forEach(doc => {
-            const userData = doc.data();
-            const userId = doc.id;
-            if (!uniqueUsers.has(userId)) {
-                uniqueUsers.set(userId, {
-                    ...userData,
-                    id: userId,
-                    isAdmin: adminIds.has(userId)
-                });
+        for (const doc of snapshot.docs) {
+            const user = await getUserDetails(doc.id);
+            if (user && !uniqueEmails.has(user.email)) {
+                uniqueEmails.add(user.email);
+                users.push(user);
             }
-        });
-        
-        return Array.from(uniqueUsers.values());
+        }
+
+        return users;
     } catch (error) {
         console.error("Error fetching users:", error);
-        throw error;
+        return [];
     }
 }
 
 // Function to display users
 async function displayUsers() {
     try {
-        const currentUser = auth.currentUser;
-        if (!currentUser) {
-            throw new Error('No authenticated user');
-        }
-
-        const isAdmin = await checkIfAdmin(currentUser);
-        if (!isAdmin) {
-            throw new Error('Admin privileges required');
-        }
-
         const container = document.querySelector('.members-container');
         if (!container) return;
 
         // Show loading state
         container.innerHTML = `
-            <div class="p-4">
+            <div class="table-container">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <div class="col-md-6">
                         <div class="input-group">
@@ -340,11 +338,8 @@ async function displayUsers() {
                         </div>
                     </div>
                     <div>
-                        <button class="btn btn-success me-2" onclick="window.location.href='add-member.html'">
+                        <button class="btn btn-success me-2" id="addNewMemberBtn">
                             <i class="fas fa-plus"></i> Add New Member
-                        </button>
-                        <button class="btn btn-danger" id="logoutBtn">
-                            <i class="fas fa-sign-out-alt"></i> Logout
                         </button>
                     </div>
                 </div>
@@ -365,133 +360,151 @@ async function displayUsers() {
         const contentDiv = document.getElementById('usersContent');
         if (!contentDiv) return;
 
+        // Create stats cards
         contentDiv.innerHTML = `
             <!-- Stats Cards -->
             <div class="row mb-4">
                 <div class="col-md-4">
                     <div class="card bg-primary text-white">
                         <div class="card-body">
-                            <h5 class="card-title">Administrators</h5>
-                            <h3 id="adminCount">${admins.length}</h3>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="card-title mb-0">Total Members</h5>
+                                    <h2 class="mt-2 mb-0">${users.length}</h2>
+                                </div>
+                                <div>
+                                    <i class="fas fa-users fa-3x opacity-50"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="card bg-success text-white">
                         <div class="card-body">
-                            <h5 class="card-title">Members</h5>
-                            <h3 id="memberCount">${regularUsers.length}</h3>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="card-title mb-0">Regular Users</h5>
+                                    <h2 class="mt-2 mb-0">${regularUsers.length}</h2>
+                                </div>
+                                <div>
+                                    <i class="fas fa-user fa-3x opacity-50"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="card bg-info text-white">
                         <div class="card-body">
-                            <h5 class="card-title">Total Users</h5>
-                            <h3 id="totalCount">${users.length}</h3>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="card-title mb-0">Administrators</h5>
+                                    <h2 class="mt-2 mb-0">${admins.length}</h2>
+                                </div>
+                                <div>
+                                    <i class="fas fa-user-shield fa-3x opacity-50"></i>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Users Tables -->
-            <div class="card mb-4">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Administrators</h5>
+            <!-- Admin Users Table -->
+            <div class="section-title">
+                <i class="fas fa-user-shield me-2"></i>Administrators (${admins.length})
                 </div>
-                <div class="card-body p-0">
-                    <div class="table-responsive">
-                        <table class="table table-hover mb-0">
+            <div class="table-responsive mb-4">
+                <table class="table users-table admin-table">
                             <thead>
                                 <tr>
-                                    <th>Profile</th>
-                                    <th>Name</th>
+                            <th style="width: 60px">Photo</th>
+                            <th>Name / DOB</th>
                                     <th>Contact</th>
                                     <th>Address</th>
-                                    <th>Gender</th>
-                                    <th>Actions</th>
+                            <th>Gender</th>
+                            <th style="width: 180px">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody id="adminsList">
-                                ${admins.map(admin => createUserCard(admin, admin.id)).join('')}
+                    <tbody>
+                        ${admins.length > 0 
+                            ? admins.map(user => createUserCard(user, user.userId)).join('')
+                            : `<tr><td colspan="6" class="empty-message">No administrators found</td></tr>`
+                        }
                             </tbody>
                         </table>
                     </div>
-                </div>
-            </div>
 
-            <div class="card">
-                <div class="card-header bg-success text-white">
-                    <h5 class="mb-0">Members</h5>
-                </div>
-                <div class="card-body p-0">
+            <!-- Regular Users Table -->
+            <div class="section-title">
+                <i class="fas fa-users me-2"></i>Regular Members (${regularUsers.length})
+            </div>
                     <div class="table-responsive">
-                        <table class="table table-hover mb-0">
+                <table class="table users-table">
                             <thead>
                                 <tr>
-                                    <th>Profile</th>
-                                    <th>Name</th>
+                            <th style="width: 60px">Photo</th>
+                            <th>Name / DOB</th>
                                     <th>Contact</th>
                                     <th>Address</th>
-                                    <th>Gender</th>
-                                    <th>Actions</th>
+                            <th>Gender</th>
+                            <th style="width: 180px">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody id="membersList">
-                                ${regularUsers.map(user => createUserCard(user, user.id)).join('')}
+                    <tbody>
+                        ${regularUsers.length > 0 
+                            ? regularUsers.map(user => createUserCard(user, user.userId)).join('')
+                            : `<tr><td colspan="6" class="empty-message">No regular members found</td></tr>`
+                        }
                             </tbody>
                         </table>
-                    </div>
-                </div>
             </div>
         `;
 
-        // Setup search functionality
+        // Add event listeners for search and filter
         const searchInput = document.getElementById('searchInput');
-        const clearSearch = document.getElementById('clearSearch');
-
         if (searchInput) {
             searchInput.addEventListener('input', (e) => {
-                const searchTerm = e.target.value.toLowerCase();
-                filterUsers(users, searchTerm);
+                const searchTerm = e.target.value.trim().toLowerCase();
+                const filteredUsers = filterUsers(users, searchTerm);
+                
+                const filteredAdmins = filteredUsers.filter(user => user.isAdmin);
+                const filteredRegularUsers = filteredUsers.filter(user => !user.isAdmin);
+                
+                document.querySelector('.admin-table tbody').innerHTML = 
+                    filteredAdmins.length > 0 
+                        ? filteredAdmins.map(user => createUserCard(user, user.userId)).join('')
+                        : `<tr><td colspan="6" class="empty-message">No matching administrators</td></tr>`;
+                
+                document.querySelector('.users-table:not(.admin-table) tbody').innerHTML = 
+                    filteredRegularUsers.length > 0 
+                        ? filteredRegularUsers.map(user => createUserCard(user, user.userId)).join('')
+                        : `<tr><td colspan="6" class="empty-message">No matching members</td></tr>`;
             });
         }
 
-        if (clearSearch) {
-            clearSearch.addEventListener('click', () => {
+        const clearSearchBtn = document.getElementById('clearSearch');
+        if (clearSearchBtn) {
+            clearSearchBtn.addEventListener('click', () => {
                 if (searchInput) {
                     searchInput.value = '';
-                    filterUsers(users, '');
+                    searchInput.dispatchEvent(new Event('input'));
                 }
             });
         }
 
-        // Add event listeners for actions
+        // Add event listeners for user actions
         addUserActionListeners();
-
-        // Add logout functionality
-        const logoutBtn = document.getElementById('logoutBtn');
-        if (logoutBtn) {
-            logoutBtn.addEventListener('click', async () => {
-                try {
-                    await auth.signOut();
-                    window.location.href = '../index.html';
-                } catch (error) {
-                    console.error('Logout error:', error);
-                    alert('Error signing out. Please try again.');
-                }
-            });
-        }
 
     } catch (error) {
         console.error("Error displaying users:", error);
+        const container = document.querySelector('.members-container');
         if (container) {
             container.innerHTML = `
-                <div class="alert alert-danger m-4">
-                    <p><i class="fas fa-exclamation-triangle"></i> Error: ${error.message}</p>
-                    <button class="btn btn-primary mt-2" onclick="window.location.href='../index.html'">
-                        Return to Login
-                    </button>
+                <div class="alert alert-danger" role="alert">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Error loading members: ${error.message}
                 </div>
             `;
         }
@@ -500,101 +513,25 @@ async function displayUsers() {
 
 // Filter users based on search term
 function filterUsers(users, searchTerm) {
-    const admins = users.filter(user => user.isAdmin);
-    const regularUsers = users.filter(user => !user.isAdmin && matchesSearch(user, searchTerm));
-
-    const adminsList = document.getElementById('adminsList');
-    const membersList = document.getElementById('membersList');
-    const memberCount = document.getElementById('memberCount');
-
-    if (membersList) {
-        membersList.innerHTML = regularUsers.length ? 
-            regularUsers.map(user => createUserCard(user, user.id)).join('') :
-            '<tr><td colspan="6" class="text-center">No members found</td></tr>';
-    }
-
-    if (memberCount) {
-        memberCount.textContent = regularUsers.length;
-    }
-
-    addUserActionListeners();
+    if (!searchTerm) return users;
+    
+    return users.filter(user => matchesSearch(user, searchTerm));
 }
 
 // Check if user matches search term
 function matchesSearch(user, searchTerm) {
-    if (!searchTerm) return true;
-    
-    const searchFields = [
-        user.name,
-        user.phno,
-        user.address,
-        user.gender
-    ];
-
-    return searchFields.some(field => 
-        field && field.toString().toLowerCase().includes(searchTerm)
+    return (
+        (user.name && user.name.toLowerCase().includes(searchTerm)) ||
+        (user.email && user.email.toLowerCase().includes(searchTerm)) ||
+        (user.phno && user.phno.toLowerCase().includes(searchTerm)) ||
+        (user.address && user.address.toLowerCase().includes(searchTerm)) ||
+        (user.gender && user.gender.toLowerCase().includes(searchTerm)) ||
+        (user.dob && user.dob.toLowerCase().includes(searchTerm))
     );
 }
 
-// Function to add user action listeners
+// Add event listeners for user management buttons
 function addUserActionListeners() {
-    // Promote to Admin
-    document.querySelectorAll('.promote-admin').forEach(button => {
-        button.addEventListener('click', async (e) => {
-            try {
-                const docId = e.currentTarget.dataset.id;
-                const userName = e.currentTarget.dataset.name;
-                
-                if (confirm(`Are you sure you want to promote ${userName} to admin?`)) {
-                    // Add to Admin collection
-                    await db.collection('Admin').doc(docId).set({
-                        name: userName,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-
-                    // Update user's role in users collection
-                    await db.collection('users').doc(docId).update({
-                        role: 'admin',
-                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-
-                    alert(`${userName} has been promoted to admin successfully!`);
-                    await displayUsers(); // Refresh the display
-                }
-            } catch (error) {
-                console.error("Error promoting to admin:", error);
-                alert(`Error promoting user to admin: ${error.message}`);
-            }
-        });
-    });
-
-    // Demote from Admin
-    document.querySelectorAll('.demote-admin').forEach(button => {
-        button.addEventListener('click', async (e) => {
-            try {
-                const docId = e.currentTarget.dataset.id;
-                const userName = e.currentTarget.dataset.name;
-                
-                if (confirm(`Are you sure you want to demote ${userName} from admin?`)) {
-                    // Remove from Admin collection
-                    await db.collection('Admin').doc(docId).delete();
-
-                    // Update user's role in users collection
-                    await db.collection('users').doc(docId).update({
-                        role: 'member',
-                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-
-                    alert(`${userName} has been demoted from admin successfully!`);
-                    await displayUsers(); // Refresh the display
-                }
-            } catch (error) {
-                console.error("Error demoting admin:", error);
-                alert(`Error demoting admin: ${error.message}`);
-            }
-        });
-    });
-
     // View User
     document.querySelectorAll('.view-user').forEach(button => {
         button.addEventListener('click', (e) => {
@@ -603,6 +540,64 @@ function addUserActionListeners() {
         });
     });
 
+    // Promote to Admin
+    document.querySelectorAll('.promote-admin').forEach(button => {
+        button.addEventListener('click', async (e) => {
+            try {
+                const docId = e.currentTarget.dataset.id;
+                const userName = e.currentTarget.dataset.name;
+                
+                const confirmPromote = confirm(`Are you sure you want to promote ${userName} to administrator?`);
+                if (confirmPromote) {
+                    // Add to Admin collection
+                    await db.collection('Admin').doc(docId).set({
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    
+                    // Update user document with admin role
+                    await db.collection('users').doc(docId).update({
+                        role: 'admin',
+                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    
+                    alert(`${userName} has been promoted to administrator successfully.`);
+                    await displayUsers(); // Refresh the user list
+                }
+            } catch (error) {
+                console.error("Error promoting user to admin:", error);
+                alert(`Failed to promote user: ${error.message}`);
+            }
+        });
+    });
+    
+    // Demote from Admin
+    document.querySelectorAll('.demote-admin').forEach(button => {
+        button.addEventListener('click', async (e) => {
+            try {
+                const docId = e.currentTarget.dataset.id;
+                const userName = e.currentTarget.dataset.name;
+                
+                const confirmDemote = confirm(`Are you sure you want to remove admin privileges from ${userName}?`);
+                if (confirmDemote) {
+                    // Delete from Admin collection
+                    await db.collection('Admin').doc(docId).delete();
+                    
+                    // Update user document with regular role
+                    await db.collection('users').doc(docId).update({
+                        role: 'member',
+                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    
+                    alert(`${userName} has been demoted to regular member successfully.`);
+                    await displayUsers(); // Refresh the user list
+                }
+            } catch (error) {
+                console.error("Error demoting admin:", error);
+                alert(`Failed to demote user: ${error.message}`);
+            }
+        });
+    });
+    
     // Delete User
     document.querySelectorAll('.delete-user').forEach(button => {
         button.addEventListener('click', async (e) => {
@@ -610,21 +605,42 @@ function addUserActionListeners() {
                 const docId = e.currentTarget.dataset.id;
                 const userName = e.currentTarget.dataset.name;
                 
-                if (confirm(`Are you sure you want to delete ${userName}?`)) {
-                    // Delete from both collections
+                const confirmDelete = confirm(`Are you sure you want to delete ${userName}? This action cannot be undone.`);
+                if (confirmDelete) {
+                    // Check if user has a profile picture and delete it
+                    const userDoc = await db.collection('users').doc(docId).get();
+                    if (userDoc.exists && userDoc.data().profilePic && userDoc.data().profilePic.path) {
+                        try {
+                            // Create reference to Firebase Storage
+                            const storage = firebase.storage();
+                            const profilePicRef = storage.ref(userDoc.data().profilePic.path);
+                            await profilePicRef.delete();
+                            console.log("User profile picture deleted successfully");
+                        } catch (storageError) {
+                            console.error("Error deleting profile picture:", storageError);
+                            // Continue with deletion even if picture deletion fails
+                        }
+                    }
+                    
+                    // Delete from users collection
                     await db.collection('users').doc(docId).delete();
-                    await db.collection('Admin').doc(docId).delete();
-
-                    alert(`${userName} has been deleted successfully!`);
-                    await displayUsers(); // Refresh the display
+                    
+                    // Delete from Admin collection if they were an admin
+                    const adminDoc = await db.collection('Admin').doc(docId).get();
+                    if (adminDoc.exists) {
+                        await db.collection('Admin').doc(docId).delete();
+                    }
+                    
+                    alert(`${userName} has been deleted successfully.`);
+                    await displayUsers(); // Refresh the user list
                 }
             } catch (error) {
                 console.error("Error deleting user:", error);
-                alert(`Error deleting user: ${error.message}`);
+                alert(`Failed to delete user: ${error.message}`);
             }
         });
     });
-
+    
     // Edit User
     document.querySelectorAll('.edit-user').forEach(button => {
         button.addEventListener('click', async (e) => {
@@ -636,271 +652,184 @@ function addUserActionListeners() {
                     alert('User not found!');
                     return;
                 }
-
+                
                 const userData = userDoc.data();
                 
-                // Create modal for editing
+                // Create edit modal
                 const modalHtml = `
                     <div class="modal fade" id="editUserModal" tabindex="-1">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Edit User</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                <div class="modal-header bg-primary text-white">
+                                    <h5 class="modal-title">
+                                        <i class="fas fa-user-edit"></i> Edit User
+                                    </h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                                 </div>
                                 <div class="modal-body">
                                     <form id="editUserForm">
+                                        <input type="hidden" id="editUserId" value="${docId}">
+                                        
                                         <div class="mb-3">
-                                            <label class="form-label">Name</label>
+                                            <label for="editName" class="form-label">Name</label>
                                             <input type="text" class="form-control" id="editName" value="${userData.name || ''}" required>
                                         </div>
+                                        
                                         <div class="mb-3">
-                                            <label class="form-label">Phone</label>
+                                            <label for="editPhone" class="form-label">Phone</label>
                                             <input type="tel" class="form-control" id="editPhone" value="${userData.phno || ''}">
                                         </div>
+                                        
                                         <div class="mb-3">
-                                            <label class="form-label">Address</label>
-                                            <textarea class="form-control" id="editAddress" rows="3">${userData.address || ''}</textarea>
+                                            <label for="editEmail" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="editEmail" value="${userData.email || ''}" readonly>
+                                            <small class="text-muted">Email cannot be changed</small>
                                         </div>
+                                        
                                         <div class="mb-3">
-                                            <label class="form-label">Gender</label>
+                                            <label for="editAddress" class="form-label">Address</label>
+                                            <textarea class="form-control" id="editAddress" rows="2">${userData.address || ''}</textarea>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="editGender" class="form-label">Gender</label>
                                             <select class="form-select" id="editGender">
-                                                <option value="">Choose...</option>
+                                                <option value="Choose..." ${userData.gender === 'Choose...' ? 'selected' : ''}>Choose...</option>
                                                 <option value="Male" ${userData.gender === 'Male' ? 'selected' : ''}>Male</option>
                                                 <option value="Female" ${userData.gender === 'Female' ? 'selected' : ''}>Female</option>
-                                                <option value="Other" ${userData.gender === 'Other' ? 'selected' : ''}>Other</option>
+                                                <option value="Prefer not to say" ${userData.gender === 'Prefer not to say' ? 'selected' : ''}>Prefer not to say</option>
                                             </select>
                                         </div>
+                                        
                                         <div class="mb-3">
-                                            <label class="form-label">Date of Birth</label>
-                                            <input type="date" class="form-control" id="editDOB" value="${userData.dob || ''}">
+                                            <label for="editDob" class="form-label">Date of Birth</label>
+                                            <input type="date" class="form-control" id="editDob" value="${userData.dob || ''}">
                                         </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                    <button type="button" class="btn btn-primary" id="saveEditBtn">Save Changes</button>
+                                    <button type="button" class="btn btn-primary" id="saveEditUser">Save Changes</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 `;
-
-                // Remove existing modal if any
+                
+                // Remove any existing modal
                 const existingModal = document.getElementById('editUserModal');
                 if (existingModal) {
                     existingModal.remove();
                 }
-
+                
                 // Add modal to document
                 document.body.insertAdjacentHTML('beforeend', modalHtml);
-
-                // Initialize modal
+                
+                // Show modal
                 const modal = new bootstrap.Modal(document.getElementById('editUserModal'));
                 modal.show();
-
-                // Handle save changes
-                document.getElementById('saveEditBtn').addEventListener('click', async () => {
+                
+                // Handle save button
+                document.getElementById('saveEditUser').addEventListener('click', async () => {
                     try {
-                        const updatedData = {
+                        // Get updated data
+                        const updatedUser = {
                             name: document.getElementById('editName').value,
-                            phno: document.getElementById('editPhone').value,
-                            address: document.getElementById('editAddress').value,
-                            gender: document.getElementById('editGender').value,
-                            dob: document.getElementById('editDOB').value,
+                            phno: document.getElementById('editPhone').value || '',
+                            address: document.getElementById('editAddress').value || '',
+                            gender: document.getElementById('editGender').value || 'Choose...',
+                            dob: document.getElementById('editDob').value || '',
                             updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                         };
-
-                        // Validate required fields
-                        if (!updatedData.name) {
-                            alert('Name is required!');
+                        
+                        // Validate name (required)
+                        if (!updatedUser.name.trim()) {
+                            alert('Name is required');
                             return;
                         }
-
-                        // Update user data
-                        await db.collection('users').doc(docId).update(updatedData);
-
-                        // If user is admin, update admin collection name
-                        const adminDoc = await db.collection('Admin').doc(docId).get();
-                        if (adminDoc.exists) {
-                            await db.collection('Admin').doc(docId).update({
-                                name: updatedData.name
-                            });
-                        }
-
-                        alert('User updated successfully!');
+                        
+                        // Update in Firestore
+                        await db.collection('users').doc(docId).update(updatedUser);
+                        
+                        // Close modal
                         modal.hide();
-                        await displayUsers(); // Refresh the display
-
+                        
+                        alert('User updated successfully');
+                        await displayUsers(); // Refresh user list
                     } catch (error) {
-                        console.error("Error updating user:", error);
-                        alert(`Error updating user: ${error.message}`);
+                        console.error("Error saving user data:", error);
+                        alert(`Failed to update user: ${error.message}`);
                     }
                 });
-
             } catch (error) {
-                console.error("Error opening edit form:", error);
-                alert(`Error opening edit form: ${error.message}`);
+                console.error("Error preparing edit form:", error);
+                alert(`Failed to load user details: ${error.message}`);
             }
         });
     });
+
+    // Logout Button
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            const confirmLogout = confirm('Are you sure you want to logout?');
+            if (confirmLogout) {
+                auth.signOut().then(() => {
+                    window.location.href = '../login.html';
+                }).catch(error => {
+                    console.error('Error during logout:', error);
+                    alert('Failed to logout. Please try again.');
+                });
+            }
+        });
+    }
 }
 
-// Authentication state observer
-auth.onAuthStateChanged(async (user) => {
+// Main function to initialize the page
+async function init() {
     try {
-        if (user) {
-            const isAdmin = await checkIfAdmin(user);
-            if (isAdmin) {
-                console.log('Admin authenticated:', user.email);
-                await displayUsers();
-            } else {
-                console.log('Non-admin user, redirecting...');
-                alert('Access denied. Admin privileges required.');
-                await auth.signOut();
-                window.location.href = '../index.html';
-            }
-        } else {
-            console.log('No user logged in, redirecting...');
-            window.location.href = '../index.html';
-        }
-    } catch (error) {
-        console.error("Auth error:", error);
-        alert('Authentication error. Please try again.');
-        window.location.href = '../index.html';
-    }
-});
-
-// Add error handling for page load
-window.addEventListener('load', async () => {
-    try {
+        // Check authentication state
         const user = auth.currentUser;
         if (user) {
             const isAdmin = await checkIfAdmin(user);
-            if (!isAdmin) {
-                alert('Access denied. Admin privileges required.');
-                await auth.signOut();
+            if (isAdmin) {
+                // Load admin profile picture
+                await loadAdminProfilePicture(user.uid);
+                
+                // Display user list
+                await displayUsers();
+            } else {
+                // Redirect non-admin users
                 window.location.href = '../index.html';
             }
+        } else {
+            // Set up auth state listener for when auth state is still being determined
+            auth.onAuthStateChanged(async (user) => {
+        if (user) {
+            const isAdmin = await checkIfAdmin(user);
+                    if (isAdmin) {
+                        // Load admin profile picture
+                        await loadAdminProfilePicture(user.uid);
+                        
+                        // Display user list
+                        await displayUsers();
+                    } else {
+                        // Redirect non-admin users
+                window.location.href = '../index.html';
+            }
+                } else {
+                    // Redirect to login
+                    window.location.href = '../login.html';
+                }
+            });
         }
     } catch (error) {
-        console.error("Page load error:", error);
+        console.error('Error initializing page:', error);
+        alert('Error loading page: ' + error.message);
     }
-});
+}
 
-// Add edit modal HTML
-const editModalHTML = `
-    <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="editUserForm">
-                        <input type="hidden" id="editUserId">
-                        <div class="mb-3">
-                            <label for="editName" class="form-label">Name *</label>
-                            <input type="text" class="form-control" id="editName" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="editAddress" class="form-label">Address</label>
-                            <input type="text" class="form-control" id="editAddress">
-                        </div>
-                        <div class="mb-3">
-                            <label for="editDob" class="form-label">Date of Birth</label>
-                            <input type="date" class="form-control" id="editDob">
-                        </div>
-                        <div class="mb-3">
-                            <label for="editPhone" class="form-label">Phone</label>
-                            <input type="tel" class="form-control" id="editPhone">
-                        </div>
-                        <div class="mb-3">
-                            <label for="editGender" class="form-label">Gender</label>
-                            <select class="form-select" id="editGender">
-                                <option value="Choose...">Choose...</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="saveEditUser">Save Changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
-`;
-
-// Add the edit modal to the document
-document.body.insertAdjacentHTML('beforeend', editModalHTML);
-
-// Add save edit handler
-document.getElementById('saveEditUser')?.addEventListener('click', async () => {
-    try {
-        const docId = document.getElementById('editUserId').value;
-        const updatedUser = {
-            name: document.getElementById('editName').value,
-            address: document.getElementById('editAddress').value || '',
-            dob: document.getElementById('editDob').value || '',
-            phno: document.getElementById('editPhone').value || '',
-            gender: document.getElementById('editGender').value || 'Choose...',
-            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-        };
-
-        if (!updatedUser.name) {
-            throw new Error('Name is required');
-        }
-
-        await db.collection('users').doc(docId).update(updatedUser);
-        
-        const modal = bootstrap.Modal.getInstance(document.getElementById('editUserModal'));
-        modal.hide();
-        
-        await displayUsers();
-        alert('User updated successfully!');
-
-    } catch (error) {
-        console.error("Error updating user:", error);
-        alert('Error updating user: ' + error.message);
-    }
-});
-
-// Add some CSS to the page
-const style = document.createElement('style');
-style.textContent = `
-    .bg-pink {
-        background-color: #ff69b4 !important;
-    }
-    .table td {
-        vertical-align: middle;
-    }
-    .btn-group .btn {
-        padding: 0.25rem 0.5rem;
-    }
-    .user-photo {
-        transition: transform 0.2s;
-    }
-    .user-photo:hover {
-        transform: scale(1.1);
-    }
-    .badge {
-        font-size: 0.85em;
-        padding: 0.5em 0.8em;
-    }
-    .modal-content {
-        border-radius: 1rem;
-    }
-    .card {
-        border-radius: 0.75rem;
-        border: none;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-`;
-document.head.appendChild(style);
+// Initialize the page
+init();
 
 

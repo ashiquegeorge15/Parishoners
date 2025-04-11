@@ -4,358 +4,187 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Profile | Admin Dashboard</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="img/logo/marthoma-seeklogo.svg" type="image/x-icon" />
+    
+    <!-- Bootstrap CSS -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
       crossorigin="anonymous"
     />
-    <link
-    rel="icon"
-    href="img/logo/marthoma-seeklogo.svg"
-    type="image/x-icon"
-  />
-    <title>Profile</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="profile.css" />
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     />
   </head>
 
   <body>
-    <form action="" method="post">
-      <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-        crossorigin="anonymous"
-      ></script>
-
-
-
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+      <div class="brand">
+        <img src="img/logo/marthoma-seeklogo.svg" alt="Church Logo">
+        <span class="brand-text">St Thomas Church</span>
+      </div>
       
-      <div class="name">St Thomas Church</div>
-
-      
-      
-      <button type="submit" class="btn btn-outline-light btn2" id="logout">
-        Logout
-      </button>
-
-      <!-- <div class="TopOptions">
-        <div class="name">St Thomas Church</div>
-        <div class="TopBar">
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="#">Donate</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li> -->
-            <!-- <li><a href="../login.html">logout</a></li> -->
-            <!-- <li> -->
-            <!-- </li> -->
-          <!-- </ul>
-        </div>
-      </div> -->
-
-      <!-- <div class="Sub-menu">
-      <ul>
-        <li><a href="index.html">Home</a></li>
-          <li><a href="donations.html">Donate</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Contact</a></li>
-          <li><a href="#">Notifications</a></li>
-          <li><a href="profile.html">Account</a></li>
-          <li><a href="notification.html"><span class="material-symbols-outlined">
-                      notifications
-                  </span></a></li>
-          <li><a class="loginbtn" href="login.html"><span class="material-symbols-outlined">
-                      account_circle
-                  </span></a></li>
-      </ul>
-  </div> -->
-
-
-  <a href="index.html"><button
-    type="button"
-    class="btn btn-primary btn2"
-    data-bs-toggle="modal"
-  >
-    Back to Homepage
-  </button></a>
-
- 
- 
-
-      <div class="center-container">
+      <div class="nav-actions">
+        <a href="index.html" class="btn btn-outline">
+          <i class="fas fa-home"></i>
+          <span>Dashboard</span>
+        </a>
         
-        <div class="container">
-          <div style="display: flex; align-self: flex-end">
-            <button
-              class="btn btn-dark"
-              id="deldropdown"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              &#9776;
+        <button id="logout" class="btn btn-primary">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Logout</span>
+        </button>
+      </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <div class="profile-container">
+      <div class="profile-card">
+        <!-- Profile Sidebar -->
+        <div class="profile-sidebar">
+          <img src="img/icon/defaultPic.png" alt="Profile Picture" class="profile-image">
+          
+          <div class="profile-actions">
+            <a href="#" id="editProfile" data-bs-toggle="modal" data-bs-target="#editprofile" class="btn btn-primary">
+              <i class="fas fa-edit"></i>
+              <span>Edit Profile</span>
+            </a>
+            
+            <a href="admincontrol.html" id="admincontrol" class="btn btn-outline">
+              <i class="fas fa-user-shield"></i>
+              <span>Admin Control</span>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Profile Details -->
+        <div class="profile-detail">
+          <div class="profile-header">
+            <h2 class="profile-name" id="name">Name</h2>
+            
+            <button class="profile-menu-btn" id="deldropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-ellipsis-v"></i>
             </button>
-            <ul class="dropdown-menu dropdown-menu-dark">
-              <li><a class="dropdown-item" id="delAccBtn" href="#">Delete account</a></li>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" id="delAccBtn" href="#">
+                <i class="fas fa-trash-alt text-danger"></i> Delete account
+              </a></li>
             </ul>
           </div>
-
-          <div class="profile_pic">
-            <img src="img/icon/defaultPic.png" alt="" />
-          </div>
-          <a href="" data-bs-toggle="modal" id="editProfile" data-bs-target="#editprofile" style="text-decoration: none;">Edit Profile</a>
-          <!-- <button
-            class="button"
-            data-bs-toggle="modal"
-            data-bs-target="#editprofile"
-            id="ep2"
-          >
-            Edit profile
-          </button> -->
-          <div class="details">
-            <h4 id="name" style="font-weight: bold">Name</h4>
-            <p id="email">email</p>
-            <p id="number">Number</p>
-            <p id="dob">Date Of Birth</p>
-            <p id="gender">Gender</p>
-            <p id="address">Address</p>
-          </div>
-          <button
-            type="button"
-            class="btn btn-primary"
-            id="admincontrol"
-          >
-            Admin control
-          </button>
-        </div>
-      </div>
-
-      <!-- Modal -->
-      <div
-        class="modal fade"
-        id="completeprofile"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">
-                Complete Your Profile
-              </h1>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+          
+          <div class="profile-info">
+            <div class="info-group">
+              <div class="info-label">Email</div>
+              <div class="info-value" id="email">email@example.com</div>
             </div>
-            <div class="modal-body">
-              <div class="input-group input-group-sm mb-3">
-                <span class="input-group-image" id="inputGroup-sizing-sm"
-                  >Profile picture</span
-                >
-                <input
-                  type="image"
-                  class="form-control"
-                  aria-label="Sizing example input"
-                  aria-describedby="inputGroup-sizing-sm"
-                />
-              </div>
-              <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text" id="inputGroup-sizing-sm"
-                  >Name</span
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  aria-label="Sizing example input"
-                  aria-describedby="inputGroup-sizing-sm"
-                />
-              </div>
-              <div class="input-group mb-3">
-                <label class="input-group-text" for="inputGroupSelect01"
-                  >Gender</label
-                >
-                <select class="form-select" id="inputGroupSelect01">
-                  <option selected>Choose...</option>
-                  <option value="1">Male</option>
-                  <option value="2">Female</option>
-                  <option value="3">Prefer not to say</option>
-                </select>
-              </div>
-              <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text" id="inputGroup-sizing-sm"
-                  >Phone Number</span
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  aria-label="Sizing example input"
-                  aria-describedby="inputGroup-sizing-sm"
-                />
-              </div>
-              <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text" id="inputGroup-sizing-sm"
-                  >Address</span
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  aria-label="Sizing example input"
-                  aria-describedby="inputGroup-sizing-sm"
-                />
-              </div>
-              <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text" id="inputGroup-sizing-sm"
-                  >Date of Birth</span
-                >
-                <input
-                  type="date"
-                  class="form-control"
-                  aria-label="Sizing example input"
-                  aria-describedby="inputGroup-sizing-sm"
-                />
-              </div>
+            
+            <div class="info-group">
+              <div class="info-label">Phone</div>
+              <div class="info-value" id="number">Not provided</div>
             </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="button" class="btn btn-primary">Finish</button>
+            
+            <div class="info-group">
+              <div class="info-label">Date of Birth</div>
+              <div class="info-value" id="dob">Not provided</div>
+            </div>
+            
+            <div class="info-group">
+              <div class="info-label">Gender</div>
+              <div class="info-value" id="gender">Not provided</div>
+            </div>
+            
+            <div class="info-group">
+              <div class="info-label">Address</div>
+              <div class="info-value" id="address">Not provided</div>
+            </div>
+            
+            <div class="info-group">
+              <div class="info-label">Account Type</div>
+              <div class="info-value"><span class="badge bg-primary">Administrator</span></div>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- EDIT PROFILE -->
-
-      <div
-        class="modal fade"
-        id="editprofile"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">
-                Edit Your Profile
-              </h1>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+    </div>
+    
+    <!-- Edit Profile Modal -->
+    <div class="modal fade" id="editprofile" tabindex="-1" aria-labelledby="editProfileLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editProfileLabel">Edit Your Profile</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="imginp" class="form-label">Profile Picture</label>
+              <input type="file" id="imginp" class="form-control" accept="image/*">
             </div>
-            <div class="modal-body">
-              <div class="input-group input-group-sm mb-3">
-                <span class="input-group-image" id="inputGroup-sizing-sm" 
-                  >Profile picture</span
-                >
-                <input
-                
-                  type="file"
-                  id="imginp"
-                  accept="image/*"
-                  class="form-control"
-                  aria-label="Sizing example input"
-                  aria-describedby="inputGroup-sizing-sm"
-                 
-                />
-              </div>
-              <div class="input-group input-group-sm mb-3">
-                <!-- Name -->
-                <span class="input-group-text" id="inputGroup-sizing-sm"
-                  >Name</span
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  id="uname"
-                  aria-label="Sizing example input"
-                  aria-describedby="inputGroup-sizing-sm"
-                />
-              </div>
-              <div class="input-group mb-3">
-                <!-- Gender -->
-                <label class="input-group-text" for="inputGroupSelect01"
-                  >Gender</label
-                >
-                <select class="form-select" name="ugender" id="ugender">
-                  <option selected>Choose...</option>
-                  <option value="1">Prefer not to say</option>
-                  <option value="2">Male</option>
-                  <option value="3">Female</option>
-                </select>
-              </div>
-              <div class="input-group input-group-sm mb-3">
-                <!-- Phno -->
-                <span class="input-group-text" id="inputGroup-sizing-sm"
-                  >Phone Number</span
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  id="uphno"
-                  aria-label="Sizing example input"
-                  aria-describedby="inputGroup-sizing-sm"
-                />
-              </div>
-              <div class="input-group input-group-sm mb-3">
-                <!-- Address -->
-                <span class="input-group-text" id="inputGroup-sizing-sm"
-                  >Address</span
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  id="uaddress"
-                  aria-label="Sizing example input"
-                  aria-describedby="inputGroup-sizing-sm"
-                />
-              </div>
-              <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text" id="inputGroup-sizing-sm"
-                  >Date of Birth</span
-                >
-                <input
-                  type="date"
-                  class="form-control"
-                  id="udob"
-                  aria-label="Sizing example input"
-                  aria-describedby="inputGroup-sizing-sm"
-                />
-              </div>
+            
+            <div class="mb-3">
+              <label for="uname" class="form-label">Name</label>
+              <input type="text" id="uname" class="form-control">
             </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="button" class="btn btn-primary" id="Save">
-                Save Changes
-              </button>
+            
+            <div class="mb-3">
+              <label for="ugender" class="form-label">Gender</label>
+              <select id="ugender" class="form-select">
+                <option value="selected">Choose...</option>
+                <option value="1">Prefer not to say</option>
+                <option value="2">Male</option>
+                <option value="3">Female</option>
+              </select>
             </div>
+            
+            <div class="mb-3">
+              <label for="uphno" class="form-label">Phone Number</label>
+              <input type="tel" id="uphno" class="form-control">
+            </div>
+            
+            <div class="mb-3">
+              <label for="uaddress" class="form-label">Address</label>
+              <input type="text" id="uaddress" class="form-control">
+            </div>
+            
+            <div class="mb-3">
+              <label for="udob" class="form-label">Date of Birth</label>
+              <input type="date" id="udob" class="form-control">
+            </div>
+          </div>
+          
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" id="Save">Save Changes</button>
           </div>
         </div>
       </div>
-    </form>
+    </div>
+    
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"
+    ></script>
+    
+    <!-- Custom Script -->
     <script type="module" src="profile.js"></script>
   </body>
 </html>

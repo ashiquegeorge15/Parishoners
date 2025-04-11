@@ -22,6 +22,90 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <!-- Admin Dashboard CSS -->
+    <link rel="stylesheet" href="index.css">
+    <style>
+        .main-content {
+            margin-left: 260px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+        
+        @media (max-width: 1024px) {
+            .main-content {
+                margin-left: 80px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+                padding: 10px;
+            }
+        }
+        
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .file-preview {
+            margin-top: 10px;
+            max-width: 100%;
+            max-height: 200px;
+            display: none;
+        }
+
+        .attachment-container {
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .attachment-preview {
+            max-width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+            display: block;
+            margin: 10px auto;
+        }
+
+        .pdf-preview {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        .pdf-icon {
+            color: #e2574c;
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        
+        .file-name {
+            font-weight: 500;
+            word-break: break-word;
+        }
+        
+        .progress-container {
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .upload-progress {
+            height: 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -30,76 +114,84 @@
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous"></script>
 
-    <!-- Header -->
-    <header>
-        <nav class="navbar navbar-expand-lg">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="index.html">
-                    <img src="img/logo/marthoma-seeklogo.svg" alt="Church Logo" id="churchLogo">
-                    <span>St Thomas Church</span>
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="index.html">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="donations.html">Donate</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="index.html">About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link profile-link" href="profile.html">
-                                <img src="img/icon/defaultPic.png" alt="Profile" class="profile-img">
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <img src="img/logo/marthoma-seeklogo.svg" alt="Logo" class="logo">
+                <h2>Admin Panel</h2>
             </div>
-        </nav>
-    </header>
-
-    <!-- Main Content -->
-    <main class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="page-header">
-                    <h1 class="text-center">Announcements</h1>
-                    <p class="text-center text-muted">Stay updated with the latest news and events</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Add Announcement Button -->
-        <div class="row mb-4">
-            <div class="col-12 text-center">
-                <button type="button" class="btn btn-primary add-ann-btn" data-bs-toggle="modal" data-bs-target="#addannouncements">
-                    <i class="fas fa-plus-circle me-2"></i>Add Announcement
-                </button>
-            </div>
-        </div>
-
-        <!-- Back Button (visible on mobile) -->
-        <div class="row mb-3 d-md-none">
-            <div class="col-12">
-                <a href="index.html" class="btn btn-outline-primary btn-sm back-btn">
-                    <i class="fas fa-arrow-left me-2"></i>Back
-                </a>
-            </div>
-        </div>
-
-        <!-- Announcements List -->
-        <div class="announcements-container">
-            <ul class="announcement-list" id="myList">
-                <!-- Announcements will be dynamically added here by JavaScript -->
+            
+            <ul class="nav-links">
+                <li>
+                    <a href="index.html">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="add-member.html">
+                        <i class="fas fa-users"></i>
+                        <span>Users</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="announcements.html">
+                        <i class="fas fa-bullhorn"></i>
+                        <span>Announcements</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="events.html">
+                        <i class="fas fa-calendar"></i>
+                        <span>Events</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="gallery.html">
+                        <i class="fas fa-images"></i>
+                        <span>Gallery</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="access.html">
+                        <i class="fas fa-user-check"></i>
+                        <span>Access Requests</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="profile.html">
+                        <i class="fas fa-user"></i>
+                        <span>My Profile</span>
+                    </a>
+                </li>
             </ul>
-        </div>
-    </main>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Navigation -->
+            <header class="top-nav">
+                <div class="page-header">
+                    <h1>Announcements</h1>
+                    <p class="text-muted">Manage church announcements for the congregation</p>
+                </div>
+                
+                <div class="nav-right">
+                    <button type="button" class="btn btn-primary add-ann-btn" data-bs-toggle="modal" data-bs-target="#addannouncements">
+                        <i class="fas fa-plus-circle me-2"></i>Add Announcement
+                    </button>
+                </div>
+            </header>
+
+            <!-- Announcements Container -->
+            <div class="announcements-container">
+                <ul class="announcement-list" id="myList">
+                    <!-- Announcements will be dynamically added here by JavaScript -->
+                </ul>
+            </div>
+        </main>
+    </div>
 
     <!-- Add Announcement Modal -->
     <div class="modal fade" id="addannouncements" tabindex="-1" aria-labelledby="addAnnouncementModalLabel" aria-hidden="true">
@@ -119,6 +211,23 @@
                             <label for="annBody" class="form-label">Message</label>
                             <textarea class="form-control" id="annBody" rows="5" placeholder="Enter announcement details" required></textarea>
                         </div>
+                        <div class="mb-3">
+                            <label for="attachmentFile" class="form-label">Attachment (Optional)</label>
+                            <div class="input-group">
+                                <input type="file" class="form-control" id="attachmentFile" accept="image/jpeg,image/png,image/gif,application/pdf">
+                                <button class="btn btn-outline-secondary" type="button" id="clearFileBtn">Clear</button>
+                            </div>
+                            <small class="text-muted">Supported formats: Images (JPG, PNG, GIF) and PDF. Max size: 5MB</small>
+                            <div class="progress-container">
+                                <div class="mt-2 mb-1">Uploading attachment...</div>
+                                <div class="progress">
+                                    <div class="progress-bar upload-progress" role="progressbar" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div id="filePreviewContainer" class="mt-2">
+                                <!-- File preview will be shown here -->
+                            </div>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -128,17 +237,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Footer -->
-    <footer class="text-center py-3">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <p>&copy; 2023 St Thomas Church. All rights reserved.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
 
     <!-- JavaScript -->
     <script type="module" src="announcements.js"></script>

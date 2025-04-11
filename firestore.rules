@@ -23,8 +23,14 @@ service cloud.firestore {
 
     // Admin collection rules
     match /Admin/{userId} {
+      // Allow reading a specific admin document
       allow read: if request.auth != null;
       allow write: if isAdmin();
+    }
+
+    // Allow reading the Admin collection itself (list operation)
+    match /Admin {
+      allow read: if request.auth != null;
     }
   }
 }

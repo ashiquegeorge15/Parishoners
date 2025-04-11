@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp, updateDoc, getDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-storage.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.16.0/firebase-auth.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDyqAiultYZzwcoRfQhNKRiCG3DuEBEsd8",
@@ -26,35 +26,109 @@ class EventGallery {
         this.events = [];
         this.currentUser = null;
         this.checkAuthState();
+        this.setupGlobalEventListeners();
+    }
+
+    // New method to setup global event listeners like logout
+    setupGlobalEventListeners() {
+        // Setup logout button
+        document.getElementById('logoutBtn')?.addEventListener('click', async (e) => {
+            e.preventDefault();
+            try {
+                await signOut(auth);
+                // Redirect will happen automatically due to onAuthStateChanged
+            } catch (error) {
+                console.error("Error signing out:", error);
+                alert("Error signing out. Please try again.");
+            }
+        });
     }
 
     checkAuthState() {
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 try {
-                    // Check if user is admin
-                    const adminDoc = await getDocs(collection(db, 'Admin'));
-                    const isAdmin = adminDoc.docs.some(doc => doc.id === user.uid);
+                    // Always load events for all users first
+                    await this.loadEvents();
                     
-                    if (isAdmin) {
-                        this.currentUser = user;
-                        this.setupEventListeners();
-                        this.loadEvents();
-                        document.getElementById('addEventBtn')?.classList.remove('d-none');
-                    } else {
-                        // User is not admin, only show events
-                        this.loadEvents();
-                        document.getElementById('addEventBtn')?.classList.add('d-none');
+                    try {
+                        // Check if user is admin - simplified approach
+                        const adminRef = doc(db, 'Admin', user.uid);
+                        
+                        try {
+                            const adminDoc = await getDoc(adminRef);
+                            
+                            if (adminDoc.exists()) {
+                                // User is admin, enable admin features
+                                this.currentUser = user;
+                                
+                                // Add upload button if not already present
+                                const addButton = document.getElementById('addEventBtn');
+                                if (addButton) {
+                                    addButton.classList.remove('d-none');
+                                } else {
+                                    // Create button if it doesn't exist
+                                    this.createAddButton();
+                                }
+                                
+                                // Setup upload event listeners
+                                this.setupEventListeners();
+                            } else {
+                                // User is not admin, hide admin controls
+                                const addButton = document.getElementById('addEventBtn');
+                                if (addButton) {
+                                    addButton.classList.add('d-none');
+                                }
+                            }
+                        } catch (permissionError) {
+                            console.log("User is not an admin:", permissionError.message);
+                            // Silently fail - user doesn't have admin privileges
+                            const addButton = document.getElementById('addEventBtn');
+                            if (addButton) {
+                                addButton.classList.add('d-none');
+                            }
+                        }
+                    } catch (adminError) {
+                        console.error("Error in admin check:", adminError);
+                        // Don't show error to user, just hide admin controls
+                        const addButton = document.getElementById('addEventBtn');
+                        if (addButton) {
+                            addButton.classList.add('d-none');
+                        }
                     }
-                } catch (error) {
-                    console.error("Error checking admin status:", error);
-                    alert("Error checking permissions. Please try again later.");
+                } catch (galleryError) {
+                    console.error("Error loading gallery:", galleryError);
+                    const eventsContainer = document.getElementById('eventsContainer');
+                    if (eventsContainer) {
+                        eventsContainer.innerHTML = `
+                            <div class="alert alert-danger">
+                                <p>There was a problem loading the gallery. Please try refreshing the page.</p>
+                                <button class="btn btn-outline-danger mt-2" onclick="window.location.reload()">
+                                    Reload Page
+                                </button>
+                            </div>
+                        `;
+                    }
                 }
             } else {
                 // Not logged in, redirect to login
                 window.location.href = '../login.html';
             }
         });
+    }
+
+    // Helper method to create add button if needed
+    createAddButton() {
+        const existingButton = document.getElementById('addEventBtn');
+        if (!existingButton) {
+            const button = document.createElement('button');
+            button.id = 'addEventBtn';
+            button.innerHTML = '<i class="fas fa-plus me-2"></i> Add Images';
+            button.className = ''; // No d-none class
+            button.setAttribute('data-bs-toggle', 'modal');
+            button.setAttribute('data-bs-target', '#uploadModal');
+            document.body.appendChild(button);
+        }
     }
 
     setupEventListeners() {
@@ -145,20 +219,49 @@ class EventGallery {
                 }
             };
 
-            // Upload the resized file
-            const snapshot = await uploadBytes(storageRef, resizedImage, metadata);
-            const downloadURL = await getDownloadURL(snapshot.ref);
+            console.log(`Attempting to upload to: gallery/${eventId}/${fileName}`);
+
+            // Implement retry logic for upload
+            let attempts = 0;
+            const maxAttempts = 3;
+            let lastError = null;
             
-            return {
-                url: downloadURL,
-                path: `gallery/${eventId}/${fileName}`,
-                name: fileName,
-                type: file.type,
-                size: resizedImage.size
-            };
+            while (attempts < maxAttempts) {
+                try {
+                    attempts++;
+                    console.log(`Upload attempt ${attempts} for ${fileName}`);
+                    
+                    const snapshot = await uploadBytes(storageRef, resizedImage, metadata);
+                    const downloadURL = await getDownloadURL(snapshot.ref);
+                    
+                    console.log(`Successfully uploaded image after ${attempts} attempt(s)`);
+                    
+                    return {
+                        url: downloadURL,
+                        path: `gallery/${eventId}/${fileName}`,
+                        name: fileName,
+                        type: file.type,
+                        size: resizedImage.size
+                    };
+                } catch (uploadError) {
+                    lastError = uploadError;
+                    console.warn(`Upload attempt ${attempts} failed:`, uploadError.message);
+                    
+                    // Wait before retrying
+                    if (attempts < maxAttempts) {
+                        console.log(`Waiting before retry...`);
+                        await new Promise(resolve => setTimeout(resolve, 1500 * attempts)); // Increase wait time with each attempt
+                    }
+                }
+            }
+            
+            // If we get here, all attempts failed
+            console.error(`All ${maxAttempts} upload attempts failed for ${fileName}`);
+            throw lastError || new Error('Upload failed after multiple attempts');
+            
         } catch (error) {
             console.error("Error uploading image:", error);
-            throw new Error(`Failed to upload image: ${error.message}`);
+            throw error; // Propagate the error up
         }
     }
 
@@ -208,47 +311,90 @@ class EventGallery {
                 return;
             }
 
-            // Create event document first to get the ID
-            const eventRef = await addDoc(collection(db, 'events'), {
-                createdAt: serverTimestamp(),
-                updatedAt: serverTimestamp(),
-                imageCount: images.length,
-                status: 'uploading',
-                date: new Date().toISOString() // Current date for ordering
-            });
+            // Disable save button to prevent double submissions
+            const saveButton = document.getElementById('saveEvent');
+            if (saveButton) {
+                saveButton.disabled = true;
+                saveButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Uploading...';
+            }
 
-            const eventId = eventRef.id;
+            try {
+                // Create event document first to get the ID
+                const eventRef = await addDoc(collection(db, 'events'), {
+                    createdAt: serverTimestamp(),
+                    updatedAt: serverTimestamp(),
+                    imageCount: images.length,
+                    status: 'uploading',
+                    date: new Date().toISOString() // Current date for ordering
+                });
 
-            // Upload images with proper paths
-            const uploadPromises = Array.from(images).map(async (img) => {
-                const response = await fetch(img.src);
-                const blob = await response.blob();
-                const file = new File([blob], `image_${Date.now()}.jpg`, { type: 'image/jpeg' });
-                return this.uploadImage(file, eventId);
-            });
+                const eventId = eventRef.id;
+                console.log(`Created event with ID: ${eventId}`);
 
-            const imageDetails = await Promise.all(uploadPromises);
+                // Upload images with proper paths
+                const uploadPromises = [];
+                const failedImages = [];
+                
+                for (let i = 0; i < images.length; i++) {
+                    const img = images[i];
+                    try {
+                        console.log(`Processing image ${i + 1}/${images.length}`);
+                        const response = await fetch(img.src);
+                        const blob = await response.blob();
+                        const file = new File([blob], `image_${Date.now()}.jpg`, { type: 'image/jpeg' });
+                        const imageDetails = await this.uploadImage(file, eventId);
+                        uploadPromises.push(imageDetails);
+                    } catch (err) {
+                        console.error(`Error processing image ${i + 1}:`, err);
+                        failedImages.push(i + 1);
+                    }
+                }
 
-            // Update event document with image details
-            await updateDoc(eventRef, {
-                images: imageDetails,
-                status: 'complete',
-                updatedAt: serverTimestamp()
-            });
+                if (uploadPromises.length === 0) {
+                    throw new Error("All image uploads failed");
+                }
 
-            // Close modal and refresh
-            const modal = bootstrap.Modal.getInstance(document.getElementById('uploadModal'));
-            modal.hide();
-            document.getElementById('uploadPreview').innerHTML = '';
-            
-            // Refresh the gallery
-            await this.loadEvents();
+                // Update event document with image details
+                await updateDoc(eventRef, {
+                    images: uploadPromises,
+                    status: uploadPromises.length === images.length ? 'complete' : 'partial',
+                    imageCount: uploadPromises.length,
+                    updatedAt: serverTimestamp()
+                });
 
-            alert('Images uploaded successfully!');
+                // Close modal and refresh
+                const modal = bootstrap.Modal.getInstance(document.getElementById('uploadModal'));
+                modal.hide();
+                document.getElementById('uploadPreview').innerHTML = '';
+                
+                // Refresh the gallery
+                await this.loadEvents();
 
+                if (failedImages.length > 0) {
+                    alert(`${uploadPromises.length} images uploaded successfully. ${failedImages.length} images failed to upload.`);
+                } else {
+                    alert('All images uploaded successfully!');
+                }
+            } catch (uploadError) {
+                console.error('Error during upload process:', uploadError);
+                alert('Failed to upload images. Please ensure you have permission and try again with smaller images.');
+            }
+
+            // Re-enable save button
+            if (saveButton) {
+                saveButton.disabled = false;
+                saveButton.innerHTML = 'Upload';
+            }
         } catch (error) {
-            console.error('Error saving event:', error);
-            alert('Error uploading images. Please try again.');
+            console.error('Error in save event process:', error);
+            alert('An unexpected error occurred. Please try again later.');
+            
+            // Re-enable save button
+            const saveButton = document.getElementById('saveEvent');
+            if (saveButton) {
+                saveButton.disabled = false;
+                saveButton.innerHTML = 'Upload';
+            }
         }
     }
 
@@ -368,13 +514,38 @@ class EventGallery {
                     </div>
                 `;
             } else {
-                lightGallery(galleryGrid, {
+                // Initialize lightGallery with development settings to suppress license warning
+                const galleryOptions = {
+                    selector: '.gallery-link',
                     plugins: [lgZoom, lgThumbnail],
                     speed: 500,
                     thumbnail: true,
                     download: this.currentUser ? true : false,
-                    selector: '.gallery-link'
-                });
+                    mode: 'lg-fade',
+                    backdropDuration: 300,
+                    loop: false,
+                    counter: false,
+                    hideScrollbar: true,
+                    mobileSettings: {
+                        controls: true,
+                        showCloseIcon: true,
+                        download: false
+                    }
+                };
+                
+                // For development mode, suppress license warning
+                if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                    // Monkey patch to suppress the warning in development
+                    const originalConsoleWarn = console.warn;
+                    console.warn = function(msg) {
+                        if (msg && typeof msg === 'string' && msg.includes('lightGallery:')) {
+                            return; // Suppress lightGallery license warnings
+                        }
+                        originalConsoleWarn.apply(console, arguments);
+                    };
+                }
+                
+                lightGallery(galleryGrid, galleryOptions);
             }
 
             if (spinner) spinner.style.display = 'none';

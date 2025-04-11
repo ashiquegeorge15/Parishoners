@@ -140,17 +140,35 @@ body {
     color: white;
     border: none;
     padding: 12px 24px;
-    border-radius: 25px;
-    font-size: 0.9rem;
+    border-radius: 50px;
+    font-size: 1rem;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
     z-index: 1000;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #addEventBtn:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     background: #333;
+}
+
+#addEventBtn i {
+    margin-right: 8px;
+}
+
+/* Adjust for smaller screens */
+@media (max-width: 768px) {
+    #addEventBtn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        bottom: 20px;
+        right: 20px;
+    }
 }
 
 /* Upload Modal */

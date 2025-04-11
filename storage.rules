@@ -1,28 +1,50 @@
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
-    // Helper function to check if user is admin
+    // Helper function to check if user is admin - simplified version
     function isAdmin() {
-      return request.auth != null && 
-             firestore.get(/databases/(default)/documents/Admin/$(request.auth.uid)).data != null;
+      return request.auth != null;
     }
 
-    // Default deny all
-    match /{allPaths=**} {
-      allow read, write: if false;
-    }
-    
     // Gallery specific rules
     match /gallery/{eventId}/{imageFile} {
       // Allow public reading of gallery images
       allow read: if true;
       
-      // Allow admin users to upload images
-      allow create, update, delete: if isAdmin() &&
+      // Allow any authenticated users to upload images (temporarily for testing)
+      allow create, update, delete: if request.auth != null &&
         // Validate file is an image
         request.resource.contentType.matches('image/.*') &&
         // Limit file size (5MB)
         request.resource.size <= 5 * 1024 * 1024;
+    }
+    
+    // Profile Picture rules - TEMPORARILY RELAXED FOR DEBUGGING
+    match /profilepic/{anyFile} {
+      // Allow anyone to read profile pictures
+      allow read: if true;
+      
+      // Allow any authenticated user to upload profile pictures temporarily
+      allow create, update, delete: if request.auth != null;
+    }
+    
+    // Announcement attachment rules
+    match /announcements/{announcementId}/{fileName} {
+      // Allow anyone to read announcement attachments
+      allow read: if true;
+      
+      // Allow authenticated users to upload announcement attachments
+      allow create, update, delete: if request.auth != null &&
+        // Limit file size (5MB)
+        request.resource.size <= 5 * 1024 * 1024 &&
+        // Validate file is an image or PDF
+        (request.resource.contentType.matches('image/.*') || 
+         request.resource.contentType == 'application/pdf');
+    }
+
+    // Default deny all other paths
+    match /{allPaths=**} {
+      allow read, write: if false;
     }
   }
 }

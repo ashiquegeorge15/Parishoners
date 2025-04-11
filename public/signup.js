@@ -47,18 +47,38 @@ async function create(event) {
     event.preventDefault();
     
     try {
-        const email = document.getElementById("email").value;
+        // Form validation
+        const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value;
-        const name = document.getElementById("name").value;
-        const phone = document.getElementById("phone").value;
-        const address = document.getElementById("address").value;
+        const name = document.getElementById("name").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+        const address = document.getElementById("address").value.trim();
         const dob = document.getElementById("dob").value;
         const gender = document.querySelector('input[name="gender"]:checked')?.value || '';
+        
+        // Basic validation
+        if (!email || !password || !name || !phone || !address || !dob || !gender) {
+            alert("Please fill in all required fields");
+            return;
+        }
+        
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            alert("Please enter a valid email address");
+            return;
+        }
+        
+        // Password validation (at least 6 characters)
+        if (password.length < 6) {
+            alert("Password must be at least 6 characters long");
+            return;
+        }
 
-        // Update button state
+        // Update button state to show loading
         const submitBtn = document.getElementById("submitBtn");
         submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
+        submitBtn.innerHTML = '<div class="loader"></div> Creating Account...';
 
         console.log("Starting registration process...");
 
@@ -67,7 +87,7 @@ async function create(event) {
         if (emailExists) {
             showAccountExistsModal(email);
             submitBtn.disabled = false;
-            submitBtn.innerHTML = 'Sign Up';
+            submitBtn.innerHTML = '<i class="fas fa-user-plus"></i>Sign Up';
             return;
         }
 
@@ -123,10 +143,14 @@ async function create(event) {
         console.error("Registration error:", error);
         const submitBtn = document.getElementById("submitBtn");
         submitBtn.disabled = false;
-        submitBtn.innerHTML = 'Sign Up';
+        submitBtn.innerHTML = '<i class="fas fa-user-plus"></i>Sign Up';
         
         if (error.code === 'auth/email-already-in-use') {
             showAccountExistsModal(document.getElementById("email").value);
+        } else if (error.code === 'auth/weak-password') {
+            alert('Password is too weak. Please use a stronger password.');
+        } else if (error.code === 'auth/invalid-email') {
+            alert('Please enter a valid email address.');
         } else {
             alert(`Registration failed: ${error.message}`);
         }
@@ -184,11 +208,12 @@ function showAccountExistsModal(email) {
         
         .approval-modal {
             background-color: white;
-            border-radius: 10px;
+            border-radius: 15px;
             width: 90%;
             max-width: 500px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
             animation: modalFadeIn 0.3s ease-out forwards;
+            overflow: hidden;
         }
         
         @keyframes modalFadeIn {
@@ -202,11 +227,13 @@ function showAccountExistsModal(email) {
             align-items: center;
             padding: 15px 20px;
             border-bottom: 1px solid #eee;
+            background-color: #f8f9fa;
         }
         
         .modal-header h3 {
             margin: 0;
             color: #333;
+            font-weight: 600;
         }
         
         .close-button {
@@ -214,11 +241,16 @@ function showAccountExistsModal(email) {
             border: none;
             font-size: 24px;
             cursor: pointer;
-            color: #999;
+            color: #666;
+            transition: color 0.2s;
+        }
+        
+        .close-button:hover {
+            color: #333;
         }
         
         .modal-body {
-            padding: 20px;
+            padding: 25px 20px;
             text-align: center;
         }
         
@@ -235,11 +267,13 @@ function showAccountExistsModal(email) {
         .modal-body h4 {
             margin-bottom: 15px;
             color: #333;
+            font-weight: 600;
         }
         
         .modal-body p {
             color: #666;
             margin-bottom: 10px;
+            line-height: 1.5;
         }
         
         .modal-footer {
@@ -248,19 +282,21 @@ function showAccountExistsModal(email) {
             display: flex;
             justify-content: center;
             gap: 10px;
+            background-color: #f8f9fa;
         }
         
         .btn-primary, .btn-secondary {
-            padding: 8px 16px;
-            border-radius: 4px;
+            padding: 10px 20px;
+            border-radius: 8px;
             font-weight: 500;
             cursor: pointer;
             border: none;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
         }
         
         .btn-primary {
-            background-color: #007bff;
+            background-color: #4a90e2;
             color: white;
         }
         
@@ -270,11 +306,19 @@ function showAccountExistsModal(email) {
         }
         
         .btn-primary:hover {
-            background-color: #0069d9;
+            background-color: #3a7bc8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         
         .btn-secondary:hover {
             background-color: #5a6268;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-primary:active, .btn-secondary:active {
+            transform: translateY(0);
         }
     </style>
     `;
@@ -359,11 +403,12 @@ function showPendingApprovalModal() {
         
         .approval-modal {
             background-color: white;
-            border-radius: 10px;
+            border-radius: 15px;
             width: 90%;
             max-width: 500px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
             animation: modalFadeIn 0.3s ease-out forwards;
+            overflow: hidden;
         }
         
         @keyframes modalFadeIn {
@@ -377,11 +422,13 @@ function showPendingApprovalModal() {
             align-items: center;
             padding: 15px 20px;
             border-bottom: 1px solid #eee;
+            background-color: #f8f9fa;
         }
         
         .modal-header h3 {
             margin: 0;
             color: #333;
+            font-weight: 600;
         }
         
         .close-button {
@@ -389,11 +436,16 @@ function showPendingApprovalModal() {
             border: none;
             font-size: 24px;
             cursor: pointer;
-            color: #999;
+            color: #666;
+            transition: color 0.2s;
+        }
+        
+        .close-button:hover {
+            color: #333;
         }
         
         .modal-body {
-            padding: 20px;
+            padding: 25px 20px;
             text-align: center;
         }
         
@@ -405,11 +457,13 @@ function showPendingApprovalModal() {
         .modal-body h4 {
             margin-bottom: 15px;
             color: #333;
+            font-weight: 600;
         }
         
         .modal-body p {
             color: #666;
             margin-bottom: 10px;
+            line-height: 1.5;
         }
         
         .modal-footer {
@@ -418,19 +472,21 @@ function showPendingApprovalModal() {
             display: flex;
             justify-content: center;
             gap: 10px;
+            background-color: #f8f9fa;
         }
         
         .btn-primary, .btn-secondary {
-            padding: 8px 16px;
-            border-radius: 4px;
+            padding: 10px 20px;
+            border-radius: 8px;
             font-weight: 500;
             cursor: pointer;
             border: none;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
         }
         
         .btn-primary {
-            background-color: #007bff;
+            background-color: #4a90e2;
             color: white;
         }
         
@@ -440,11 +496,19 @@ function showPendingApprovalModal() {
         }
         
         .btn-primary:hover {
-            background-color: #0069d9;
+            background-color: #3a7bc8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         
         .btn-secondary:hover {
             background-color: #5a6268;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-primary:active, .btn-secondary:active {
+            transform: translateY(0);
         }
     </style>
     `;
@@ -474,13 +538,32 @@ function showPendingApprovalModal() {
 }
 
 // Add event listener to submit button
-const submitBtn = document.getElementById("submitBtn");
-if (submitBtn) {
-    submitBtn.addEventListener("click", create);
-}
+document.addEventListener('DOMContentLoaded', function() {
+    const signupForm = document.getElementById("signupForm");
+    if (signupForm) {
+        signupForm.addEventListener("submit", create);
+    }
+    
+    // Set default date for DOB field (18 years ago)
+    const dobInput = document.getElementById("dob");
+    if (dobInput) {
+        const today = new Date();
+        const eighteenYearsAgo = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+        const formattedDate = eighteenYearsAgo.toISOString().split('T')[0];
+        dobInput.setAttribute('max', today.toISOString().split('T')[0]); // Can't select future dates
+        dobInput.value = formattedDate;
+    }
+});
 
 // Handle errors globally
 window.addEventListener('unhandledrejection', event => {
     console.error('Unhandled promise rejection:', event.reason);
     alert('An error occurred. Please try again.');
+    
+    // Reset the submit button if an unhandled error occurs
+    const submitBtn = document.getElementById("submitBtn");
+    if (submitBtn && submitBtn.disabled) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-user-plus"></i>Sign Up';
+    }
 });

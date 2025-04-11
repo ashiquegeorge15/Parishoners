@@ -29,6 +29,148 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+// Function to load user profile picture
+async function loadProfilePicture(userId) {
+    try {
+        // Get user profile data from Firestore
+        const userDoc = await getDoc(doc(db, "users", userId));
+        
+        // If user has a profile picture, update the image
+        if (userDoc.exists() && userDoc.data().profilePic && userDoc.data().profilePic.url) {
+            const profileImg = document.querySelector('.profile-img');
+            if (profileImg) {
+                profileImg.src = userDoc.data().profilePic.url;
+                console.log("Profile picture updated");
+            }
+        } else {
+            console.log("No profile picture found or user doesn't exist");
+        }
+    } catch (error) {
+        console.error("Error loading profile picture:", error);
+    }
+}
+
+// Function to check and update notifications for access requests
+async function setupNotifications() {
+    try {
+        // Listen for pending access requests
+        const q = query(
+            collection(db, 'accessRequests'),
+            where('status', '==', 'pending')
+        );
+        
+        onSnapshot(q, (snapshot) => {
+            const count = snapshot.docs.length;
+            
+            // Update notification badge
+            const badge = document.querySelector('.notifications .badge');
+            if (badge) {
+                badge.textContent = count;
+                
+                // Show/hide badge based on count
+                if (count > 0) {
+                    badge.style.display = 'block';
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+            
+            // Update notification dropdown
+            updateNotificationDropdown(snapshot.docs);
+        });
+    } catch (error) {
+        console.error("Error setting up notifications:", error);
+    }
+}
+
+// Function to update notification dropdown content
+function updateNotificationDropdown(requests) {
+    const notificationContainer = document.querySelector('.notification-dropdown');
+    
+    if (!notificationContainer) return;
+    
+    // Clear existing notifications
+    const notificationList = notificationContainer.querySelector('.notification-list');
+    notificationList.innerHTML = '';
+    
+    if (requests.length === 0) {
+        // Show empty state
+        notificationList.innerHTML = `
+            <li class="empty-notification">
+                <p>No new requests</p>
+            </li>
+        `;
+        return;
+    }
+    
+    // Add notification items - limit to 5 most recent
+    requests.slice(0, 5).forEach(doc => {
+        const request = doc.data();
+        const requestType = request.userDetails ? 'New signup' : 'Login request';
+        const time = request.requestedAt ? formatTimestamp(request.requestedAt) : 'Just now';
+        
+        const notificationItem = document.createElement('li');
+        notificationItem.innerHTML = `
+            <a href="#request-${doc.id}" class="notification-item" data-id="${doc.id}">
+                <div class="notification-icon ${request.userDetails ? 'bg-info' : 'bg-warning'}">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <div class="notification-content">
+                    <p class="notification-text">
+                        <strong>${requestType}:</strong> ${request.email || 'Unknown user'}
+                    </p>
+                    <p class="notification-time">${time}</p>
+                </div>
+            </a>
+        `;
+        
+        notificationList.appendChild(notificationItem);
+        
+        // Add click event to scroll to the request
+        notificationItem.querySelector('.notification-item').addEventListener('click', (e) => {
+            e.preventDefault();
+            const requestRow = document.getElementById(`request-${doc.id}`);
+            if (requestRow) {
+                requestRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                requestRow.classList.add('highlight-row');
+                setTimeout(() => {
+                    requestRow.classList.remove('highlight-row');
+                }, 2000);
+            }
+        });
+    });
+    
+    // Add view all link if there are more than 5 notifications
+    if (requests.length > 5) {
+        const viewAllItem = document.createElement('li');
+        viewAllItem.className = 'view-all';
+        viewAllItem.innerHTML = `
+            <a href="#">View all ${requests.length} requests</a>
+        `;
+        notificationList.appendChild(viewAllItem);
+    }
+}
+
+// Format timestamp for notifications
+function formatTimestamp(timestamp) {
+    if (!timestamp) return 'Just now';
+    
+    const date = timestamp.toDate();
+    const now = new Date();
+    const diffMs = now - date;
+    const diffSec = Math.floor(diffMs / 1000);
+    const diffMin = Math.floor(diffSec / 60);
+    const diffHour = Math.floor(diffMin / 60);
+    const diffDay = Math.floor(diffHour / 24);
+    
+    if (diffSec < 60) return 'Just now';
+    if (diffMin < 60) return `${diffMin}m ago`;
+    if (diffHour < 24) return `${diffHour}h ago`;
+    if (diffDay < 7) return `${diffDay}d ago`;
+    
+    return date.toLocaleDateString();
+}
+
 // Check if user is admin
 onAuthStateChanged(auth, async (user) => {
     if (!user) {
@@ -43,6 +185,12 @@ onAuthStateChanged(auth, async (user) => {
             window.location.href = '/auth/index.html';
             return;
         }
+
+        // Load user profile picture
+        await loadProfilePicture(user.uid);
+        
+        // Setup notifications
+        setupNotifications();
 
         // Start listening to access requests
         initializeRequestsListener();

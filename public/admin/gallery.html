@@ -18,25 +18,202 @@
     
     <!-- Your custom CSS -->
     <link href="gallery.css" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <link rel="icon" href="img/logo/marthoma-seeklogo.svg" type="image/x-icon" />
     <style>
-        /* Add these inline styles to ensure proper body spacing */
-        body {
+        .main-content {
+            margin-left: 260px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+        
+        @media (max-width: 1024px) {
+            .main-content {
+                margin-left: 80px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+                padding: 10px;
+            }
+        }
+        
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+        
+        .page-header h1 {
             margin: 0;
-            padding: 0;
-            overflow-x: hidden;
+            font-size: 1.75rem;
+            font-weight: 600;
+        }
+        
+        .page-header p {
+            margin-bottom: 0;
+            color: #6c757d;
+        }
+        
+        #addEventBtn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        #addEventBtn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        .loading-spinner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .loading-spinner .spinner-border {
+            width: 3rem;
+            height: 3rem;
         }
     </style>
 </head>
 <body>
-    <!-- Main Content -->
-    <div class="events-container">
-        <div id="eventsContainer"></div>
-    </div>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <img src="img/logo/marthoma-seeklogo.svg" alt="Logo" class="logo">
+                <h2>Admin Panel</h2>
+            </div>
+            
+            <ul class="nav-links">
+                <li>
+                    <a href="index.html">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="add-member.html">
+                        <i class="fas fa-users"></i>
+                        <span>Users</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="announcements.html">
+                        <i class="fas fa-bullhorn"></i>
+                        <span>Announcements</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="events.html">
+                        <i class="fas fa-calendar"></i>
+                        <span>Events</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="gallery.html">
+                        <i class="fas fa-images"></i>
+                        <span>Gallery</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="access.html">
+                        <i class="fas fa-user-check"></i>
+                        <span>Access Requests</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="profile.html">
+                        <i class="fas fa-user"></i>
+                        <span>My Profile</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
 
-    <!-- Upload Button -->
-    <button id="addEventBtn" class="d-none" data-bs-toggle="modal" data-bs-target="#uploadModal">
-        <i class="fas fa-plus me-2"></i>Upload
-    </button>
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Navigation -->
+            <header class="top-nav">
+                <div class="page-header">
+                    <h1>Photo Gallery</h1>
+                    <p class="text-muted">Manage and display church event photos</p>
+                </div>
+                
+                <div class="nav-right">
+                    <button id="addEventBtn" data-bs-toggle="modal" data-bs-target="#uploadModal">
+                        <i class="fas fa-upload"></i>
+                        <span>Upload Images</span>
+                    </button>
+                    
+                    <div class="profile" id="profileDropdown">
+                        <img src="img/icon/defaultPic.png" alt="Profile" class="profile-img" width="40" height="40" style="border-radius: 50%; object-fit: cover;">
+                        
+                        <!-- Add dropdown menu -->
+                        <div class="profile-dropdown">
+                            <ul>
+                                <li>
+                                    <a href="profile.html">
+                                        <i class="fas fa-user"></i>
+                                        My Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="settings.html">
+                                        <i class="fas fa-cog"></i>
+                                        Settings
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="#" id="logoutBtn">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Gallery Container -->
+            <div class="events-container">
+                <div class="loading-spinner">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+                <div id="eventsContainer"></div>
+            </div>
+        </main>
+    </div>
 
     <!-- Upload Modal -->
     <div class="modal fade" id="uploadModal" tabindex="-1">
@@ -73,5 +250,40 @@
     
     <!-- Your gallery.js -->
     <script type="module" src="gallery.js"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const profileDropdown = document.getElementById('profileDropdown');
+        
+        // Toggle dropdown on profile click
+        if (profileDropdown) {
+            profileDropdown.addEventListener('click', function(e) {
+                e.stopPropagation();
+                this.classList.toggle('active');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function() {
+                profileDropdown.classList.remove('active');
+            });
+        }
+        
+        // Logout functionality
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirm('Are you sure you want to logout?')) {
+                    firebase.auth().signOut().then(() => {
+                        window.location.href = '../login.html';
+                    }).catch(error => {
+                        console.error('Error during logout:', error);
+                        alert('Failed to logout. Please try again.');
+                    });
+                }
+            });
+        }
+    });
+    </script>
 </body>
 </html> 

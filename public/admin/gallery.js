@@ -40,12 +40,22 @@ class EventGallery {
                         this.currentUser = user;
                         this.setupEventListeners();
                         this.loadEvents();
-                        document.getElementById('addEventBtn')?.classList.remove('d-none');
+                        this.loadProfilePicture(user.uid);
                     } else {
                         // User is not admin, only show events
                         this.loadEvents();
-                        document.getElementById('addEventBtn')?.classList.add('d-none');
                     }
+                    
+                    // Make upload button visible in header
+                    const uploadBtn = document.getElementById('addEventBtn');
+                    if (uploadBtn) {
+                        if (isAdmin) {
+                            uploadBtn.classList.remove('d-none');
+                        } else {
+                            uploadBtn.classList.add('d-none');
+                        }
+                    }
+                    
                 } catch (error) {
                     console.error("Error checking admin status:", error);
                     alert("Error checking permissions. Please try again later.");
@@ -55,6 +65,26 @@ class EventGallery {
                 window.location.href = '../login.html';
             }
         });
+    }
+    
+    async loadProfilePicture(userId) {
+        try {
+            // Get user profile data from Firestore
+            const userDoc = await getDoc(doc(db, "users", userId));
+            
+            // If user has a profile picture, update the image
+            if (userDoc.exists() && userDoc.data().profilePic && userDoc.data().profilePic.url) {
+                const profileImg = document.querySelector('.profile-img');
+                if (profileImg) {
+                    profileImg.src = userDoc.data().profilePic.url;
+                    console.log("Profile picture updated");
+                }
+            } else {
+                console.log("No profile picture found or user doesn't exist");
+            }
+        } catch (error) {
+            console.error("Error loading profile picture:", error);
+        }
     }
 
     setupEventListeners() {
