@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Dues | Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="img/logo/marthoma-seeklogo.svg" type="image/x-icon" />
+    <link rel="stylesheet" href="index.css">
+    <style>
+        .main-content {
+            margin-left: 260px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+        
+        @media (max-width: 1024px) {
+            .main-content {
+                margin-left: 80px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+                padding: 10px;
+            }
+        }
+        
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+        
+        .page-header h1 {
+            margin: 0;
+            font-size: 1.75rem;
+            font-weight: 600;
+        }
+        
+        .page-header p {
+            margin-bottom: 0;
+            color: #6c757d;
+        }
+
+        .dues-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .dues-card-header {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dues-card-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .member-table .status-badge {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.5rem;
+        }
+
+        .member-table .dues-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dues-history-modal .history-item {
+            border-bottom: 1px solid #eee;
+            padding: 12px 0;
+        }
+
+        .dues-history-modal .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .reminder-template-editor {
+            margin-bottom: 20px;
+        }
+
+        .reminder-template-editor textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .tag-btn {
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+
+        .reminder-history {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .toggle-dues-filter {
+            cursor: pointer;
+            padding: 5px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #4a90e2;
+        }
+
+        .toggle-dues-filter:hover {
+            text-decoration: underline;
+        }
+
+        .table-responsive {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Animation for row highlight */
+        @keyframes highlightRow {
+            0%, 100% { background-color: transparent; }
+            50% { background-color: rgba(74, 144, 226, 0.1); }
+        }
+
+        .highlight-row {
+            animation: highlightRow 2s ease-in-out;
+        }
+        
+        /* Mobile sidebar styles */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                z-index: 1030;
+            }
+            
+            .sidebar.mobile-visible {
+                transform: translateX(0);
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            }
+            
+            #mobile-menu-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 40px;
+                height: 40px;
+                padding: 0;
+                margin-right: 15px;
+                border-radius: 50%;
+                background-color: var(--background-color);
+                color: var(--text-color);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <img src="img/logo/marthoma-seeklogo.svg" alt="Logo" class="logo">
+                <h2>Admin Panel</h2>
+            </div>
+            
+            <ul class="nav-links">
+                <li>
+                    <a href="index.html">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="add-member.html">
+                        <i class="fas fa-users"></i>
+                        <span>Users</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="announcements.html">
+                        <i class="fas fa-bullhorn"></i>
+                        <span>Announcements</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="events.html">
+                        <i class="fas fa-calendar"></i>
+                        <span>Events</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="gallery.html">
+                        <i class="fas fa-images"></i>
+                        <span>Gallery</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="access.html">
+                        <i class="fas fa-user-check"></i>
+                        <span>Access Requests</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="dues.html">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>Dues Management</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="profile.html">
+                        <i class="fas fa-user"></i>
+                        <span>My Profile</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Navigation -->
+            <header class="top-nav">
+                <div class="page-header">
+                    <h1>Dues Management</h1>
+                    <p class="text-muted">Manage member dues and send reminders</p>
+                </div>
+                
+                <div class="nav-right">
+                    <button type="button" id="mobile-menu-toggle" class="btn d-md-none">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">0</span>
+                        
+                        <!-- Notification Dropdown -->
+                        <div class="notification-dropdown">
+                            <div class="notification-header">
+                                <h5>Notifications</h5>
+                                <a href="access.html" class="text-primary" style="font-size: 12px;">View All</a>
+                            </div>
+                            <ul class="notification-list">
+                                <!-- Notification items will be added here by JavaScript -->
+                                <li class="empty-notification">
+                                    <p>No new requests</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="profile" id="profileDropdown">
+                        <img src="img/icon/defaultPic.png" alt="Profile" class="profile-img" width="40" height="40" style="border-radius: 50%; object-fit: cover;">
+                        
+                        <!-- Add dropdown menu -->
+                        <div class="profile-dropdown">
+                            <ul>
+                                <li>
+                                    <a href="profile.html">
+                                        <i class="fas fa-user"></i>
+                                        My Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="settings.html">
+                                        <i class="fas fa-cog"></i>
+                                        Settings
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="#" id="logoutBtn">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dues Management Content -->
+            <div class="dues-card">
+                <div class="dues-card-header">
+                    <h2>Member Dues</h2>
+                    <div>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-outline-primary btn-sm" id="showAllMembers">All Members</button>
+                            <button type="button" class="btn btn-outline-danger btn-sm" id="showWithDues">With Outstanding Dues</button>
+                        </div>
+                        <button type="button" class="btn btn-primary btn-sm ms-2" data-bs-toggle="modal" data-bs-target="#addDuesModal">
+                            <i class="fas fa-plus"></i> Add Dues
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="table table-hover" id="membersTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Last Payment</th>
+                                <th>Outstanding Dues</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="membersTableBody">
+                            <!-- Table content will be populated by JavaScript -->
+                            <tr>
+                                <td colspan="7" class="text-center">Loading members...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Reminder Templates Card -->
+            <div class="dues-card">
+                <div class="dues-card-header">
+                    <h2>Notification Templates</h2>
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addTemplateModal">
+                        <i class="fas fa-plus"></i> Add Template
+                    </button>
+                </div>
+                
+                <div class="row" id="templatesContainer">
+                    <!-- Template cards will be populated by JavaScript -->
+                    <div class="col-12">
+                        <p class="text-center text-muted">Loading templates...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Database Debug Card -->
+            <div class="dues-card" id="debugCard" style="display: none;">
+                <div class="dues-card-header">
+                    <h2>Database Debug</h2>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" id="refreshDebugBtn">
+                        <i class="fas fa-sync"></i> Refresh
+                    </button>
+                </div>
+                
+                <div class="card mb-3">
+                    <div class="card-header">Collections</div>
+                    <div class="card-body">
+                        <div id="collectionsDebug">Loading collection info...</div>
+                    </div>
+                </div>
+                
+                <div class="card mb-3">
+                    <div class="card-header">Auth Status</div>
+                    <div class="card-body">
+                        <div id="authDebug">Checking auth status...</div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">Actions</div>
+                    <div class="card-body">
+                        <button class="btn btn-outline-primary btn-sm me-2" id="createTestTemplateBtn">
+                            Create Test Template
+                        </button>
+                        <button class="btn btn-outline-primary btn-sm me-2" id="createTestMemberBtn">
+                            Create Test Member
+                        </button>
+                        <button class="btn btn-outline-danger btn-sm me-2" id="toggleDebugBtn">
+                            Hide Debug
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reminders Sent History -->
+            <div class="dues-card">
+                <div class="dues-card-header">
+                    <h2>Recent Reminders</h2>
+                </div>
+                
+                <div class="reminder-history" id="reminderHistory">
+                    <!-- History content will be populated by JavaScript -->
+                    <p class="text-center text-muted">Loading reminder history...</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Dues Modal -->
+    <div class="modal fade" id="addDuesModal" tabindex="-1" aria-labelledby="addDuesModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addDuesModalLabel">Add New Dues</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="addDuesAlertPlaceholder"></div>
+                    <form id="addDuesForm">
+                        <div class="mb-3">
+                            <label for="memberSelect" class="form-label">Select Member</label>
+                            <select class="form-select" id="memberSelect" required>
+                                <option value="" selected disabled>Select a member</option>
+                                <!-- Options will be populated by JavaScript -->
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="duesAmount" class="form-label">Amount</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="duesAmount" min="0.01" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="duesDescription" class="form-label">Description</label>
+                            <input type="text" class="form-control" id="duesDescription" placeholder="Annual membership dues, Special event contribution, etc." required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dueDate" class="form-label">Due Date</label>
+                            <input type="date" class="form-control" id="dueDate" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveDuesBtn">Save Dues</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Send Reminder Modal -->
+    <div class="modal fade" id="sendReminderModal" tabindex="-1" aria-labelledby="sendReminderModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sendReminderModalLabel">Send Dues Reminder</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="sendReminderForm">
+                        <input type="hidden" id="reminderMemberId">
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Member</label>
+                            <div class="member-info p-2 border rounded mb-2">
+                                <p class="mb-1"><strong>Name:</strong> <span id="reminderMemberName"></span></p>
+                                <p class="mb-1"><strong>Email:</strong> <span id="reminderMemberEmail"></span></p>
+                                <p class="mb-0"><strong>Outstanding Dues:</strong> $<span id="reminderMemberDues"></span></p>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="reminderTemplateSelect" class="form-label">Template</label>
+                            <select class="form-select" id="reminderTemplateSelect">
+                                <option value="" selected>None (Custom Message)</option>
+                                <!-- Options will be populated by JavaScript -->
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="reminderTitle" class="form-label">Notification Title</label>
+                            <input type="text" class="form-control" id="reminderTitle" placeholder="Dues Reminder" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="reminderMessage" class="form-label">Message</label>
+                            <div class="tag-buttons mb-2">
+                                <button type="button" class="btn btn-sm btn-outline-secondary tag-btn" data-tag="{{memberName}}">Member Name</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary tag-btn" data-tag="{{duesAmount}}">Dues Amount</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary tag-btn" data-tag="{{dueDate}}">Due Date</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary tag-btn" data-tag="{{church}}">Church Name</button>
+                            </div>
+                            <textarea class="form-control" id="reminderMessage" rows="4" required></textarea>
+                            <small class="form-text text-muted">Use the tag buttons above to insert personalized fields.</small>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="sendReminderBtn">Send Reminder</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Dues History Modal -->
+    <div class="modal fade" id="duesHistoryModal" tabindex="-1" aria-labelledby="duesHistoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="duesHistoryModalLabel">Dues History</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="member-info p-2 border rounded mb-3">
+                        <p class="mb-1"><strong>Name:</strong> <span id="historyMemberName"></span></p>
+                        <p class="mb-1"><strong>Email:</strong> <span id="historyMemberEmail"></span></p>
+                        <p class="mb-0"><strong>Member Since:</strong> <span id="historyMemberSince"></span></p>
+                    </div>
+                    
+                    <h6 class="mb-3">Dues History</h6>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th>Amount</th>
+                                    <th>Due Date</th>
+                                    <th>Status</th>
+                                    <th>Payment Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="duesHistoryTableBody">
+                                <!-- Will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Template Modal -->
+    <div class="modal fade" id="addTemplateModal" tabindex="-1" aria-labelledby="addTemplateModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addTemplateModalLabel">Add Notification Template</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addTemplateForm">
+                        <input type="hidden" id="templateId">
+                        
+                        <div class="mb-3">
+                            <label for="templateName" class="form-label">Template Name</label>
+                            <input type="text" class="form-control" id="templateName" placeholder="e.g., First Reminder, Final Notice" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="templateTitle" class="form-label">Notification Title</label>
+                            <input type="text" class="form-control" id="templateTitle" placeholder="e.g., Dues Reminder" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="templateMessage" class="form-label">Message Template</label>
+                            <div class="tag-buttons mb-2">
+                                <button type="button" class="btn btn-sm btn-outline-secondary tag-btn" data-tag="{{memberName}}">Member Name</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary tag-btn" data-tag="{{duesAmount}}">Dues Amount</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary tag-btn" data-tag="{{dueDate}}">Due Date</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary tag-btn" data-tag="{{church}}">Church Name</button>
+                            </div>
+                            <textarea class="form-control" id="templateMessage" rows="4" required></textarea>
+                            <small class="form-text text-muted">Use the tag buttons above to insert personalized fields.</small>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveTemplateBtn">Save Template</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-functions.js"></script>
+    
+    <script src="dues.js"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const profileDropdown = document.getElementById('profileDropdown');
+        
+        // Toggle dropdown on profile click
+        if (profileDropdown) {
+            profileDropdown.addEventListener('click', function(e) {
+                e.stopPropagation();
+                this.classList.toggle('active');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!profileDropdown.contains(e.target)) {
+                    profileDropdown.classList.remove('active');
+                }
+            });
+        }
+        
+        // Setup notification click handler
+        const notificationBell = document.querySelector('.notifications');
+        if (notificationBell) {
+            notificationBell.addEventListener('click', function(e) {
+                e.stopPropagation();
+                this.classList.toggle('active');
+            });
+            
+            // Close notification dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!notificationBell.contains(e.target)) {
+                    notificationBell.classList.remove('active');
+                }
+            });
+        }
+        
+        // Insert template tags when clicked
+        const tagButtons = document.querySelectorAll('.tag-btn');
+        tagButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const tag = this.getAttribute('data-tag');
+                const textareaId = this.closest('.modal-body').querySelector('textarea').id;
+                const textarea = document.getElementById(textareaId);
+                
+                // Insert tag at cursor position
+                const startPos = textarea.selectionStart;
+                const endPos = textarea.selectionEnd;
+                textarea.value = textarea.value.substring(0, startPos) + tag + textarea.value.substring(endPos);
+                
+                // Set cursor position after inserted tag
+                textarea.focus();
+                textarea.setSelectionRange(startPos + tag.length, startPos + tag.length);
+            });
+        });
+    });
+    </script>
+</body>
+</html>

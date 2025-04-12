@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+        crossorigin="anonymous"
+    />
+    <title>Dues Management - Parishioners Portal</title>
+    <link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" media="" href="index.css" />
+    <link rel="stylesheet" href="dues.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="shortcut icon" href="../assets/favicon.ico" type="image/x-icon" />
+    <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loading Container -->
+    <div id="loading-container" class="loading-container">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div id="sidebar" class="sidebar">
+            <div class="profile-section">
+                <img src="../assets/default-avatar.png" alt="Profile" id="profile-image" class="profile-image">
+                <h5 class="mb-1">Welcome Back</h5>
+                <p class="mb-0 text-white-50" id="userName">Loading...</p>
+            </div>
+
+            <nav>
+                <a href="dashboard.html" class="nav-link">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+                <a href="announcements.html" class="nav-link">
+                    <i class="fas fa-bullhorn"></i> Announcements
+                </a>
+                <a href="events.html" class="nav-link">
+                    <i class="fas fa-calendar"></i> Events
+                </a>
+                <a href="gallery.html" class="nav-link">
+                    <i class="fas fa-images"></i> Gallery
+                </a>
+                <a href="dues.html" class="nav-link active">
+                    <i class="fas fa-money-bill-wave"></i> Dues
+                </a>
+                <a href="member.html" class="nav-link">
+                    <i class="fas fa-users"></i> Members
+                </a>
+                <a href="profile.html" class="nav-link">
+                    <i class="fas fa-user"></i> Profile
+                </a>
+                <a href="#" class="nav-link" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div id="content">
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg">
+                <button id="sidebar-toggle" class="btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="navbar-collapse">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img id="nav-profile-image" src="../assets/default-avatar.png" alt="Profile" class="nav-profile-img">
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="profile.html"><i class="fas fa-user"></i> Profile</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" id="navbar-logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            
+            <!-- Alert Container -->
+            <div id="alert-container" class="alert-container"></div>
+            
+            <!-- Content Area -->
+            <div class="content-wrapper">
+                <div class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <h1 class="m-0">Dues Management</h1>
+                            </div>
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item"><a href="dashboard.html">Home</a></li>
+                                    <li class="breadcrumb-item active">Dues</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Stats Cards -->
+                <section class="stats-section">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="card stats-card total-card">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h6 class="card-title">Total Dues</h6>
+                                                <h2 class="mb-0" id="total-dues">₦0</h2>
+                                            </div>
+                                            <div class="icon-box">
+                                                <i class="fas fa-money-bill-wave"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="card stats-card paid-card">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h6 class="card-title">Paid Dues</h6>
+                                                <h2 class="mb-0" id="paid-dues">₦0</h2>
+                                            </div>
+                                            <div class="icon-box">
+                                                <i class="fas fa-check-circle"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-4 col-md-6 mb-4">
+                                <div class="card stats-card unpaid-card">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h6 class="card-title">Unpaid Dues</h6>
+                                                <h2 class="mb-0" id="unpaid-dues">₦0</h2>
+                                            </div>
+                                            <div class="icon-box">
+                                                <i class="fas fa-exclamation-circle"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Progress Bar -->
+                <div class="row">
+                    <div class="col-12 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title">Payment Progress</h6>
+                                <div class="progress">
+                                    <div id="payment-progress" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <div class="text-right mt-2">
+                                    <span id="progress-percentage">0%</span> Paid
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Outstanding Dues -->
+                <section class="dues-section">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12 mb-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Outstanding Dues</h5>
+                                    </div>
+                                    <div class="card-body table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Description</th>
+                                                    <th>Due Date</th>
+                                                    <th>Amount</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="outstanding-dues-table">
+                                                <tr>
+                                                    <td colspan="5" class="text-center py-4">Loading...</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Payment History -->
+                <section class="dues-section">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12 mb-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Payment History</h5>
+                                    </div>
+                                    <div class="card-body table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Description</th>
+                                                    <th>Due Date</th>
+                                                    <th>Amount</th>
+                                                    <th>Payment Date</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="payment-history-table">
+                                                <tr>
+                                                    <td colspan="5" class="text-center py-4">Loading...</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Contact Admin Modal -->
+    <div class="modal fade" id="contactAdminModal" tabindex="-1" role="dialog" aria-labelledby="contactAdminModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="contactAdminModalLabel">Contact Admin</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="contact-admin-form">
+                        <input type="hidden" id="due-id" value="">
+                        <div class="form-group">
+                            <label for="message-subject">Subject</label>
+                            <input type="text" class="form-control" id="message-subject" placeholder="Subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text">Message</label>
+                            <textarea class="form-control" id="message-text" rows="5" placeholder="Your message to the admin" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script type="module" src="dues.js"></script>
+</body>
+</html> 
