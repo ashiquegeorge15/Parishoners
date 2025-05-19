@@ -122,11 +122,15 @@ function showLoading(show) {
   const submitBtn = document.getElementById("submitBtn");
   
   if (show) {
-    submitBtn.innerHTML = "Logging in...";
+    // Disable button, add loading class, and update content
     submitBtn.disabled = true;
+    submitBtn.classList.add('loading-btn');
+    submitBtn.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Logging in...`;
   } else {
-    submitBtn.innerHTML = "Login";
+    // Enable button, remove loading class, and restore content
     submitBtn.disabled = false;
+    submitBtn.classList.remove('loading-btn');
+    submitBtn.innerHTML = `<span class="btn-text">Login</span><span class="btn-icon"><i class="fas fa-arrow-right"></i></span>`;
   }
 }
 

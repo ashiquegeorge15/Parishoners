@@ -260,28 +260,30 @@ input:focus {
     animation: fadeIn 0.5s ease-out;
 }
 
-/* Loading State */
-.login-btn.loading {
-    background: #ccc;
+/* Loading button state */
+.loading-btn {
+    background: linear-gradient(135deg, #8e9eea 0%, #9c7bbd 100%) !important;
     pointer-events: none;
+    position: relative;
+    opacity: 0.8;
 }
 
-.login-btn.loading .btn-text {
-    display: none;
-}
-
-.login-btn.loading::after {
-    content: "";
-    width: 20px;
-    height: 20px;
-    border: 2px solid #fff;
+.spinner-border {
+    display: inline-block;
+    width: 1.2rem;
+    height: 1.2rem;
+    vertical-align: middle;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
     border-radius: 50%;
-    border-top-color: transparent;
-    animation: spin 0.8s linear infinite;
+    animation: spinner-border 0.75s linear infinite;
+    margin-right: 10px;
+}
+
+@keyframes spinner-border {
+    to { transform: rotate(360deg); }
 }
 
 @keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
+    to { transform: rotate(360deg); }
 }
