@@ -24,8 +24,7 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
@@ -463,88 +462,218 @@
         </div>
     </div>
 
-    <div class="dashboard-container">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <div class="profile-section">
-                <img src="../img/Rev. Dr. Theodosius.webp" alt="Profile" class="profile-image">
-                <h5 class="mb-1">Welcome Back</h5>
-                <p class="mb-0 text-white-50" id="userName">Loading...</p>
-            </div>
+    <div class="dashboard">
+      <!-- Sidebar -->
+      <nav class="sidebar">
+        <div class="sidebar-header">
+          <img src="img/logo/marthoma-seeklogo.svg" alt="Logo" class="logo">
+          <h2>Member Portal</h2>
+        </div>
+        
+        <ul class="nav-links">
+          <li class="active">
+            <a href="index.html">
+              <i class="fas fa-home"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="announcements.html">
+              <i class="fas fa-bullhorn"></i>
+              <span>Announcements</span>
+            </a>
+          </li>
+          <li>
+            <a href="events.html">
+              <i class="fas fa-calendar"></i>
+              <span>Events</span>
+            </a>
+          </li>
+          <li>
+            <a href="gallery.html">
+              <i class="fas fa-images"></i>
+              <span>Gallery</span>
+            </a>
+          </li>
+          <li>
+            <a href="member.html">
+              <i class="fas fa-users"></i>
+              <span>Members</span>
+            </a>
+          </li>
+          <li>
+            <a href="dues.html">
+              <i class="fas fa-money-bill-wave"></i>
+              <span>Dues</span>
+            </a>
+          </li>
+          <li>
+            <a href="profile.html">
+              <i class="fas fa-user"></i>
+              <span>Profile</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" id="logoutBtn">
+              <i class="fas fa-sign-out-alt"></i>
+              <span>Logout</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
 
-            <nav>
-                <a href="#" class="nav-link active">
-                    <i class="fas fa-home"></i> Dashboard
-                </a>
-                <a href="announcements.html" class="nav-link">
-                    <i class="fas fa-bullhorn"></i> Announcements
-                </a>
-                <a href="events.html" class="nav-link">
-                    <i class="fas fa-calendar"></i> Events
-                </a>
-                <a href="gallery.html" class="nav-link">
-                    <i class="fas fa-images"></i> Gallery
-                </a>
-                <a href="dues.html" class="nav-link">
-                    <i class="fas fa-money-bill-wave"></i> Dues
-                </a>
-                <a href="member.html" class="nav-link">
-                    <i class="fas fa-users"></i> Members
-                </a>
-                <a href="profile.html" class="nav-link">
-                    <i class="fas fa-user"></i> Profile
-                </a>
-                <a href="#" class="nav-link" id="logoutBtn">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </a>
-            </nav>
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Top Navigation -->
+        <header class="top-nav">
+          <h1>Welcome, <span id="userName">Parish Member</span></h1>
+          
+          <div class="nav-right">
+            <div class="profile" id="profileDropdownToggle">
+              <img src="img/icon/defaultPic.png" alt="Profile" class="profile-img">
+              
+              <!-- Profile Dropdown -->
+              <div class="profile-dropdown">
+                <div class="profile-header">
+                  <img src="img/icon/defaultPic.png" id="profileDropdownImg" alt="Profile">
+                  <h4 id="profileDropdownName">Parish Member</h4>
+                  <p>Member</p>
+                </div>
+                <div class="profile-actions">
+                  <a href="profile.html">
+                    <i class="fas fa-user-circle"></i>
+                    View Profile
+                  </a>
+                  <a href="profile.html#settings">
+                    <i class="fas fa-cog"></i>
+                    Account Settings
+                  </a>
+                  <div class="divider"></div>
+                  <a href="#" class="logout-btn" id="profileLogoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon members">
+              <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-details">
+              <h3 class="stat-label">Members</h3>
+              <div class="stat-number">24</div>
+              <div class="stat-change positive">
+                <i class="fas fa-arrow-up"></i> 12%
+              </div>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon events">
+              <i class="fas fa-calendar"></i>
+            </div>
+            <div class="stat-details">
+              <h3 class="stat-label">Upcoming Events</h3>
+              <div class="stat-number">12</div>
+              <div class="stat-change positive">
+                <i class="fas fa-arrow-up"></i> 5%
+              </div>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon gallery">
+              <i class="fas fa-images"></i>
+            </div>
+            <div class="stat-details">
+              <h3 class="stat-label">Gallery Photos</h3>
+              <div class="stat-number">156</div>
+              <div class="stat-change positive">
+                <i class="fas fa-arrow-up"></i> 24%
+              </div>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon users">
+              <i class="fas fa-bullhorn"></i>
+            </div>
+            <div class="stat-details">
+              <h3 class="stat-label">Announcements</h3>
+              <div class="stat-number">8</div>
+              <div class="stat-change neutral">
+                <i class="fas fa-minus"></i> 0%
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- Main Content -->
-        <div class="main-content">
-            <div class="container-fluid">
-                <h2 class="page-title">Welcome to Your Dashboard</h2>
-
-                <!-- Add stats section before quick actions -->
-                <div class="stats-container">
-                    <div class="stat-card">
-                        <div class="stat-value">24</div>
-                        <div class="stat-label">Active Members</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">12</div>
-                        <div class="stat-label">Upcoming Events</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">156</div>
-                        <div class="stat-label">Gallery Photos</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">8</div>
-                        <div class="stat-label">New Announcements</div>
-                    </div>
+        <!-- Recent Activity Section -->
+        <div class="recent-activity">
+          <h2>Recent Activity</h2>
+          
+          <div class="activity-cards">
+            <!-- Recent Announcements -->
+            <div class="activity-card">
+              <div class="activity-header">
+                <h3>Latest Announcements</h3>
+                <a href="announcements.html" class="view-all-link">View All <i class="fas fa-arrow-right"></i></a>
+              </div>
+              <div class="activity-list" id="recentAnnouncements">
+                <div class="activity-item">
+                  <div class="activity-icon announcements">
+                    <i class="fas fa-bullhorn"></i>
+                  </div>
+                  <div class="activity-content">
+                    <h4>Sunday School Registration</h4>
+                    <p>Registration for the new academic year is now open</p>
+                    <span class="activity-time"><i class="far fa-clock"></i> 2 days ago</span>
+                  </div>
                 </div>
-
-               
-
-                <!-- Upcoming Events -->
-                <div class="upcoming-events">
-                    <h3 class="mb-4">Upcoming Events</h3>
-                    <div id="eventsList">
-                        <!-- Events will be dynamically loaded here -->
-                        <div class="text-center">
-                            <div class="spinner-border text-primary" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                        </div>
-                    </div>
+                <div class="text-center my-3 loading-item">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
                 </div>
+              </div>
             </div>
+            
+            <!-- Upcoming Events -->
+            <div class="activity-card">
+              <div class="activity-header">
+                <h3>Upcoming Events</h3>
+                <a href="events.html" class="view-all-link">View All <i class="fas fa-arrow-right"></i></a>
+              </div>
+              <div class="activity-list" id="upcomingEvents">
+                <div class="activity-item">
+                  <div class="activity-icon events">
+                    <i class="fas fa-calendar"></i>
+                  </div>
+                  <div class="activity-content">
+                    <h4>Christmas Carol Service</h4>
+                    <p>Join us for a night of caroling and celebration</p>
+                    <span class="activity-time"><i class="far fa-clock"></i> Dec 20, 6:00 PM</span>
+                  </div>
+                </div>
+                <div class="text-center my-3 loading-item">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </main>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script type="module" src="index.js"></script>
-    <script type="module" src="notification-handler.js"></script>
   </body>
 </html>

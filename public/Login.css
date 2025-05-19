@@ -79,7 +79,8 @@ body {
 }
 
 input[type="email"],
-input[type="password"] {
+input[type="password"],
+input[type="text"] {
     width: 100%;
     padding: 15px 45px;
     border: none;
@@ -88,6 +89,14 @@ input[type="password"] {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     font-size: 14px;
     transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Fix for showing password text correctly */
+input[type="text"]#pass {
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: normal;
+    font-size: 14px;
 }
 
 input:focus {

@@ -10,117 +10,306 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <link rel="stylesheet" href="events.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Additional styles to match the sidebar from image */
+        body {
+            overflow-x: hidden;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .dashboard-container {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        .sidebar {
+            background: linear-gradient(180deg, #4e55e1 0%, #2b1c8a 100%);
+            color: #fff;
+            width: 265px;
+            min-height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1030;
+            padding-top: 20px;
+        }
+        
+        #content {
+            margin-left: 265px;
+            width: calc(100% - 265px);
+            min-height: 100vh;
+            transition: margin-left 0.3s;
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            
+            .sidebar.collapsed {
+                transform: translateX(0);
+            }
+            
+            #content {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+        
+        .sidebar-logo {
+            width: 42px;
+            height: 42px;
+            margin-right: 10px;
+        }
+        
+        .portal-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #fff;
+        }
+        
+        .sidebar-header {
+            padding: 15px 25px;
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-divider {
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.1);
+            margin: 15px 0;
+        }
+        
+        .sidebar-nav {
+            padding: 0 15px;
+        }
+        
+        .sidebar-nav .nav-link {
+            color: #ffffff;
+            padding: 12px 20px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            transition: all 0.3s;
+            opacity: 0.85;
+            position: relative;
+            border-left: none;
+            font-weight: 400;
+        }
+        
+        .sidebar-nav .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            opacity: 1;
+        }
+        
+        .sidebar-nav .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            opacity: 1;
+        }
+        
+        .sidebar-nav .nav-link i {
+            margin-right: 15px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .content-wrapper {
+            background-color: #f8f9fc;
+            min-height: 100vh;
+            padding: 25px;
+        }
+        
+        /* Mobile toggle button */
+        #mobile-toggle {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1040;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: #4e55e1;
+            color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: none;
+        }
+
+        @media (max-width: 992px) {
+            #mobile-toggle {
+                display: flex;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="logo">St Thomas Church</div>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="profile.html">Profile</a>
-            <a href="events.html" class="active">Events</a>
-        </nav>
-    </header>
-    
-    <!-- Main Content -->
-    <main class="main-container">
-        <div class="row">
-            <div class="col-md-8">
-                <div class="section-header">
-                    <h2>Church Events Calendar</h2>
-                    <div class="calendar-controls">
-                        <button id="addToMyCalendar" class="btn btn-outline-primary">
-                            <i class="fas fa-calendar-plus"></i> Add to My Calendar
-                        </button>
-                    </div>
-                </div>
-                <div class="calendar-container">
-                    <div class="calendar-header">
-                        <div class="month-navigation">
-                            <button id="prevBtn" class="btn btn-sm btn-outline-primary">
-                                <i class="fas fa-chevron-left"></i>
-                            </button>
-                            <h4 id="currentDate">January 2024</h4>
-                            <button id="nextBtn" class="btn btn-sm btn-outline-primary">
-                                <i class="fas fa-chevron-right"></i>
-                            </button>
-                        </div>
-                        <button id="todayBtn" class="btn btn-sm btn-outline-secondary">Today</button>
-                        <div class="view-selector">
-                            <button data-view="day" class="view-option">Day</button>
-                            <button data-view="week" class="view-option">Week</button>
-                            <button data-view="month" class="view-option active">Month</button>
-                            <button data-view="year" class="view-option">Year</button>
-                        </div>
-                    </div>
-                    
-                    <div class="weekdays-header" id="weekdaysHeader">
-                        <!-- Weekdays will be inserted here by JS -->
-                    </div>
-                    
-                    <div class="calendar-grid" id="calendarGrid">
-                        <!-- Calendar cells will be inserted here by JS -->
-                    </div>
+    <!-- Mobile toggle button for sidebar -->
+    <button id="mobile-toggle" class="btn">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Main Container -->
+    <div class="dashboard-container">
+        <!-- Sidebar matching the image -->
+        <div id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <div class="d-flex align-items-center">
+                    <img src="../img/logo/marthoma-seeklogo.svg" alt="Logo" class="sidebar-logo">
+                    <span class="portal-title">Member Portal</span>
                 </div>
             </div>
             
-            <div class="col-md-4">
-                <div class="events-sidebar">
-                    <div class="mini-calendar-container">
-                        <h4>Mini Calendar</h4>
-                        <div id="miniCalendar" class="mini-calendar">
-                            <!-- Mini Calendar will be inserted here by JS -->
+            <div class="sidebar-divider"></div>
+            
+            <nav class="sidebar-nav">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="announcements.html" class="nav-link">
+                    <i class="fas fa-bullhorn"></i>
+                    <span>Announcements</span>
+                </a>
+                <a href="events.html" class="nav-link active">
+                    <i class="fas fa-calendar"></i>
+                    <span>Events</span>
+                </a>
+                <a href="gallery.html" class="nav-link">
+                    <i class="fas fa-images"></i>
+                    <span>Gallery</span>
+                </a>
+                <a href="member.html" class="nav-link">
+                    <i class="fas fa-users"></i>
+                    <span>Members</span>
+                </a>
+                <a href="dues.html" class="nav-link">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Dues</span>
+                </a>
+                <a href="profile.html" class="nav-link">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+                <a href="#" class="nav-link" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div id="content">
+            <!-- Main Content -->
+            <div class="content-wrapper">
+                <!-- Main Content -->
+                <main class="main-container">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="section-header">
+                                <h2>Church Events Calendar</h2>
+                                <div class="calendar-controls">
+                                    <button id="addToMyCalendar" class="btn btn-outline-primary">
+                                        <i class="fas fa-calendar-plus"></i> Add to My Calendar
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="calendar-container">
+                                <div class="calendar-header">
+                                    <div class="month-navigation">
+                                        <button id="prevBtn" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </button>
+                                        <h4 id="currentDate">January 2024</h4>
+                                        <button id="nextBtn" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                    <button id="todayBtn" class="btn btn-sm btn-outline-secondary">Today</button>
+                                    <div class="view-selector">
+                                        <button data-view="day" class="view-option">Day</button>
+                                        <button data-view="week" class="view-option">Week</button>
+                                        <button data-view="month" class="view-option active">Month</button>
+                                        <button data-view="year" class="view-option">Year</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="weekdays-header" id="weekdaysHeader">
+                                    <!-- Weekdays will be inserted here by JS -->
+                                </div>
+                                
+                                <div class="calendar-grid" id="calendarGrid">
+                                    <!-- Calendar cells will be inserted here by JS -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="events-sidebar">
+                                <div class="mini-calendar-container">
+                                    <h4>Mini Calendar</h4>
+                                    <div id="miniCalendar" class="mini-calendar">
+                                        <!-- Mini Calendar will be inserted here by JS -->
+                                    </div>
+                                </div>
+                                
+                                <div class="upcoming-events">
+                                    <h4>Upcoming Events</h4>
+                                    <div id="upcomingEventsList" class="events-list">
+                                        <!-- Upcoming events will be inserted here by JS -->
+                                        <div class="events-loading">Loading events...</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="event-categories">
+                                    <h4>Event Categories</h4>
+                                    <div class="category-filters">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="worship" id="filterWorship" checked>
+                                            <label class="form-check-label category-label worship" for="filterWorship">
+                                                Worship
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="community" id="filterCommunity" checked>
+                                            <label class="form-check-label category-label community" for="filterCommunity">
+                                                Community
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="education" id="filterEducation" checked>
+                                            <label class="form-check-label category-label education" for="filterEducation">
+                                                Education
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="meeting" id="filterMeeting" checked>
+                                            <label class="form-check-label category-label meeting" for="filterMeeting">
+                                                Meeting
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="other" id="filterOther" checked>
+                                            <label class="form-check-label category-label other" for="filterOther">
+                                                Other
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div class="upcoming-events">
-                        <h4>Upcoming Events</h4>
-                        <div id="upcomingEventsList" class="events-list">
-                            <!-- Upcoming events will be inserted here by JS -->
-                            <div class="events-loading">Loading events...</div>
-                        </div>
-                    </div>
-                    
-                    <div class="event-categories">
-                        <h4>Event Categories</h4>
-                        <div class="category-filters">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="worship" id="filterWorship" checked>
-                                <label class="form-check-label category-label worship" for="filterWorship">
-                                    Worship
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="community" id="filterCommunity" checked>
-                                <label class="form-check-label category-label community" for="filterCommunity">
-                                    Community
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="education" id="filterEducation" checked>
-                                <label class="form-check-label category-label education" for="filterEducation">
-                                    Education
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="meeting" id="filterMeeting" checked>
-                                <label class="form-check-label category-label meeting" for="filterMeeting">
-                                    Meeting
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="other" id="filterOther" checked>
-                                <label class="form-check-label category-label other" for="filterOther">
-                                    Other
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </main>
             </div>
         </div>
-    </main>
+    </div>
     
     <!-- View Event Modal -->
     <div class="modal fade" id="viewEventModal" tabindex="-1" aria-labelledby="viewEventModalLabel" aria-hidden="true">
@@ -169,6 +358,35 @@
     
     <!-- Custom JS -->
     <script src="events.js"></script>
+    
+    <script>
+        // Mobile sidebar toggle
+        document.getElementById('mobile-toggle')?.addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+            
+            // Add overlay for mobile
+            if (document.getElementById('sidebar').classList.contains('collapsed')) {
+                const overlay = document.createElement('div');
+                overlay.className = 'sidebar-overlay';
+                overlay.style.position = 'fixed';
+                overlay.style.top = '0';
+                overlay.style.left = '0';
+                overlay.style.width = '100%';
+                overlay.style.height = '100%';
+                overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+                overlay.style.zIndex = '1025';
+                document.body.appendChild(overlay);
+                
+                overlay.addEventListener('click', function() {
+                    document.getElementById('sidebar').classList.remove('collapsed');
+                    this.remove();
+                });
+            } else {
+                const overlay = document.querySelector('.sidebar-overlay');
+                if (overlay) overlay.remove();
+            }
+        });
+    </script>
 </body>
 
 </html>

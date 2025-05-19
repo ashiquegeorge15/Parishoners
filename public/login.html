@@ -62,7 +62,7 @@
                             <i class="fas fa-lock"></i>
                         </span>
                         <input type="password" name="pass" id="pass" required placeholder="Password">
-                        <span class="toggle-password">
+                        <span class="toggle-password" id="togglePassword">
                             <i class="far fa-eye"></i>
                         </span>
                     </div>
@@ -109,15 +109,32 @@
         } else if (error === 'check_failed') {
           alert('An error occurred. Please try again.');
         }
+
+        // Password visibility toggle
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('pass');
+        
+        if (togglePassword && passwordInput) {
+          togglePassword.addEventListener('click', function() {
+            // Toggle password visibility
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            
+            // Toggle icon
+            const eyeIcon = this.querySelector('i');
+            eyeIcon.classList.toggle('fa-eye');
+            eyeIcon.classList.toggle('fa-eye-slash');
+          });
+        }
       });
 
       // Show loader immediately when page starts loading
-document.addEventListener('DOMContentLoaded', () => {
-    const loader = document.getElementById('page-loader');
-    if (loader) {
-        loader.classList.add('active');
-    }
-});
+      document.addEventListener('DOMContentLoaded', () => {
+        const loader = document.getElementById('page-loader');
+        if (loader) {
+          loader.classList.add('active');
+        }
+      });
     </script>
   </body>
 </html>

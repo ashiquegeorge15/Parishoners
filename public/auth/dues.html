@@ -23,6 +23,150 @@
     />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Add Google Font for better typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Additional styles to match the image */
+        body {
+            overflow-x: hidden;
+        }
+
+        .dashboard-container {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        .sidebar {
+            background: #4e55e1;
+            color: #fff;
+            width: 265px;
+            min-height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1030;
+        }
+        
+        #content {
+            margin-left: 265px;
+            width: calc(100% - 265px);
+            min-height: 100vh;
+            transition: margin-left 0.3s;
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            
+            .sidebar.collapsed {
+                transform: translateX(0);
+            }
+            
+            #content {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+        
+        .sidebar-logo {
+            width: 32px;
+            height: 32px;
+            margin-right: 10px;
+        }
+        
+        .portal-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #fff;
+        }
+        
+        .sidebar-nav .nav-link {
+            color: #ffffff;
+            padding: 12px 20px;
+            margin-bottom: 10px;
+            border-radius: 0;
+            transition: all 0.3s;
+            opacity: 0.8;
+            position: relative;
+            border-left: none;
+        }
+        
+        .sidebar-nav .nav-link:hover,
+        .sidebar-nav .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            opacity: 1;
+        }
+        
+        .sidebar-nav .nav-link i {
+            margin-right: 15px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .content-wrapper {
+            background-color: #f8f9fc;
+            min-height: 100vh;
+            padding: 25px;
+        }
+        
+        .main-content-header {
+            background-color: #fff;
+            padding: 20px 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+        }
+        
+        .sidebar-divider {
+            display: none;
+        }
+        
+        .icon-container {
+            display: none;
+        }
+
+        .card {
+            border-radius: 15px;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+            margin-bottom: 25px;
+        }
+
+        .table-responsive {
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        /* Mobile toggle button */
+        #mobile-toggle {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1040;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: #4e55e1;
+            color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: none;
+        }
+
+        @media (max-width: 992px) {
+            #mobile-toggle {
+                display: flex;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Loading Container -->
@@ -32,251 +176,262 @@
         </div>
     </div>
 
+    <!-- Mobile toggle button for sidebar -->
+    <button id="mobile-toggle" class="btn">
+        <i class="fas fa-bars"></i>
+    </button>
+
     <!-- Main Container -->
     <div class="dashboard-container">
-        <!-- Sidebar -->
+        <!-- Simplified Sidebar -->
         <div id="sidebar" class="sidebar">
-            <div class="profile-section">
-                <img src="../assets/default-avatar.png" alt="Profile" id="profile-image" class="profile-image">
-                <h5 class="mb-1">Welcome Back</h5>
-                <p class="mb-0 text-white-50" id="userName">Loading...</p>
+            <div class="sidebar-header p-3">
+                <div class="d-flex align-items-center">
+                    <img src="../img/logo/marthoma-seeklogo.svg" alt="Logo" class="sidebar-logo">
+                    <span class="portal-title">Member Portal</span>
+                </div>
             </div>
-
-            <nav>
-                <a href="dashboard.html" class="nav-link">
-                    <i class="fas fa-home"></i> Dashboard
+            
+            <nav class="sidebar-nav mt-4">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
                 </a>
                 <a href="announcements.html" class="nav-link">
-                    <i class="fas fa-bullhorn"></i> Announcements
+                    <i class="fas fa-bullhorn"></i>
+                    <span>Announcements</span>
                 </a>
                 <a href="events.html" class="nav-link">
-                    <i class="fas fa-calendar"></i> Events
+                    <i class="fas fa-calendar"></i>
+                    <span>Events</span>
                 </a>
                 <a href="gallery.html" class="nav-link">
-                    <i class="fas fa-images"></i> Gallery
-                </a>
-                <a href="dues.html" class="nav-link active">
-                    <i class="fas fa-money-bill-wave"></i> Dues
+                    <i class="fas fa-images"></i>
+                    <span>Gallery</span>
                 </a>
                 <a href="member.html" class="nav-link">
-                    <i class="fas fa-users"></i> Members
+                    <i class="fas fa-users"></i>
+                    <span>Members</span>
+                </a>
+                <a href="dues.html" class="nav-link active">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Dues</span>
                 </a>
                 <a href="profile.html" class="nav-link">
-                    <i class="fas fa-user"></i> Profile
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
                 </a>
                 <a href="#" class="nav-link" id="logoutBtn">
-                    <i class="fas fa-sign-out-alt"></i> Logout
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
                 </a>
             </nav>
         </div>
 
         <!-- Main Content -->
         <div id="content">
-            <!-- Navbar -->
-            <nav class="navbar navbar-expand-lg">
-                <button id="sidebar-toggle" class="btn">
-                    <i class="fas fa-bars"></i>
-                </button>
-                
-                <div class="navbar-collapse">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img id="nav-profile-image" src="../assets/default-avatar.png" alt="Profile" class="nav-profile-img">
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="profile.html"><i class="fas fa-user"></i> Profile</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" id="navbar-logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-            
             <!-- Alert Container -->
             <div id="alert-container" class="alert-container"></div>
             
             <!-- Content Area -->
             <div class="content-wrapper">
-                <div class="content-header">
-                    <div class="container-fluid">
-                        <div class="row mb-2">
-                            <div class="col-sm-6">
-                                <h1 class="m-0">Dues Management</h1>
+                <div class="main-content-header">
+                    <h1>Dues Management</h1>
+                    <p class="text-muted">Track and manage your church contributions</p>
+                </div>
+                
+                <!-- Cards Row - Simplified to match the image -->
+                <div class="row mb-4">
+                    <!-- Total Dues Card - Simplified -->
+                    <div class="col-lg-4 mb-4">
+                        <div class="card h-100 p-4">
+                            <div class="d-flex align-items-center">
+                                <div class="icon-circle bg-light me-3">
+                                    <i class="fas fa-money-bill-wave text-primary"></i>
+                                </div>
+                                <div>
+                                    <h6 class="text-muted mb-1">TOTAL DUES</h6>
+                                    <h2 class="mb-0" id="total-dues">₦0.00</h2>
+                                </div>
                             </div>
-                            <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="dashboard.html">Home</a></li>
-                                    <li class="breadcrumb-item active">Dues</li>
-                                </ol>
+                        </div>
+                    </div>
+                    
+                    <!-- Paid Dues Card - Simplified -->
+                    <div class="col-lg-4 mb-4">
+                        <div class="card h-100 p-4">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="icon-circle bg-light-success me-3">
+                                    <i class="fas fa-check-circle text-success"></i>
+                                </div>
+                                <div>
+                                    <h6 class="text-muted mb-1">PAID DUES</h6>
+                                    <h2 class="mb-0" id="paid-dues">₦0.00</h2>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <p class="text-muted mb-0">Last payment: May 12, 2023</p>
+                                <a href="#payment-history-section" class="text-primary small">View History <i class="fas fa-arrow-right ms-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Unpaid Dues Card - Simplified -->
+                    <div class="col-lg-4 mb-4">
+                        <div class="card h-100 p-4">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="icon-circle bg-light-danger me-3">
+                                    <i class="fas fa-exclamation-circle text-danger"></i>
+                                </div>
+                                <div>
+                                    <h6 class="text-muted mb-1">UNPAID DUES</h6>
+                                    <h2 class="mb-0" id="unpaid-dues">₦0.00</h2>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <p class="text-muted mb-0">Next due: June 30, 2023</p>
+                                <a href="#outstanding-dues-section" class="text-primary small">View Pending <i class="fas fa-arrow-right ms-1"></i></a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Stats Cards -->
-                <section class="stats-section">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-6 mb-4">
-                                <div class="card stats-card total-card">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h6 class="card-title">Total Dues</h6>
-                                                <h2 class="mb-0" id="total-dues">₦0</h2>
-                                            </div>
-                                            <div class="icon-box">
-                                                <i class="fas fa-money-bill-wave"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="col-lg-4 col-md-6 mb-4">
-                                <div class="card stats-card paid-card">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h6 class="card-title">Paid Dues</h6>
-                                                <h2 class="mb-0" id="paid-dues">₦0</h2>
-                                            </div>
-                                            <div class="icon-box">
-                                                <i class="fas fa-check-circle"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="col-lg-4 col-md-6 mb-4">
-                                <div class="card stats-card unpaid-card">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h6 class="card-title">Unpaid Dues</h6>
-                                                <h2 class="mb-0" id="unpaid-dues">₦0</h2>
-                                            </div>
-                                            <div class="icon-box">
-                                                <i class="fas fa-exclamation-circle"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
                 
-                <!-- Progress Bar -->
-                <div class="row">
-                    <div class="col-12 mb-4">
+                <!-- Progress Section -->
+                <div class="row mb-5">
+                    <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <h6 class="card-title">Payment Progress</h6>
-                                <div class="progress">
-                                    <div id="payment-progress" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h6 class="card-title mb-0">Payment Progress</h6>
+                                    <span id="progress-percentage" class="badge bg-primary">0%</span>
                                 </div>
-                                <div class="text-right mt-2">
-                                    <span id="progress-percentage">0%</span> Paid
+                                <div class="progress" style="height: 10px;">
+                                    <div id="payment-progress" class="progress-bar bg-primary" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Outstanding Dues -->
-                <section class="dues-section">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-12 mb-4">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5 class="card-title">Outstanding Dues</h5>
-                                    </div>
-                                    <div class="card-body table-responsive">
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>Description</th>
-                                                    <th>Due Date</th>
-                                                    <th>Amount</th>
-                                                    <th>Status</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="outstanding-dues-table">
-                                                <tr>
-                                                    <td colspan="5" class="text-center py-4">Loading...</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                <!-- Payment History Section -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+                                <h5 class="card-title mb-0">Payment History</h5>
+                                <div>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">
+                                        <i class="fas fa-download me-1"></i> Export
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-hover mb-0">
+                                        <thead class="bg-light">
+                                            <tr>
+                                                <th>Due Date</th>
+                                                <th>Description</th>
+                                                <th>Amount</th>
+                                                <th>Status</th>
+                                                <th>Payment Date</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="payment-history-table">
+                                            <tr>
+                                                <td colspan="6" class="text-center py-4">
+                                                    <div class="spinner-border spinner-border-sm text-primary me-2" role="status">
+                                                        <span class="visually-hidden">Loading...</span>
+                                                    </div>
+                                                    Loading payment history...
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </section>
+                </div>
                 
-                <!-- Payment History -->
-                <section class="dues-section">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-12 mb-4">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5 class="card-title">Payment History</h5>
-                                    </div>
-                                    <div class="card-body table-responsive">
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>Description</th>
-                                                    <th>Due Date</th>
-                                                    <th>Amount</th>
-                                                    <th>Payment Date</th>
-                                                    <th>Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="payment-history-table">
-                                                <tr>
-                                                    <td colspan="5" class="text-center py-4">Loading...</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                <!-- Outstanding Dues Section -->
+                <div id="outstanding-dues-section" class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+                                <h5 class="card-title mb-0">Outstanding Dues</h5>
+                                <div>
+                                    <button type="button" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-plus me-1"></i> Pay All
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-hover mb-0">
+                                        <thead class="bg-light">
+                                            <tr>
+                                                <th>Due Date</th>
+                                                <th>Description</th>
+                                                <th>Amount</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="outstanding-dues-table">
+                                            <tr>
+                                                <td colspan="5" class="text-center py-4">
+                                                    <div class="spinner-border spinner-border-sm text-primary me-2" role="status">
+                                                        <span class="visually-hidden">Loading...</span>
+                                                    </div>
+                                                    Loading outstanding dues...
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </section>
+                </div>
+                
+                <!-- Footer -->
+                <footer class="footer mt-4">
+                    <div class="container-fluid px-0">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="mb-0 text-muted">© 2023 JP Nagar Mar Thoma Congregation</p>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
             </div>
         </div>
     </div>
     
-    <!-- Contact Admin Modal -->
+    <!-- Enhanced Contact Admin Modal -->
     <div class="modal fade" id="contactAdminModal" tabindex="-1" role="dialog" aria-labelledby="contactAdminModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="contactAdminModalLabel">Contact Admin</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="contact-admin-form">
                         <input type="hidden" id="due-id" value="">
-                        <div class="form-group">
-                            <label for="message-subject">Subject</label>
+                        <div class="mb-3">
+                            <label for="message-subject" class="form-label">Subject</label>
                             <input type="text" class="form-control" id="message-subject" placeholder="Subject" required>
                         </div>
-                        <div class="form-group">
-                            <label for="message-text">Message</label>
+                        <div class="mb-3">
+                            <label for="message-text" class="form-label">Message</label>
                             <textarea class="form-control" id="message-text" rows="5" placeholder="Your message to the admin" required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-paper-plane me-2"></i> Send Message
+                        </button>
                     </form>
                 </div>
             </div>
@@ -288,5 +443,34 @@
     
     <!-- Custom JS -->
     <script type="module" src="dues.js"></script>
+    
+    <script>
+        // Mobile sidebar toggle
+        document.getElementById('mobile-toggle')?.addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+            
+            // Add overlay for mobile
+            if (document.getElementById('sidebar').classList.contains('collapsed')) {
+                const overlay = document.createElement('div');
+                overlay.className = 'sidebar-overlay';
+                overlay.style.position = 'fixed';
+                overlay.style.top = '0';
+                overlay.style.left = '0';
+                overlay.style.width = '100%';
+                overlay.style.height = '100%';
+                overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+                overlay.style.zIndex = '1025';
+                document.body.appendChild(overlay);
+                
+                overlay.addEventListener('click', function() {
+                    document.getElementById('sidebar').classList.remove('collapsed');
+                    this.remove();
+                });
+            } else {
+                const overlay = document.querySelector('.sidebar-overlay');
+                if (overlay) overlay.remove();
+            }
+        });
+    </script>
 </body>
 </html> 

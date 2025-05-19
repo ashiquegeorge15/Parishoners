@@ -5,84 +5,135 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>St Thomas Church | Announcements</title>
+    <!-- Favicon -->
+    <link rel="icon" href="img/logo/marthoma-seeklogo.svg" type="image/x-icon" />
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <title>Announcments</title>
-    <link
-    rel="icon"
-    href="img/logo/marthoma-seeklogo.svg"
-    type="image/x-icon"
-  />
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="announcements.css">
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Material Icons -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-        <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
-    </head>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+</head>
 
 <body>
-
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
         crossorigin="anonymous"></script>
 
-
-        <a href="index.html"><button
-            type="button"
-            class="btn btn-primary btn2"
-            data-bs-toggle="modal"
-            data-bs-target="#"
-          >
+    <!-- Back Button for Mobile -->
+    <a href="index.html">
+        <button type="button" class="btn btn-primary btn2">
             Back
             <i class="fa-solid fa-arrow-left"></i>
-          </button></a>
-      
+        </button>
+    </a>
 
-    <!-- donate about... -->
-
+    <!-- Mobile Top Navigation - Only visible on small screens -->
     <div class="TopOptions">
-        <div class="name"> <img src="img/logo/marthoma-seeklogo.svg" alt="" id="churchLogo"> St Thomas Church</div>
+        <div class="name"><img src="img/logo/marthoma-seeklogo.svg" alt="" id="churchLogo"> St Thomas Church</div>
         <div class="TopBar">
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="donations.html">Donate</a></li>
                 <li><a href="index.html">About</a></li>
                 <li><a href="index.html">Contact</a></li>
-                <!-- <li><a class="loginbtn" href="profile.html"><span class="material-symbols-outlined">
-                    account_circle
-                </span></a></li> -->
                 <li class="profilepicclass">
                     <a href="profile.html"><img src="img/icon/defaultPic.png" alt="" /></a>
-                  </li>
-            </ul>
-        </div>
-    </div>
-    <!-- announcments... -->
-
-
-    <div class="mainContainer" >
-
-        <div class="AnnouncmentContainer"  >
-            <ul class="announcementslist" id="myList">
+                </li>
             </ul>
         </div>
     </div>
 
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <img src="img/logo/marthoma-seeklogo.svg" alt="Logo" class="logo">
+                <h2>Member Portal</h2>
+            </div>
+            
+            <ul class="nav-links">
+                <li>
+                    <a href="index.html">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="announcements.html">
+                        <i class="fas fa-bullhorn"></i>
+                        <span>Announcements</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="events.html">
+                        <i class="fas fa-calendar"></i>
+                        <span>Events</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="gallery.html">
+                        <i class="fas fa-images"></i>
+                        <span>Gallery</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="member.html">
+                        <i class="fas fa-users"></i>
+                        <span>Members</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="dues.html">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>Dues</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="profile.html">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
 
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1>Announcements</h1>
+                <p class="text-muted">Stay updated with the latest church announcements</p>
+            </div>
 
+            <!-- Announcements Container -->
+            <div class="announcements-container">
+                <ul class="announcement-list" id="myList">
+                    <!-- Announcements will be dynamically added here by JavaScript -->
+                </ul>
+            </div>
+        </main>
+    </div>
+
+    <!-- JavaScript -->
     <script type="module" src="announcements.js"></script>
-    <script>
-        // Show loader immediately when page starts loading
-document.addEventListener('DOMContentLoaded', () => {
-    const loader = document.getElementById('page-loader');
-    if (loader) {
-        loader.classList.add('active');
-    }
-});
-    </script>
-
-
 </body>
 
 </html>

@@ -19,6 +19,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   </head>
 
   <body>
@@ -506,8 +508,124 @@
       </div>
     </footer>
 
+    <!-- Admin Members Section -->
+    <section id="members" class="py-5 bg-light">
+      <div class="container">
+        <div class="section-header text-center mb-5">
+          <h2 class="section-title">Parish Administrators</h2>
+          <p class="section-subtitle">Meet our dedicated administrators who help manage our parish</p>
+        </div>
+        <div class="row" id="admin-members-container">
+          <!-- Admin members will be loaded here dynamically -->
+          <div class="col-12 text-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+    
+    <!-- Admin Members Script -->
+    <script>
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyDyqAiultYZzwcoRfQhNKRiCG3DuEBEsd8",
+        authDomain: "backendlogsign.firebaseapp.com",
+        databaseURL: "https://backendlogsign-default-rtdb.firebaseio.com",
+        projectId: "backendlogsign",
+        storageBucket: "backendlogsign.appspot.com",
+        messagingSenderId: "1039275246750",
+        appId: "1:1039275246750:web:ee61d0b254a2697a3e278f",
+        measurementId: "G-C9R69XEVH7"
+      };
+      
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const db = firebase.firestore();
+      
+      // Load admin members
+      async function loadAdminMembers() {
+        try {
+          const adminContainer = document.getElementById('admin-members-container');
+          
+          // Get all admin users
+          const adminSnapshot = await db.collection('Admin').get();
+          const adminIds = adminSnapshot.docs.map(doc => doc.id);
+          
+          if (adminIds.length === 0) {
+            adminContainer.innerHTML = `
+              <div class="col-12 text-center">
+                <p>No administrators found.</p>
+              </div>
+            `;
+            return;
+          }
+          
+          // Get admin details from users collection
+          let adminHtml = '';
+          for (const adminId of adminIds) {
+            const userDoc = await db.collection('users').doc(adminId).get();
+            
+            if (userDoc.exists) {
+              const userData = userDoc.data();
+              const profilePicUrl = userData.profilePic?.url || 'img/icon/defaultPic.png';
+              
+              adminHtml += `
+                <div class="col-lg-4 col-md-6 mb-4">
+                  <div class="card admin-card h-100">
+                    <div class="text-center pt-4">
+                      <img src="${profilePicUrl}" alt="${userData.name}" class="admin-profile-pic rounded-circle mb-3" style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #4a90e2;">
+                      <h4 class="admin-name mb-1">${userData.name || 'Admin Member'}</h4>
+                      <p class="admin-role text-muted"><i class="fas fa-user-shield me-2"></i>Administrator</p>
+                    </div>
+                    <div class="card-body">
+                      <div class="admin-contacts text-center">
+                        ${userData.phno ? `<p><i class="fas fa-phone me-2"></i>${userData.phno}</p>` : ''}
+                        ${userData.email ? `<p><i class="fas fa-envelope me-2"></i>${userData.email}</p>` : ''}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              `;
+            }
+          }
+          
+          adminContainer.innerHTML = adminHtml || `
+            <div class="col-12 text-center">
+              <p>No administrator information available.</p>
+            </div>
+          `;
+          
+        } catch (error) {
+          console.error('Error loading admin members:', error);
+          document.getElementById('admin-members-container').innerHTML = `
+            <div class="col-12 text-center">
+              <p>Error loading administrators. Please try again later.</p>
+            </div>
+          `;
+        }
+      }
+      
+      // Load admin members when the page is loaded
+      document.addEventListener('DOMContentLoaded', function() {
+        // Check if we're on the members section (may be loaded via menu)
+        const membersSection = document.getElementById('members');
+        if (membersSection) {
+          loadAdminMembers();
+        }
+      });
+    </script>
+    
     <script>
     document.addEventListener('DOMContentLoaded', function() {
       const navbar = document.querySelector('.navbar');
@@ -771,6 +889,58 @@
 
     .swiper-wrapper {
         transform-style: preserve-3d;
+    }
+
+    /* Admin Member Cards Styling */
+    .admin-card {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        overflow: hidden;
+        background: white;
+    }
+    
+    .admin-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+    
+    .admin-profile-pic {
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .admin-card:hover .admin-profile-pic {
+        transform: scale(1.05);
+    }
+    
+    .admin-name {
+        color: #2c3e50;
+        font-weight: 600;
+    }
+    
+    .admin-role {
+        display: inline-block;
+        padding: 5px 15px;
+        border-radius: 20px;
+        background: #e9f2fe;
+        color: #1565c0;
+        font-size: 0.9rem;
+        margin-top: 5px;
+    }
+    
+    .admin-contacts {
+        margin-top: 15px;
+    }
+    
+    .admin-contacts p {
+        margin-bottom: 8px;
+        color: #555;
+    }
+    
+    .admin-contacts i {
+        color: #4a90e2;
     }
 
     * {

@@ -175,11 +175,49 @@ function fetchEvents() {
             events = [];
             querySnapshot.forEach((doc) => {
                 const eventData = doc.data();
+                // Safely convert date field to JavaScript Date object
+                let eventDate;
+                if (eventData.date) {
+                    if (eventData.date.toDate) {
+                        // It's a Firestore timestamp
+                        eventDate = eventData.date.toDate();
+                    } else if (eventData.date.seconds) {
+                        // It's a Firestore timestamp-like object
+                        eventDate = new Date(eventData.date.seconds * 1000);
+                    } else if (typeof eventData.date === 'string') {
+                        // It's a date string
+                        eventDate = new Date(eventData.date);
+                    } else if (typeof eventData.date === 'number') {
+                        // It's a timestamp number
+                        eventDate = new Date(eventData.date);
+                    } else {
+                        console.warn('Unknown date format for event:', doc.id);
+                        eventDate = new Date(); // Fallback to current date
+                    }
+                } else {
+                    console.warn('Missing date for event:', doc.id);
+                    eventDate = new Date(); // Fallback to current date
+                }
+
+                // Safely convert time field if it exists
+                let eventTime = null;
+                if (eventData.time) {
+                    if (eventData.time.toDate) {
+                        eventTime = eventData.time.toDate();
+                    } else if (eventData.time.seconds) {
+                        eventTime = new Date(eventData.time.seconds * 1000);
+                    } else if (typeof eventData.time === 'string') {
+                        eventTime = new Date(eventData.time);
+                    } else if (typeof eventData.time === 'number') {
+                        eventTime = new Date(eventData.time);
+                    }
+                }
+
                 events.push({
                     id: doc.id,
-                    title: eventData.title,
-                    date: eventData.date.toDate(), // Convert Firestore timestamp to Date
-                    time: eventData.time ? eventData.time.toDate() : null,
+                    title: eventData.title || 'Untitled Event',
+                    date: eventDate,
+                    time: eventTime,
                     isAllDay: eventData.isAllDay || false,
                     location: eventData.location || '',
                     description: eventData.description || '',

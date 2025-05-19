@@ -14,6 +14,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const auth = firebase.auth();
+const storage = firebase.storage();
 
 // Check if user is admin
 async function checkIfAdmin(user) {
@@ -338,7 +339,7 @@ async function displayUsers() {
                         </div>
                     </div>
                     <div>
-                        <button class="btn btn-success me-2" id="addNewMemberBtn">
+                        <button class="btn btn-success me-2" id="addMemberBtn">
                             <i class="fas fa-plus"></i> Add New Member
                         </button>
                     </div>
@@ -530,6 +531,307 @@ function matchesSearch(user, searchTerm) {
     );
 }
 
+// Flag to indicate we're in the process of adding a new member
+let isAddingMember = false;
+
+// Function to periodically check admin status
+function startAdminStatusCheck() {
+    // Check every 30 seconds if user is still an admin
+    const intervalId = setInterval(async () => {
+        const user = auth.currentUser;
+        if (user) {
+            try {
+                const isAdmin = await checkIfAdmin(user);
+                if (!isAdmin) {
+                    console.log("Admin status revoked, redirecting to member dashboard");
+                    clearInterval(intervalId);
+                    alert("Your admin privileges have been revoked. Redirecting to member dashboard.");
+                    window.location.href = '../index.html';
+                }
+            } catch (error) {
+                console.error("Error checking admin status:", error);
+            }
+        } else {
+            // Stop checking if user is not logged in
+            clearInterval(intervalId);
+        }
+    }, 30000); // Check every 30 seconds
+    
+    // Store the interval ID to clear it if needed
+    window.adminStatusCheckInterval = intervalId;
+}
+
+// Update init function to start admin status checking
+async function init() {
+    try {
+        // Check if we're in the process of adding a new member
+        if (isAddingMember) {
+            console.log("Currently adding a member, skipping redirect");
+            return;
+        }
+
+        // Set up auth state listener
+        auth.onAuthStateChanged(async (user) => {
+            // Skip redirect if we're adding a member
+            if (isAddingMember) {
+                console.log("Auth state changed while adding member, skipping redirect");
+                return;
+            }
+
+            if (user) {
+                try {
+                    // Check admin status on every auth state change
+                    const isAdmin = await checkIfAdmin(user);
+                    
+                    if (isAdmin) {
+                        console.log("User is an admin, loading admin dashboard");
+                        // Load admin profile picture
+                        await loadAdminProfilePicture(user.uid);
+                        
+                        // Display user list
+                        await displayUsers();
+                        
+                        // Start periodic admin status check
+                        startAdminStatusCheck();
+                    } else {
+                        console.log("User is not an admin, redirecting to member dashboard");
+                        // Redirect non-admin users
+                        window.location.href = '../index.html';
+                    }
+                } catch (error) {
+                    console.error("Error checking admin status:", error);
+                    alert("Error verifying your admin privileges. Please try logging in again.");
+                    auth.signOut();
+                }
+            } else {
+                // Redirect to login when not signed in
+                console.log("No user signed in, redirecting to login");
+                window.location.href = '../login.html';
+            }
+        });
+    } catch (error) {
+        console.error('Error initializing page:', error);
+        alert('Error loading page: ' + error.message);
+    }
+}
+
+// Function to add a new member
+function showAddMemberModal() {
+    // Create add member modal
+    const modalHtml = `
+        <div class="modal fade" id="addMemberModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title">
+                            <i class="fas fa-user-plus"></i> Add New Member
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addMemberForm">
+                            <div class="mb-3">
+                                <label for="addName" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="addName" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="addProfilePic" class="form-label">Profile Picture</label>
+                                <input type="file" class="form-control" id="addProfilePic" accept="image/*">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="addPhone" class="form-label">Phone</label>
+                                <input type="tel" class="form-control" id="addPhone">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="addEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="addEmail" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="addPassword" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="addPassword" required>
+                                <small class="text-muted">Minimum 6 characters</small>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="addAddress" class="form-label">Address</label>
+                                <textarea class="form-control" id="addAddress" rows="2"></textarea>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="addGender" class="form-label">Gender</label>
+                                <select class="form-select" id="addGender">
+                                    <option value="Choose..." selected>Choose...</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Prefer not to say">Prefer not to say</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="addDob" class="form-label">Date of Birth</label>
+                                <input type="date" class="form-control" id="addDob">
+                            </div>
+                            
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="addAsAdmin">
+                                <label class="form-check-label" for="addAsAdmin">Add as Administrator</label>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="saveNewMember">Add Member</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Remove any existing modal
+    const existingModal = document.getElementById('addMemberModal');
+    if (existingModal) {
+        existingModal.remove();
+    }
+    
+    // Add modal to document
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+    
+    // Show modal
+    const modal = new bootstrap.Modal(document.getElementById('addMemberModal'));
+    modal.show();
+    
+    // Handle save button
+    document.getElementById('saveNewMember').addEventListener('click', async () => {
+        try {
+            // Get form data
+            const name = document.getElementById('addName').value;
+            const email = document.getElementById('addEmail').value;
+            const password = document.getElementById('addPassword').value;
+            const phone = document.getElementById('addPhone').value || '';
+            const address = document.getElementById('addAddress').value || '';
+            const gender = document.getElementById('addGender').value || 'Choose...';
+            const dob = document.getElementById('addDob').value || '';
+            const isAdmin = document.getElementById('addAsAdmin').checked;
+            const profilePicFile = document.getElementById('addProfilePic').files[0];
+            
+            // Validate required fields
+            if (!name.trim() || !email.trim() || !password.trim()) {
+                alert('Name, email, and password are required');
+                return;
+            }
+            
+            // Validate password length
+            if (password.length < 6) {
+                alert('Password must be at least 6 characters long');
+                return;
+            }
+
+            // Set flag to prevent redirects during member creation
+            isAddingMember = true;
+            
+            try {
+                // Get current user for later use
+                const adminUser = auth.currentUser;
+                const adminEmail = adminUser ? adminUser.email : null;
+                const adminPassword = prompt("Please enter your admin password to continue:");
+                
+                if (!adminPassword) {
+                    alert("Operation cancelled.");
+                    return;
+                }
+                
+                // Create the new user
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                const newUserId = userCredential.user.uid;
+                
+                // Create user data object
+                const userData = {
+                    name: name,
+                    email: email,
+                    phno: phone,
+                    address: address,
+                    gender: gender,
+                    dob: dob,
+                    role: isAdmin ? 'admin' : 'member',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+                
+                // Upload profile picture if selected
+                if (profilePicFile) {
+                    try {
+                        // Create a storage reference
+                        const storageRef = storage.ref();
+                        const profilePicRef = storageRef.child(`profilePics/${newUserId}/${Date.now()}_${profilePicFile.name}`);
+                        
+                        // Upload file
+                        const snapshot = await profilePicRef.put(profilePicFile);
+                        
+                        // Get download URL
+                        const downloadURL = await snapshot.ref.getDownloadURL();
+                        
+                        // Add profile pic data to user data
+                        userData.profilePic = {
+                            url: downloadURL,
+                            path: profilePicRef.fullPath,
+                            fileName: profilePicFile.name,
+                            uploadedAt: firebase.firestore.FieldValue.serverTimestamp()
+                        };
+                        
+                        console.log('Profile picture uploaded successfully');
+                    } catch (uploadError) {
+                        console.error('Error uploading profile picture:', uploadError);
+                    }
+                }
+                
+                // Create user document in Firestore
+                await db.collection('users').doc(newUserId).set(userData);
+                
+                // If admin is checked, add to Admin collection
+                if (isAdmin) {
+                    await db.collection('Admin').doc(newUserId).set({
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }
+                
+                // Sign out the new user
+                await auth.signOut();
+                
+                // Sign back in as admin
+                if (adminEmail) {
+                    await auth.signInWithEmailAndPassword(adminEmail, adminPassword);
+                    console.log("Signed back in as admin");
+                }
+                
+                // Show success message and refresh
+                alert('Member added successfully!');
+                modal.hide();
+                
+                // Refresh the list
+                await displayUsers();
+                
+            } finally {
+                // Reset the flag when we're done
+                isAddingMember = false;
+            }
+        } catch (error) {
+            console.error("Error adding new member:", error);
+            alert(`Failed to add member: ${error.message}`);
+            
+            // Reset the flag in case of error
+            isAddingMember = false;
+            
+            // Redirect to login in case we're left in a bad auth state
+            alert("Please sign in again.");
+            window.location.href = '../login.html';
+        }
+    });
+}
+
 // Add event listeners for user management buttons
 function addUserActionListeners() {
     // View User
@@ -579,6 +881,9 @@ function addUserActionListeners() {
                 
                 const confirmDemote = confirm(`Are you sure you want to remove admin privileges from ${userName}?`);
                 if (confirmDemote) {
+                    // Check if demoting self
+                    const isSelf = docId === auth.currentUser.uid;
+                    
                     // Delete from Admin collection
                     await db.collection('Admin').doc(docId).delete();
                     
@@ -588,8 +893,15 @@ function addUserActionListeners() {
                         updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                     });
                     
-                    alert(`${userName} has been demoted to regular member successfully.`);
-                    await displayUsers(); // Refresh the user list
+                    if (isSelf) {
+                        alert(`You have removed your admin privileges. You will be redirected to the member dashboard.`);
+                        setTimeout(() => {
+                            window.location.href = '../index.html';
+                        }, 1500);
+                    } else {
+                        alert(`${userName} has been demoted to regular member successfully.`);
+                        await displayUsers(); // Refresh the user list
+                    }
                 }
             } catch (error) {
                 console.error("Error demoting admin:", error);
@@ -774,6 +1086,12 @@ function addUserActionListeners() {
         logoutBtn.addEventListener('click', () => {
             const confirmLogout = confirm('Are you sure you want to logout?');
             if (confirmLogout) {
+                // Clear admin status check interval if it exists
+                if (window.adminStatusCheckInterval) {
+                    clearInterval(window.adminStatusCheckInterval);
+                    window.adminStatusCheckInterval = null;
+                }
+                
                 auth.signOut().then(() => {
                     window.location.href = '../login.html';
                 }).catch(error => {
@@ -783,53 +1101,23 @@ function addUserActionListeners() {
             }
         });
     }
-}
 
-// Main function to initialize the page
-async function init() {
-    try {
-        // Check authentication state
-        const user = auth.currentUser;
-        if (user) {
-            const isAdmin = await checkIfAdmin(user);
-            if (isAdmin) {
-                // Load admin profile picture
-                await loadAdminProfilePicture(user.uid);
-                
-                // Display user list
-                await displayUsers();
-            } else {
-                // Redirect non-admin users
-                window.location.href = '../index.html';
-            }
-        } else {
-            // Set up auth state listener for when auth state is still being determined
-            auth.onAuthStateChanged(async (user) => {
-        if (user) {
-            const isAdmin = await checkIfAdmin(user);
-                    if (isAdmin) {
-                        // Load admin profile picture
-                        await loadAdminProfilePicture(user.uid);
-                        
-                        // Display user list
-                        await displayUsers();
-                    } else {
-                        // Redirect non-admin users
-                window.location.href = '../index.html';
-            }
-                } else {
-                    // Redirect to login
-                    window.location.href = '../login.html';
-                }
-            });
-        }
-    } catch (error) {
-        console.error('Error initializing page:', error);
-        alert('Error loading page: ' + error.message);
+    // Add Member Button
+    const addMemberBtn = document.getElementById('addMemberBtn');
+    if (addMemberBtn) {
+        addMemberBtn.addEventListener('click', showAddMemberModal);
     }
 }
 
 // Initialize the page
 init();
+
+// Add event listener for page unloading to clear interval
+window.addEventListener('beforeunload', () => {
+    if (window.adminStatusCheckInterval) {
+        clearInterval(window.adminStatusCheckInterval);
+        window.adminStatusCheckInterval = null;
+    }
+});
 
 
